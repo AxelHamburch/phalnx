@@ -1,71 +1,74 @@
 # Phalnx
 
-Anleitung für einen eigenen Lightning-Server auf einem Ubuntu-VPS: **phoenixd**, **Alby Hub**, ein lokaler
-**Relay**, **LNbits** und **Caddy**, gehärtet und Schritt für Schritt nachvollziehbar. Gebaut mit
-[Starlight](https://starlight.astro.build) (Astro).
+A step-by-step guide to a hardened Lightning server on an Ubuntu 24.04 VPS: **phoenixd**, **Alby Hub**, a
+local **relay** (strfry), **LNbits** and **Caddy**. Built with [Starlight](https://starlight.astro.build)
+(Astro).
 
-Die Seite ist zunächst nur auf Deutsch. Weitere Sprachen kommen später dazu.
+The guide itself is currently **German only**. English will follow. Repository structure, file names and
+server file names are English.
 
-## Entwickeln
+## Development
 
-Voraussetzung: Node.js 20 oder neuer.
+Requires Node.js 20 or newer.
 
 ```bash
 npm install
-npm run dev      # lokaler Server auf http://localhost:4321
-npm run build    # statische Seite nach dist/
-npm run preview  # dist/ lokal ansehen
+npm run dev      # local server on http://localhost:4321
+npm run build    # static site to dist/
+npm run preview  # serve dist/ locally
 ```
 
-Die Ausgabe von `npm run build` liegt in `dist/`. Den **Inhalt** dieses Ordners lädst du auf den Webserver.
+`npm run build` writes to `dist/`. Upload the **contents** of that folder to your web server.
 
-## Aufbau
+## Structure
 
 ```text
 src/
-├── content/docs/          Seiten (Markdown), ein Ordner pro Teil
-│   ├── start/             Einstieg: Sicherheit, Überblick, Vorbereitung
-│   ├── server/            Teil A: Server-Grundlage
-│   ├── services/           Teil B: phoenixd, Alby Hub, Relay, LNbits, Caddy ...
-│   └── operations/           Teil C: Abnahme, Updates, Notfall
-├── config/placeholders.ts Platzhalter für „Meine Werte"
-├── scripts/placeholders.ts  Client-Logik des Panels
-├── components/ThemeSelect.astro  Knopf „Meine Werte" in der Kopfzeile
-└── styles/custom.css      Aussehen von Panel und Hervorhebungen
-astro.config.mjs           Titel, Sprache und Seitenleiste
+├── content/docs/            pages (Markdown), one folder per part
+│   ├── start/               intro: security, overview, preparation
+│   ├── server/              part A: server foundation
+│   ├── services/            part B: phoenixd, Alby Hub, relay, LNbits, Caddy ...
+│   └── operations/          part C: acceptance, updates, emergency
+├── config/placeholders.ts   placeholders for the "Meine Werte" panel
+├── scripts/placeholders.ts  client logic of the panel
+├── components/ThemeSelect.astro  "Meine Werte" button in the header
+└── styles/custom.css        look of panel and highlights
+astro.config.mjs             title, language and sidebar
 ```
 
-Die Reihenfolge und die Namen in der Seitenleiste stehen in `astro.config.mjs`.
+Sidebar order and labels live in `astro.config.mjs`. Diagrams are written as ` ```mermaid ` blocks and
+rendered in the browser (`astro-mermaid`).
 
-## Platzhalter („Meine Werte")
+## Placeholders ("Meine Werte")
 
-In den Seiten stehen veränderbare Werte als `__SCHLUESSEL__`, zum Beispiel `__SSH_PORT__`, `__SERVER_IP__`
-oder `__DOMAIN__`. Der Knopf **Meine Werte** in der Kopfzeile erlaubt dem Leser, sie einzustellen. Der Browser
-ersetzt sie im Text, in den Codeblöcken und im Kopier-Knopf. Gespeichert wird nur in `localStorage`.
+Pages contain changeable values as `__KEY__`, for example `__SSH_PORT__`, `__SERVER_IP__` or `__DOMAIN__`.
+The **Meine Werte** button in the header lets the reader set them. The browser replaces them in text, code
+blocks and the copy button. Values are stored in `localStorage` only.
 
-Einen neuen Platzhalter anlegen:
+Add a placeholder:
 
-1. In `src/config/placeholders.ts` einen Eintrag ergänzen (Schlüssel, Beschriftung, Standardwert, erlaubtes
-   Muster).
-2. In den Seiten `__NEUER_SCHLUESSEL__` verwenden.
+1. Add an entry in `src/config/placeholders.ts` (key, label, default, allowed pattern).
+2. Use `__NEW_KEY__` in the pages.
 
-Regeln:
+Rules:
 
-- Schlüssel nur aus **GROSSBUCHSTABEN, Ziffern und `_`**. Sonst zerteilt der Syntax-Highlighter das Token.
-- Im Fließtext `__SCHLUESSEL__` immer in `Backticks` setzen, sonst macht Markdown daraus Fettschrift.
-- Das `pattern` ist eine **Whitelist**. Die Werte landen in Shell-Befehlen, deshalb sind Leerzeichen,
-  Anführungszeichen, `;`, `|` und `&` nicht erlaubt.
-- Keine Platzhalter in Code-Titeln (`title="..."`). Dort wird nicht ersetzt.
+- Keys: **UPPERCASE, digits and `_`** only. Otherwise the syntax highlighter splits the token.
+- In running text always wrap `__KEY__` in `backticks`, otherwise Markdown renders it bold.
+- `pattern` is a **whitelist**. Values end up in shell commands, so spaces, quotes, `;`, `|` and `&` are
+  not allowed.
+- No placeholders in code titles (`title="..."`). They are not replaced there.
 
-## Inhalte schreiben
+## Writing content
 
-- Seiten sind Markdown (`.md`). Hinweisboxen: `:::note`, `:::tip`, `:::caution`, `:::danger`.
-- Jede Seite folgt dem Muster: Ziel, Befehle in getrennten Blöcken, **Prüfen**, **Wenn es nicht klappt**.
-- Befehle, die auf einander warten müssen, stehen in **getrennten Codeblöcken**.
-- In der Anleitung stehen nur Werte aus dem Panel oder Dummys: keine echten IPs, Domains oder Zugangsdaten.
-  Für IP-Adressen gilt der Dokumentationsbereich `203.0.113.0/24`, für Domains `example.org`.
-- Befehle, die nicht getestet sind, stehen in einer Box `:::caution[Nicht getestet]`.
+- Pages are Markdown (`.md`), file names and URL slugs in English. Admonitions: `:::note`, `:::tip`,
+  `:::caution`, `:::danger`.
+- Each page follows the pattern: goal, commands in separate blocks, **check**, **if it fails**.
+- Commands that must wait for each other go into **separate code blocks**.
+- Only panel values or dummies appear in the guide: no real IPs, domains or credentials. Use the
+  documentation range `203.0.113.0/24` for IPs and `example.org` for domains.
+- Server file names used in the guide are English (for example `00-hardening.conf`, `nft-local.service`).
+- Untested commands go into a `:::caution[Nicht getestet]` box.
 
-## Lizenz
+## License
 
-MIT, siehe [LICENSE](LICENSE).
+MIT, see [LICENSE](LICENSE).
