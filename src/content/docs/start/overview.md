@@ -9,6 +9,7 @@ Das Bild zeigt den VPS mit seinen Bereichen. Pfeile sind erlaubte Verbindungen. 
 Bausteine nicht miteinander reden.
 
 ```mermaid
+%%{init: {"flowchart": {"padding": 16, "nodeSpacing": 30, "rankSpacing": 55, "subGraphTitleMargin": {"top": 6, "bottom": 14}}}}%%
 flowchart TB
   V["Besucher<br/>Browser"]
   A["Admin-PC<br/>SSH-Verbindung"]

@@ -26,7 +26,8 @@ usermod -aG sudo __ADMIN_USER__
 Das Passwort brauchst du für zwei Dinge:
 
 - für `sudo`,
-- für die Anmeldung über die **Web-Konsole** deines Anbieters.
+- für die Anmeldung über die **Web-Konsole** deines Anbieters. Das ist das Terminal im Browser, das du im
+  Kundenbereich des Anbieters öffnest, falls du dich per SSH nicht mehr anmelden kannst (Notzugang).
 
 Für die normale Anmeldung per SSH wird es **nicht** gebraucht, dort gilt nur der Schlüssel. Weil die
 Web-Konsole aber nicht über SSH läuft, ist dieses Passwort ihr einziger Schutz. Wähle deshalb ein langes
@@ -39,6 +40,13 @@ schwieriger (siehe [Swap und Tastaturlayout](/server/swap-keyboard/)).
 id __ADMIN_USER__
 ```
 
-In der Ausgabe muss bei `groups` die Gruppe `sudo` stehen.
+Die Ausgabe sieht ähnlich aus wie diese:
+
+```text
+uid=1000(__ADMIN_USER__) gid=1000(__ADMIN_USER__) groups=1000(__ADMIN_USER__),27(sudo),100(users)
+```
+
+Entscheidend ist, dass hinter `groups=` der Eintrag `27(sudo)` steht. Die Zahl vor der Klammer ist die
+numerische Gruppen-ID, in der Klammer steht der Name. Fehlt `sudo`, wiederhole `usermod -aG sudo __ADMIN_USER__`.
 
 Weiter mit dem [SSH-Schlüssel](/server/ssh-keys/).

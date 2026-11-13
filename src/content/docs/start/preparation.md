@@ -71,7 +71,7 @@ Konfigurationsdateien bearbeitest du mit `nano`:
 | Aktion | Tasten |
 |---|---|
 | Beenden | **Strg+X** |
-| Speichern (nach Strg+X) | **Y**, dann Enter |
+| Speichern (nach Strg+X) | **Y**, dann **Enter** (Eingabetaste, auf manchen Tastaturen „Return") |
 | Suchen | **Strg+W** |
 
 Du beendest nano mit **Strg+X**. Wurde etwas geändert, fragt nano, ob es speichern soll. Antworte mit **Y**

@@ -20,6 +20,16 @@ ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME\.ssh\__SSH_KEY__
 - Sichere `__SSH_KEY__` zusätzlich offline, zum Beispiel auf einem verschlüsselten USB-Stick. Ohne die Datei
   und ohne Web-Konsole kommst du nicht mehr auf den Server.
 
+## Zweiten Schlüssel als Reserve anlegen
+
+Erzeuge denselben Schlüssel zusätzlich auf einem **zweiten Gerät**, zum Beispiel auf dem Heim-PC und auf dem
+Laptop. Jedes Gerät bekommt sein **eigenes** Schlüsselpaar, du kopierst keinen privaten Schlüssel von einem
+Gerät auf das andere. Auf dem Server trägst du beide öffentlichen Schlüssel ein, **eine Zeile pro Schlüssel**
+in `authorized_keys`. Fällt ein Gerät aus oder geht verloren, kommst du mit dem anderen weiter auf den
+Server und verlierst nie den Zugriff. Bei einem verlorenen Gerät löschst du dessen Zeile.
+
+Das machst du am besten gleich im nächsten Abschnitt: Wiederhole dort die Schritte für jeden Schlüssel.
+
 ## Öffentlichen Schlüssel auf den Server bringen
 
 Zuerst auf dem **PC** anzeigen und die eine Zeile kopieren:
@@ -35,7 +45,7 @@ install -d -m 700 -o __ADMIN_USER__ -g __ADMIN_USER__ /home/__ADMIN_USER__/.ssh
 nano /home/__ADMIN_USER__/.ssh/authorized_keys
 ```
 
-In `nano` fügst du die eine Zeile aus `__SSH_KEY__.pub` ein und speicherst. Danach die Rechte setzen:
+In `nano` fügst du die eine Zeile aus `__SSH_KEY__.pub` ein (jeden weiteren Schlüssel als **eigene Zeile** darunter) und speicherst. Danach die Rechte setzen:
 
 ```bash
 chown __ADMIN_USER__:__ADMIN_USER__ /home/__ADMIN_USER__/.ssh/authorized_keys

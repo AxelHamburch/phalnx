@@ -46,13 +46,6 @@ free -h
 Bei `Swap` muss `2,0Gi` stehen. Mit `tail -2 /etc/fstab` siehst du, dass die Zeile für `/swapfile` genau
 einmal am Ende steht.
 
-### Wenn es nicht klappt
-
-- `fallocate: Text file busy` und `swapon: Device or resource busy`: Die Datei ist schon als Swap aktiv.
-  Du musst die Befehle zum Anlegen nicht noch einmal ausführen.
-- `Permission denied` bei `>> /etc/fstab`: Die Umleitung `>>` läuft nicht mit `sudo`. Nutze die Form mit
-  `| sudo tee -a`, wie oben.
-
 ## Tastaturlayout für die Web-Konsole
 
 Die Web-Konsole deines Anbieters (Notzugang) nutzt das Layout des Servers, und das ist standardmäßig
@@ -79,10 +72,5 @@ Beim **Einfügen** über die Web-Konsole gehen Tasten verloren oder werden verä
 `/` eine `7`, weil die Umschalt-Taste fehlt. Das Passwort kommt dann falsch an, und du bekommst
 „Login incorrect". Tippe Benutzername und Passwort immer Zeichen für Zeichen auf der Tastatur.
 :::
-
-### Hinweis zu `localectl`
-
-`localectl set-keymap` funktioniert unter Ubuntu **nicht** („Setting X11 and console keymaps is not
-supported in Debian"). Der Weg über `/etc/default/keyboard` ist der richtige.
 
 Weiter mit dem [Admin-Benutzer](/server/admin-user/).
