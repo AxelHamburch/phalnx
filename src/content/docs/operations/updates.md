@@ -94,14 +94,14 @@ zu deinem Kanal:
         {
             "state": "Normal",
             "channelId": "f80b…(Kanal-ID)",
-            "balanceSat": 12704,
-            "inboundLiquiditySat": 2030971,
-            "capacitySat": 2045000,
+            "balanceSat": 10000,
+            "inboundLiquiditySat": 2000000,
+            "capacitySat": 2010000,
             "fundingTxId": "a6c7…(Transaktions-ID)"
         }
     ],
     "chain": "mainnet",
-    "blockHeight": 975717,
+    "blockHeight": 900000,
     "version": "0.9.3-66420de"
 }
 ```
