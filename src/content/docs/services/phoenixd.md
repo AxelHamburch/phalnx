@@ -153,8 +153,9 @@ Beim zweiten Befehl muss `127.0.0.1:9740` erscheinen. Dann fragst du den Knoten 
 sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
 ```
 
-`getinfo` zeigt die Node-ID und noch keine Kanäle. Der erste Kanal entsteht bei der ersten eingehenden
-Zahlung. Dabei fallen Gebühren an. Die aktuellen Bedingungen stehen auf
+`getinfo` zeigt die Node-ID, die installierte Version (`version`) und die Blockhöhe. Eine Liste `channels` ist
+zuerst leer. Der erste Kanal entsteht bei der ersten eingehenden Zahlung. Danach stehen dort Zustand, Guthaben
+und Kapazität des Kanals (Einzelheiten im Kapitel [Updates durchführen](/operations/updates/#phoenixd)). Dabei fallen Gebühren an. Die aktuellen Bedingungen stehen auf
 [phoenix.acinq.co/server](https://phoenix.acinq.co/server). Lies sie, bevor du Geld schickst.
 
 Optional bewertet systemd die Absicherung des Dienstes. Je niedriger die Zahl, desto besser:

@@ -84,10 +84,36 @@ phoenixd hält den Seed und den Kanal. Aktualisiere es mit besonderer Sorgfalt.
 sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
 ```
 
-:::caution[Nicht getestet]
-Ob `getinfo` die Version ausgibt, ist nicht geprüft. Steht sie dort nicht, siehst du sie am Namen des
-Ordners, aus dem du installiert hast, oder in den Hinweisen zur Version, die du heruntergeladen hast.
-:::
+Die Ausgabe enthält die Version (`version`, die Zahl vor dem Strich ist die Release-Version) und wichtige Daten
+zu deinem Kanal:
+
+```json
+{
+    "nodeId": "03aa…(Node-ID)",
+    "channels": [
+        {
+            "state": "Normal",
+            "channelId": "f80b…(Kanal-ID)",
+            "balanceSat": 12704,
+            "inboundLiquiditySat": 2030971,
+            "capacitySat": 2045000,
+            "fundingTxId": "a6c7…(Transaktions-ID)"
+        }
+    ],
+    "chain": "mainnet",
+    "blockHeight": 975717,
+    "version": "0.9.3-66420de"
+}
+```
+
+Die Werte hier sind Beispiele.
+
+- `version`: die installierte phoenixd-Version. Vergleiche die Zahl vor dem Strich mit der Release-Seite.
+- `state`: `Normal` heißt, der Kanal ist offen und funktioniert.
+- `balanceSat`: dein Guthaben im Kanal, also das, was du ausgeben kannst.
+- `inboundLiquiditySat`: wie viel du noch empfangen kannst.
+- `capacitySat`: die Gesamtgröße des Kanals.
+- `blockHeight`: der Stand der Bitcoin-Blockchain, den phoenixd kennt.
 
 **Aktualisieren:**
 
