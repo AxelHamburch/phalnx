@@ -76,6 +76,16 @@ Keine Ausgabe heißt in Ordnung. Dann siehst du, was SSH tatsächlich benutzen w
 sudo sshd -T | grep -E '^(port|permitrootlogin|passwordauthentication|allowusers|authenticationmethods) '
 ```
 
+Die Ausgabe muss so aussehen (mit deinen Werten für Port und Benutzer):
+
+```text
+port __SSH_PORT__
+permitrootlogin no
+passwordauthentication no
+allowusers __ADMIN_USER__
+authenticationmethods publickey
+```
+
 ## SSH neu starten (Ubuntu 24.04)
 
 Unter Ubuntu 24.04 wird SSH über `ssh.socket` gestartet, und der Socket legt den Port fest. Ein `Port` in

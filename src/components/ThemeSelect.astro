@@ -44,4 +44,12 @@ const config = JSON.stringify({ fields: PLACEHOLDERS, groups: PLACEHOLDER_GROUPS
 
 	initPlaceholders();
 	initDiagramZoom();
+
+	// Externe Links in einem neuen Fenster öffnen
+	document.querySelectorAll<HTMLAnchorElement>('main a[href^="http"]').forEach((a) => {
+		if (new URL(a.href).origin !== location.origin) {
+			a.target = '_blank';
+			a.rel = 'noopener noreferrer';
+		}
+	});
 </script>

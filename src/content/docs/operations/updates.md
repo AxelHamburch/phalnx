@@ -144,11 +144,6 @@ Dann sendest du eine kleine Zahlung. Läuft alles, löschst du `phoenixd-alt` na
 curl -s http://127.0.0.1:8029/api/info | grep -o '"version":"[^"]*"'
 ```
 
-:::caution[Nicht getestet]
-Ob der Befehl bei jeder Version antwortet, ist nicht geprüft. Die Version steht auch in der Oberfläche von
-Alby Hub (über den Tunnel).
-:::
-
 **Aktualisieren.** Erst Alby Hub stoppen und die Daten sichern:
 
 ```bash

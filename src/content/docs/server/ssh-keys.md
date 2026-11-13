@@ -14,8 +14,10 @@ Im Terminal deines PCs (unter Windows PowerShell), **nicht** auf dem Server:
 ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME\.ssh\__SSH_KEY__
 ```
 
-- Bei **„Enter passphrase"** vergibst du unbedingt eine Passphrase. Ohne sie reicht der Diebstahl der Datei
-  zur Anmeldung.
+- Bei **„Enter passphrase"** vergibst du unbedingt eine **starke** Passphrase. Ohne sie reicht der Diebstahl der
+  Datei zur Anmeldung. Stark heißt: mindestens 16 Zeichen, lang statt kompliziert (zum Beispiel vier bis
+  fünf zufällige Wörter oder ein vom Passwortmanager erzeugter Wert), nirgends sonst verwendet und nicht
+  aus Namen, Daten oder Sprüchen gebaut. Lege sie im Passwortmanager ab.
 - Es entstehen `__SSH_KEY__` (**privat, niemals weitergeben**) und `__SSH_KEY__.pub` (öffentlich).
 - Sichere `__SSH_KEY__` zusätzlich offline, zum Beispiel auf einem verschlüsselten USB-Stick. Ohne die Datei
   und ohne Web-Konsole kommst du nicht mehr auf den Server.

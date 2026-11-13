@@ -31,8 +31,11 @@ install -m 600 /dev/null ~/albyhub.env
 exit
 ```
 
-`ls ~/albyhub` muss `bin` und `lib` zeigen. Heißt die Datei auf der
-[Release-Seite](https://github.com/getAlby/hub/releases) inzwischen anders, passe den Namen an.
+`ls ~/albyhub` muss `bin` und `lib` zeigen.
+
+Der Link enthält `latest`, du bekommst also immer die neueste Version. Das ist praktisch, aber der Dateiname
+kann sich ändern. Kommt beim Download ein Fehler, sieh auf der
+[Release-Seite](https://github.com/getAlby/hub/releases) nach, wie die Datei jetzt heißt.
 
 ## Konfiguration
 
@@ -127,15 +130,10 @@ Die installierte Version fragst du lokal ab:
 curl -s http://127.0.0.1:8029/api/info | grep -o '"version":"[^"]*"'
 ```
 
-:::caution[Nicht getestet]
-Ob dieser Befehl bei jeder Version genau so antwortet, ist nicht geprüft. Kommt nichts, führe
-`curl -s http://127.0.0.1:8029/api/info` ohne `grep` aus und suche nach `version`. Die Version steht auch in
-der Oberfläche von Alby Hub.
-:::
-
-Alby Hub hat **keine öffentliche Webseite**. Du erreichst es nur über den SSH-Tunnel. Zeigt `ss` bei 8029
-`*` statt `127.0.0.1`, ist das normal: Das Programm lässt sich nicht auf die lokale Adresse beschränken. Von
-außen kommt trotzdem niemand heran, weil die Firewall den Port nicht freigibt. Prüfe es vom PC aus:
+Alby Hub hört auf Port 8029, und zwar auf **allen** Netzwerkadressen des Servers. Darum zeigt `ss` dort `*`
+statt `127.0.0.1`. Das lässt sich in diesem Programm nicht ändern. Damit trotzdem niemand von außen hinkommt,
+lässt die Firewall den Port nicht durch. Du erreichst Alby Hub deshalb nur über den SSH-Tunnel von deinem PC.
+Dass der Port von außen wirklich zu ist, prüfst du so:
 
 ```powershell
 Test-NetConnection __SERVER_IP__ -Port 8029
