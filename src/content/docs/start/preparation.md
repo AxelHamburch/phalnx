@@ -87,7 +87,7 @@ Hilft der Abschnitt **Wenn es nicht klappt** nicht weiter, kann dir eine KI helf
 
 1. den **Befehl**, den du eingegeben hast,
 2. die **vollständige Meldung** (oder Ausgabe) und
-3. diesen Satz: „Lies dir bitte zuerst diese Anleitung durch: <Adresse dieser Seite>. Hilf mir dann bei diesem
+3. diesen Satz: „Lies dir bitte zuerst diese Anleitung durch: https://phalnx.21mio.space. Hilf mir dann bei diesem
    Fehler."
 
 in den Chat. Die KI kennt so den Ablauf, die Benutzer und die Ports und rät weniger.

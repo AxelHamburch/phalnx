@@ -5,6 +5,7 @@ import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
+	site: 'https://phalnx.21mio.space',
 	integrations: [
 		mermaid({ autoTheme: true }),
 		starlight({
