@@ -114,7 +114,7 @@ export const PLACEHOLDERS: PlaceholderField[] = [
 		key: 'CADDY_USER',
 		label: 'Benutzername für den Admin-Schutz von Caddy',
 		hint: 'Name bei der zusätzlichen Passwortabfrage vor /admin. Nicht der LNbits-Login.',
-		default: 'admin',
+		default: 'CaddyAuth',
 		pattern: '[A-Za-z0-9_-]{1,32}',
 		error: 'Buchstaben, Ziffern, _ und -.',
 		group: 'Web',
