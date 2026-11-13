@@ -1,0 +1,119 @@
+/* Stellen, die der Leser über „Meine Werte" ändern kann. */
+.phalnx-val {
+	background: color-mix(in srgb, var(--sl-color-accent) 22%, transparent);
+	border-radius: 0.2rem;
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--sl-color-accent) 35%, transparent);
+	padding: 0 0.12em;
+}
+
+/* Knopf in der Kopfzeile */
+.phalnx-values-btn {
+	align-items: center;
+	background: transparent;
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.5rem;
+	color: var(--sl-color-text);
+	cursor: pointer;
+	display: inline-flex;
+	font-size: var(--sl-text-sm);
+	gap: 0.4rem;
+	padding: 0.35rem 0.65rem;
+	white-space: nowrap;
+}
+.phalnx-values-btn:hover {
+	border-color: var(--sl-color-accent);
+	color: var(--sl-color-white);
+}
+phalnx-values {
+	display: inline-flex;
+}
+
+/* Dialog */
+.phalnx-dialog {
+	background: var(--sl-color-bg-nav);
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.75rem;
+	box-shadow: var(--sl-shadow-md);
+	color: var(--sl-color-text);
+	max-height: min(90vh, 52rem);
+	max-width: min(40rem, calc(100vw - 2rem));
+	overflow-y: auto;
+	padding: 1.25rem 1.5rem;
+	width: 100%;
+}
+.phalnx-dialog::backdrop {
+	background: rgb(0 0 0 / 55%);
+}
+.phalnx-dialog h2 {
+	font-size: var(--sl-text-h3);
+	margin: 0 0 0.5rem;
+}
+.phalnx-dialog .phalnx-intro {
+	color: var(--sl-color-gray-2);
+	font-size: var(--sl-text-sm);
+	margin: 0 0 1rem;
+}
+.phalnx-dialog fieldset {
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.5rem;
+	margin: 0 0 1rem;
+	padding: 0.5rem 1rem 0.75rem;
+}
+.phalnx-dialog legend {
+	font-size: var(--sl-text-sm);
+	font-weight: 600;
+	padding: 0 0.4rem;
+}
+.phalnx-field {
+	display: grid;
+	gap: 0.2rem;
+	margin-top: 0.7rem;
+}
+.phalnx-field label {
+	font-size: var(--sl-text-sm);
+	font-weight: 600;
+}
+.phalnx-field input {
+	background: var(--sl-color-black);
+	border: 1px solid var(--sl-color-gray-4);
+	border-radius: 0.375rem;
+	color: var(--sl-color-white);
+	font-family: var(--sl-font-system-mono);
+	font-size: var(--sl-text-sm);
+	padding: 0.4rem 0.6rem;
+	width: 100%;
+}
+.phalnx-field input:focus-visible {
+	outline: 2px solid var(--sl-color-accent);
+	outline-offset: 1px;
+}
+.phalnx-field input[aria-invalid='true'] {
+	border-color: var(--sl-color-red);
+}
+.phalnx-field small {
+	color: var(--sl-color-gray-3);
+	font-size: var(--sl-text-xs);
+}
+.phalnx-field .phalnx-error {
+	color: var(--sl-color-red-high);
+}
+.phalnx-actions {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: flex-end;
+}
+.phalnx-actions button {
+	background: transparent;
+	border: 1px solid var(--sl-color-gray-4);
+	border-radius: 0.5rem;
+	color: var(--sl-color-text);
+	cursor: pointer;
+	font-size: var(--sl-text-sm);
+	padding: 0.45rem 0.9rem;
+}
+.phalnx-actions .phalnx-primary {
+	background: var(--sl-color-accent);
+	border-color: var(--sl-color-accent);
+	color: var(--sl-color-black);
+	font-weight: 600;
+}
