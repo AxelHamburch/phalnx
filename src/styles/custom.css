@@ -117,3 +117,64 @@ phalnx-values {
 	color: var(--sl-color-black);
 	font-weight: 600;
 }
+
+/* Mermaid-Diagramme: größer darstellen und per Klick vergrößerbar */
+pre.mermaid {
+	position: relative;
+	overflow-x: auto;
+}
+pre.mermaid svg {
+	width: 100%;
+	height: auto;
+}
+.phalnx-zoomable {
+	cursor: zoom-in;
+}
+.phalnx-zoom-hint {
+	position: absolute;
+	top: 0.4rem;
+	right: 0.6rem;
+	font-size: var(--sl-text-xs);
+	color: var(--sl-color-gray-3);
+}
+.phalnx-zoom {
+	width: 96vw;
+	height: 92vh;
+	max-width: none;
+	max-height: none;
+	padding: 0;
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.5rem;
+	background: var(--sl-color-bg);
+	color: var(--sl-color-text);
+}
+.phalnx-zoom[open] {
+	display: flex;
+	flex-direction: column;
+}
+.phalnx-zoom::backdrop {
+	background: rgb(0 0 0 / 0.6);
+}
+.phalnx-zoom-bar {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: flex-end;
+	padding: 0.6rem;
+	border-bottom: 1px solid var(--sl-color-gray-5);
+}
+.phalnx-zoom-bar button {
+	padding: 0.3rem 0.8rem;
+	border: 1px solid var(--sl-color-gray-4);
+	border-radius: 0.3rem;
+	background: var(--sl-color-gray-6);
+	color: var(--sl-color-text);
+	cursor: pointer;
+}
+.phalnx-zoom-stage {
+	flex: 1;
+	overflow: auto;
+	padding: 1rem;
+}
+pre.mermaid.phalnx-zoomable svg {
+	min-width: 520px;
+}

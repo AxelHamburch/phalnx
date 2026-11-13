@@ -9,39 +9,37 @@ Das Bild zeigt den VPS mit seinen Bereichen. Pfeile sind erlaubte Verbindungen. 
 Bausteine nicht miteinander reden.
 
 ```mermaid
-flowchart LR
-  subgraph NET["Außerhalb des Servers"]
-    direction TB
-    V["Besucher<br/>Browser"]
-    A["Admin-PC<br/>SSH + Tunnel"]
-    LN["Lightning-Netz"]
-  end
+flowchart TB
+  V["Besucher<br/>Browser"]
+  A["Admin-PC<br/>SSH-Verbindung"]
 
-  subgraph VPS["VPS"]
+  subgraph PUB["Öffentlich erreichbar"]
     direction LR
-    subgraph PUB["Öffentlich (80, 443, SSH-Port)"]
-      C["Caddy<br/>HTTPS + Passwortschutz"]
-      S["sshd<br/>nur Schlüssel"]
-    end
-    subgraph INT["Nur lokal, je Dienst ein eigener Benutzer"]
-      L["LNbits<br/>127.0.0.1:5000"]
-      R["Relay (strfry)<br/>127.0.0.1:7777"]
-      H["Alby Hub<br/>Port 8029, von außen gesperrt"]
-    end
-    subgraph SAFE["Tresor"]
-      P["phoenixd<br/>127.0.0.1:9740<br/>hält den Seed"]
-    end
+    C["Caddy<br/>Port 80 und 443"]
+    S["sshd<br/>SSH-Port, nur Schlüssel"]
   end
 
-  V -- "HTTPS" --> C
-  C -- "Reverse Proxy" --> L
-  A -- "SSH" --> S
-  S -. "Tunnel 8029" .-> H
-  S -. "Tunnel 5000 (Ersteinrichtung)" .-> L
-  L -- "NWC (verschlüsselt)" --> R
-  H -- "NWC (verschlüsselt)" --> R
-  H -- "HTTP-API mit Passwort" --> P
-  P -- "ausgehend, Port 9735" --> LN
+  subgraph INT["Nur lokal, je Dienst ein eigener Benutzer"]
+    direction LR
+    L["LNbits<br/>127.0.0.1:5000"]
+    H["Alby Hub<br/>Port 8029, von außen gesperrt"]
+    R["Relay (strfry)<br/>127.0.0.1:7777"]
+  end
+
+  subgraph SAFE["Tresor"]
+    P["phoenixd<br/>127.0.0.1:9740<br/>hält den Seed"]
+  end
+
+  LN["Lightning-Netz"]
+
+  V -->|HTTPS| C
+  A -->|SSH| S
+  C -->|Reverse Proxy| L
+  S -.->|Tunnel| H
+  L -->|NWC| R
+  H -->|NWC| R
+  H -->|HTTP-API mit Passwort| P
+  P -->|ausgehend| LN
 
   classDef public fill:#fde68a,stroke:#b45309,color:#1f2937
   classDef internal fill:#bfdbfe,stroke:#1d4ed8,color:#1f2937
@@ -54,8 +52,6 @@ flowchart LR
   style PUB fill:#fffbeb,stroke:#b45309,color:#1f2937
   style INT fill:#eff6ff,stroke:#1d4ed8,color:#1f2937
   style SAFE fill:#f0fdf4,stroke:#15803d,color:#1f2937
-  style NET fill:#f3f4f6,stroke:#6b7280,color:#1f2937
-  style VPS fill:#ffffff,stroke:#111827,color:#1f2937
 ```
 
 **Farben:** Gelb ist öffentlich erreichbar, Blau läuft nur lokal auf dem Server, Grün ist der Tresor mit dem
