@@ -31,7 +31,7 @@ Das Passwort brauchst du für zwei Dinge:
 Für die normale Anmeldung per SSH wird es **nicht** gebraucht, dort gilt nur der Schlüssel. Weil die
 Web-Konsole aber nicht über SSH läuft, ist dieses Passwort ihr einziger Schutz. Wähle deshalb ein langes
 Passwort mit Buchstaben und Ziffern. Exotische Sonderzeichen machen das Tippen in der Web-Konsole
-schwieriger (siehe [Swap und Tastaturlayout](/server/swap-tastatur/)).
+schwieriger (siehe [Swap und Tastaturlayout](/server/swap-keyboard/)).
 
 ## Prüfen
 
@@ -41,4 +41,4 @@ id __ADMIN_USER__
 
 In der Ausgabe muss bei `groups` die Gruppe `sudo` stehen.
 
-Weiter mit dem [SSH-Schlüssel](/server/ssh-schluessel/).
+Weiter mit dem [SSH-Schlüssel](/server/ssh-keys/).

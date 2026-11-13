@@ -8,7 +8,7 @@ arbeitest du nur noch als eigener Admin-Benutzer.
 
 ## Anmelden
 
-Auf deinem PC (PowerShell):
+Auf deinem PC (Terminal, unter Windows PowerShell):
 
 ```powershell
 ssh root@__SERVER_IP__
@@ -55,4 +55,4 @@ timedatectl
 
 Es müssen dein Servername und deine Zeitzone stehen.
 
-Weiter mit [Swap und Tastaturlayout](/server/swap-tastatur/).
+Weiter mit [Swap und Tastaturlayout](/server/swap-keyboard/).

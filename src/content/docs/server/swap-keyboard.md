@@ -85,4 +85,4 @@ Beim **Einfügen** über die Web-Konsole gehen Tasten verloren oder werden verä
 `localectl set-keymap` funktioniert unter Ubuntu **nicht** („Setting X11 and console keymaps is not
 supported in Debian"). Der Weg über `/etc/default/keyboard` ist der richtige.
 
-Weiter mit dem [Admin-Benutzer](/server/admin-benutzer/).
+Weiter mit dem [Admin-Benutzer](/server/admin-user/).

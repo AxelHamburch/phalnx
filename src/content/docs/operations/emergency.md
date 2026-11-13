@@ -14,7 +14,7 @@ SSH-Einstellungen dort nicht.
 3. Behebe das Problem, zum Beispiel:
 
    ```bash
-   sudo nano /etc/ssh/sshd_config.d/00-haertung.conf
+   sudo nano /etc/ssh/sshd_config.d/00-hardening.conf
    sudo systemctl restart ssh
    ```
 
@@ -27,7 +27,7 @@ SSH-Einstellungen dort nicht.
 :::caution[In der Web-Konsole von Hand tippen]
 Tippe Benutzername und Passwort **Zeichen für Zeichen**. Beim Einfügen gehen Tasten verloren oder werden
 verändert. Stimmt das Tastaturlayout nicht (`z` und `y` vertauscht), siehe
-[Swap und Tastaturlayout](/server/swap-tastatur/).
+[Swap und Tastaturlayout](/server/swap-keyboard/).
 :::
 
 Weitere Fälle:
@@ -64,9 +64,9 @@ den Kanal schließen. Nutze diesen Weg nur kurz.
 
 - Trage das Passwort **nicht vorab** ein. Hole es erst im Ernstfall aus
   `/home/uphoenixd/.phoenix/phoenix.conf` (`sudo cat`).
-- Die [Port-Regel](/dienste/port-regeln/) muss `ulnbits` den Port 9740 dann erlauben. Das ist eine **bewusste**
+- Die [Port-Regel](/services/port-rules/) muss `ulnbits` den Port 9740 dann erlauben. Das ist eine **bewusste**
   Änderung: Nimm `ulnbits` in die erste Zeile der nft-Datei auf und lade neu mit
-  `sudo systemctl reload nft-lokal`.
+  `sudo systemctl reload nft-local`.
 - Danach so schnell wie möglich zurück auf NWC, die Regel wieder entfernen und das Passwort aus der
   LNbits-Konfiguration löschen.
 - Halte in der Zwischenzeit möglichst wenig Guthaben im Kanal.
@@ -101,5 +101,7 @@ Repariere nichts am betroffenen System. Reagiere in dieser Reihenfolge:
 
 ## Weitere Hilfe
 
-- Die [Prüfliste](/betrieb/pruefliste/) zeigt, ob die Härtung noch stimmt.
+- Die [Prüfliste](/operations/checklist/) zeigt, ob die Härtung noch stimmt.
 - Die Kapitel dieser Anleitung haben jeweils einen Abschnitt „Wenn es nicht klappt".
+- Kommst du nicht weiter, hilft eine KI. Wie du ihr den Fehler übergibst, ohne Geheimnisse preiszugeben, steht
+  unter [Hilfe bei Fehlern](/start/preparation/#hilfe-bei-fehlern-eine-ki-fragen).

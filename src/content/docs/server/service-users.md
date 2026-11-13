@@ -79,7 +79,7 @@ Bei jedem darf nur die eigene Gruppe stehen, kein `sudo`, kein `docker`.
 | `/home/ualbyhub/...` | `ualbyhub` | `700` | nur Alby Hub |
 | `/home/ulnbits/...` | `ulnbits` | `700` | nur LNbits |
 | `/home/urelay/...` | `urelay` | `700` | nur Relay |
-| API von phoenixd, `127.0.0.1:9740` | nur lokal | nur für `ualbyhub` (Kapitel [Port-Regeln](/dienste/port-regeln/)) | Alby Hub |
+| API von phoenixd, `127.0.0.1:9740` | nur lokal | nur für `ualbyhub` (Kapitel [Port-Regeln](/services/port-rules/)) | Alby Hub |
 | Alby Hub, Port 8029 | nur lokal | Tunnel vom Admin | Admin |
 | LNbits, `127.0.0.1:5000` | nur lokal | Caddy | Caddy |
 | Relay, `127.0.0.1:7777` | nur lokal | Alby Hub, LNbits | Alby Hub, LNbits |
@@ -106,4 +106,4 @@ alles tun. Deshalb gilt:
   anzeigen muss.
 - Zahlungen mit Budget vergibst du über **NWC mit Limit**, nicht über das Vollzugriffs-Passwort.
 
-Teil A ist damit fertig. Weiter mit Teil B: dem [SSH-Tunnel](/dienste/tunnel/).
+Teil A ist damit fertig. Weiter mit Teil B: dem [SSH-Tunnel](/services/tunnel/).

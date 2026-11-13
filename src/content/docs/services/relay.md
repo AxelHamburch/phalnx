@@ -40,7 +40,7 @@ sudo apt install -y git g++ make libssl-dev zlib1g-dev liblmdb-dev libflatbuffer
 ```
 
 Der Compiler braucht viel Arbeitsspeicher. Dafür muss die Swap-Datei aus dem Kapitel
-[Swap und Tastaturlayout](/server/swap-tastatur/) eingerichtet sein. Prüfen (bei `Swap` muss `2,0Gi` stehen):
+[Swap und Tastaturlayout](/server/swap-keyboard/) eingerichtet sein. Prüfen (bei `Swap` muss `2,0Gi` stehen):
 
 ```bash
 free -h
@@ -89,7 +89,7 @@ db = "/home/urelay/strfry-db/"
 ```
 
 Bei `relay { ... }` steht schon alles richtig (`bind = "127.0.0.1"` und `port = 7777`). Prüfe es, ändere aber
-nichts. Speichere mit **Strg+O** und beende mit **Strg+X**. Danach:
+nichts. Beende mit **Strg+X** und speichere mit **Y** und Enter. Danach:
 
 ```bash
 exit
@@ -181,4 +181,4 @@ sudo ss -tnp | grep 7777
 Fehlt der lokale Relay bei `relay_urls`, steht `RELAY` nicht richtig in `albyhub.env` (Tippfehler oder
 Leerzeichen um das `=`).
 
-Weiter mit [LNbits](/dienste/lnbits/).
+Weiter mit [LNbits](/services/lnbits/).

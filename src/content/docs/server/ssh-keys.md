@@ -8,7 +8,7 @@ der öffentliche liegt auf dem Server.
 
 ## Schlüssel erzeugen (auf dem PC)
 
-In PowerShell, **nicht** auf dem Server:
+Im Terminal deines PCs (unter Windows PowerShell), **nicht** auf dem Server:
 
 ```powershell
 ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME\.ssh\__SSH_KEY__
@@ -44,7 +44,7 @@ chmod 600 /home/__ADMIN_USER__/.ssh/authorized_keys
 
 ## Prüfen
 
-Öffne ein **neues** PowerShell-Fenster und lass das Fenster mit der Root-Sitzung offen:
+Öffne ein **neues** Terminal-Fenster und lass das Fenster mit der Root-Sitzung offen:
 
 ```powershell
 ssh -i $HOME\.ssh\__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
@@ -67,4 +67,4 @@ funktioniert, sperrst du dich aus.
 - **`Permission denied (publickey)`:** Falscher Dateiname oder falsche Datei. Der Befehl muss mit `-i` auf die
   **private** Datei (ohne `.pub`) zeigen.
 
-Weiter mit [SSH härten und Firewall](/server/ssh-haertung/).
+Weiter mit [SSH härten und Firewall](/server/ssh-hardening/).

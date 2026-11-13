@@ -5,7 +5,7 @@ description: Sicherheitsupdates von Ubuntu automatisch einspielen und den Server
 
 Ubuntu kann Sicherheitsupdates selbst einspielen. Das schließt bekannte Lücken, ohne dass du daran denken
 musst. Die Dienste, die du selbst installierst (phoenixd, Alby Hub, LNbits, Relay), aktualisieren sich nicht
-von allein. Dafür gibt es das Kapitel [Updates durchführen](/betrieb/updates/).
+von allein. Dafür gibt es das Kapitel [Updates durchführen](/operations/updates/).
 
 ## Einschalten
 
@@ -41,7 +41,7 @@ Kapiteln einrichtest:
 
 - Alle Dienste sind mit `systemctl enable` aktiviert.
 - Alby Hub startet nach phoenixd und dem Relay (`After=` und `Wants=`).
-- Alby Hub entsperrt sich selbst (Auto-Unlock, siehe [Alby Hub](/dienste/albyhub/#auto-unlock)).
+- Alby Hub entsperrt sich selbst (Auto-Unlock, siehe [Alby Hub](/services/albyhub/#auto-unlock)).
 
 Wer Auto-Unlock nicht nutzen will, setzt `Automatic-Reboot "false"` und startet nach Updates selbst neu,
 wenn er Zeit hat.
@@ -58,4 +58,4 @@ sudo unattended-upgrade --dry-run --debug 2>&1 | tail -5
 In Ordnung ist eine Zeile wie `No packages found that can be upgraded unattended ...`. Der Rest der
 Ausgabe ist egal. Bei `Traceback` oder `Error` prüfst du die Datei `50unattended-upgrades` auf Tippfehler.
 
-Weiter mit den [Dienst-Benutzern](/server/dienst-benutzer/).
+Weiter mit den [Dienst-Benutzern](/server/service-users/).

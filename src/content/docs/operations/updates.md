@@ -58,7 +58,7 @@ einem passenden Zeitpunkt neu:
 sudo reboot
 ```
 
-Nach dem Neustart gilt wie immer: Alle Dienste müssen von allein laufen, siehe [Neustart-Test](/betrieb/neustart-test/).
+Nach dem Neustart gilt wie immer: Alle Dienste müssen von allein laufen, siehe [Neustart-Test](/operations/reboot-test/).
 
 ## Caddy
 
@@ -156,7 +156,7 @@ sudo systemctl stop albyhub
 ```
 
 ```bash
-sudo -u ualbyhub cp -a /home/ualbyhub/data /home/ualbyhub/data-sicherung
+sudo -u ualbyhub cp -a /home/ualbyhub/data /home/ualbyhub/data-backup
 ```
 
 Die Sicherung enthält Geheimnisse. Sie bleibt auf dem Server im Home-Verzeichnis (`700`) und gehört
@@ -219,7 +219,7 @@ ls -la strfry
 exit
 ```
 
-`make -j1` braucht den Swap aus dem Kapitel [Swap und Tastaturlayout](/server/swap-tastatur/). Dann startest du
+`make -j1` braucht den Swap aus dem Kapitel [Swap und Tastaturlayout](/server/swap-keyboard/). Dann startest du
 den Relay neu:
 
 ```bash
@@ -253,7 +253,7 @@ sudo systemctl stop lnbits
 ```
 
 ```bash
-sudo -u ulnbits cp -a /home/ulnbits/lnbits/data /home/ulnbits/lnbits/data-sicherung
+sudo -u ulnbits cp -a /home/ulnbits/lnbits/data /home/ulnbits/lnbits/data-backup
 ```
 
 Die Sicherung enthält Geheimnisse und bleibt auf dem Server. Dann:
@@ -297,4 +297,4 @@ falls sich die Datenbank verändert hat.
 | Caddy und Fail2ban | mit den Ubuntu-Paketen |
 | phoenixd, Alby Hub, LNbits, Relay | bei jeder neuen Version mit Sicherheitsrelevanz, sonst alle paar Wochen. Folge den Release-Seiten. |
 
-Nach größeren Änderungen wiederholst du die [Prüfliste](/betrieb/pruefliste/).
+Nach größeren Änderungen wiederholst du die [Prüfliste](/operations/checklist/).

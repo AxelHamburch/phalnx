@@ -25,13 +25,13 @@ aufgelöst.
 ## Das Regelwerk
 
 ```bash
-sudo nano /etc/nftables-lokal.conf
+sudo nano /etc/nftables-local.conf
 ```
 
-```text title="/etc/nftables-lokal.conf"
-add table inet lokal
-delete table inet lokal
-table inet lokal {
+```text title="/etc/nftables-local.conf"
+add table inet local
+delete table inet local
+table inet local {
   chain output {
     type filter hook output priority 0; policy accept;
     oifname "lo" tcp dport 9740 meta skuid != { "root", "uphoenixd", "ualbyhub" } reject with tcp reset
@@ -51,17 +51,17 @@ sie kommen von einem der aufgeführten Benutzer."
   mit `flush ruleset` und würde die Tabellen von `ufw` und Fail2ban löschen.
 - Bei Port 5000 steht `__ADMIN_USER__` bewusst **nicht**. Die Ersteinrichtung von LNbits per Tunnel ist
   erledigt, danach erreichst du LNbits nur noch über Caddy. Brauchst du später wieder einen Tunnel zu LNbits,
-  trage `"__ADMIN_USER__"` in diese Zeile ein und lade die Regeln neu (`sudo systemctl reload nft-lokal`).
+  trage `"__ADMIN_USER__"` in diese Zeile ein und lade die Regeln neu (`sudo systemctl reload nft-local`).
 
 ## Beim Booten laden
 
 Damit die Regeln nach jedem Neustart wieder geladen werden, legst du einen eigenen systemd-Dienst an:
 
 ```bash
-sudo nano /etc/systemd/system/nft-lokal.service
+sudo nano /etc/systemd/system/nft-local.service
 ```
 
-```ini title="/etc/systemd/system/nft-lokal.service"
+```ini title="/etc/systemd/system/nft-local.service"
 [Unit]
 Description=Lokale Port-Regeln pro Benutzer
 After=network.target ufw.service
@@ -70,8 +70,8 @@ Before=phoenixd.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/sbin/nft -f /etc/nftables-lokal.conf
-ExecReload=/usr/sbin/nft -f /etc/nftables-lokal.conf
+ExecStart=/usr/sbin/nft -f /etc/nftables-local.conf
+ExecReload=/usr/sbin/nft -f /etc/nftables-local.conf
 
 [Install]
 WantedBy=multi-user.target
@@ -85,20 +85,20 @@ Erst die Datei prüfen. Keine Ausgabe heißt in Ordnung. Ein Fehler wie `Could n
 ein Benutzer (zum Beispiel `caddy`) noch nicht existiert:
 
 ```bash
-sudo nft -c -f /etc/nftables-lokal.conf
+sudo nft -c -f /etc/nftables-local.conf
 ```
 
 Dann den Dienst anlegen und starten:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now nft-lokal
+sudo systemctl enable --now nft-local
 ```
 
 Regeln anzeigen. Es müssen die vier Zeilen zu sehen sein:
 
 ```bash
-sudo nft list table inet lokal
+sudo nft list table inet local
 ```
 
 ## Prüfen
@@ -127,4 +127,4 @@ sie nicht. Läuft ein Dienst nach der Regel nicht mehr, prüfe mit `sudo journal
 Verbindung zu einem Port abgelehnt wird.
 :::
 
-Teil B ist damit fertig. Weiter mit dem [Neustart-Test](/betrieb/neustart-test/).
+Teil B ist damit fertig. Weiter mit dem [Neustart-Test](/operations/reboot-test/).

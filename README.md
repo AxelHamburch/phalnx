@@ -26,8 +26,8 @@ src/
 ├── content/docs/          Seiten (Markdown), ein Ordner pro Teil
 │   ├── start/             Einstieg: Sicherheit, Überblick, Vorbereitung
 │   ├── server/            Teil A: Server-Grundlage
-│   ├── dienste/           Teil B: phoenixd, Alby Hub, Relay, LNbits, Caddy ...
-│   └── betrieb/           Teil C: Abnahme, Updates, Notfall
+│   ├── services/           Teil B: phoenixd, Alby Hub, Relay, LNbits, Caddy ...
+│   └── operations/           Teil C: Abnahme, Updates, Notfall
 ├── config/placeholders.ts Platzhalter für „Meine Werte"
 ├── scripts/placeholders.ts  Client-Logik des Panels
 ├── components/ThemeSelect.astro  Knopf „Meine Werte" in der Kopfzeile

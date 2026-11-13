@@ -22,7 +22,7 @@ In der SSH-Härtung steht `AllowTcpForwarding no`, das blockiert Tunnel. Du stel
 erlaubst nur die Ziele Alby Hub und LNbits:
 
 ```bash
-sudo nano /etc/ssh/sshd_config.d/00-haertung.conf
+sudo nano /etc/ssh/sshd_config.d/00-hardening.conf
 ```
 
 Die Zeile `AllowTcpForwarding no` ersetzt du durch:
@@ -55,7 +55,7 @@ ssh -N -L 8029:127.0.0.1:8029 -L 5000:127.0.0.1:5000 __HOSTNAME__
   normal. Es fragt nur nach der Passphrase deines Schlüssels.
 - Das Fenster muss **offen bleiben**, solange du den Tunnel brauchst. Mit **Strg+C** schließt du ihn.
 
-Der Kurzname `__HOSTNAME__` kommt aus der Datei `.ssh\config` (siehe [SSH härten](/server/ssh-haertung/)).
+Der Kurzname `__HOSTNAME__` kommt aus der Datei `.ssh\config` (siehe [SSH härten](/server/ssh-hardening/)).
 
 ## 3. Im Browser öffnen
 
@@ -88,7 +88,7 @@ Mit diesem Eintrag öffnet auch ein normales `ssh __HOSTNAME__` die Tunnel mit.
 
 :::note
 Die Tunnel-Verbindung kommt auf dem Server vom Benutzer `__ADMIN_USER__`. Deshalb steht dieser Benutzer in
-den [Port-Regeln](/dienste/port-regeln/) bei Port 8029.
+den [Port-Regeln](/services/port-rules/) bei Port 8029.
 :::
 
-Weiter mit [phoenixd](/dienste/phoenixd/).
+Weiter mit [phoenixd](/services/phoenixd/).

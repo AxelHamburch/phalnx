@@ -31,7 +31,7 @@ sudo apt install -y caddy
 sudo install -d -o caddy -g caddy -m 750 /var/log/caddy
 ```
 
-Dabei entsteht der Benutzer `caddy`. Den brauchen die [Port-Regeln](/dienste/port-regeln/).
+Dabei entsteht der Benutzer `caddy`. Den brauchen die [Port-Regeln](/services/port-rules/).
 
 ## Passwort für den Admin-Bereich
 
@@ -190,4 +190,4 @@ zuerst das Caddy-Passwort ab, danach kommt der LNbits-Login.
 - **Neues Passwort:** `caddy hash-password` ausführen, den Hash in `sudo systemctl edit caddy` ersetzen,
   dann `sudo systemctl daemon-reload && sudo systemctl restart caddy`.
 
-Weiter mit [Fail2ban für LNbits](/dienste/fail2ban-web/).
+Weiter mit [Fail2ban für LNbits](/services/fail2ban-web/).

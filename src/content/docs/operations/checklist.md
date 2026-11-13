@@ -20,7 +20,7 @@ prüfen.
 
 :::note
 In den SSH-Dateien dürfen mehrere `PasswordAuthentication`-Zeilen stehen. Bei SSH gilt der **zuerst gelesene**
-Wert, und deine Datei `00-haertung.conf` wird vor der Hauptdatei gelesen. Maßgeblich ist immer die Ausgabe von
+Wert, und deine Datei `00-hardening.conf` wird vor der Hauptdatei gelesen. Maßgeblich ist immer die Ausgabe von
 `sshd -T`.
 :::
 
@@ -82,7 +82,7 @@ Beide müssen `TcpTestSucceeded : False` zeigen. Zur Gegenprobe muss `-Port __SS
 ## Dienste und Schutz
 
 ```bash
-systemctl is-active fail2ban ufw unattended-upgrades nft-lokal phoenixd relay albyhub lnbits caddy
+systemctl is-active fail2ban ufw unattended-upgrades nft-local phoenixd relay albyhub lnbits caddy
 ```
 
 Jede Zeile muss `active` sein.
@@ -120,7 +120,7 @@ Dienste wurden **selbst angelegt**? Die liegen als echte Dateien in `/etc/system
 find /etc/systemd/system -maxdepth 1 -name '*.service' -type f
 ```
 
-Erwartet sind genau deine fünf: `albyhub`, `lnbits`, `nft-lokal`, `phoenixd` und `relay`. Eine weitere Datei ist
+Erwartet sind genau deine fünf: `albyhub`, `lnbits`, `nft-local`, `phoenixd` und `relay`. Eine weitere Datei ist
 ein Grund nachzusehen: `systemctl cat <Name>`.
 
 Für einen Server unnötig, aber harmlos, sind etwa `ModemManager`, `udisks2` und `multipathd`. Willst du die
@@ -144,7 +144,7 @@ sudo systemctl disable --now ModemManager
 | `sudo -u ualbyhub ls /home/uphoenixd` | Permission denied |
 | `sudo -u ulnbits ls /home/ualbyhub` | Permission denied |
 | `sudo ss -tlnp \| grep 7777` | `127.0.0.1:7777` |
-| `sudo nft list table inet lokal` | die vier Regeln sind da |
+| `sudo nft list table inet local` | die vier Regeln sind da |
 | `sudo ufw status` | active, nur `__SSH_PORT__`, 80 und 443 |
 | `sudo fail2ban-client status sshd` | läuft, Port `__SSH_PORT__` |
 
@@ -153,8 +153,8 @@ sudo systemctl disable --now ModemManager
 Willst du die Ergebnisse später vergleichen, speichere die wichtigsten in einer Datei:
 
 ```bash
-{ sudo sshd -T | grep -E '^(port|permitrootlogin|passwordauthentication|allowusers) '; sudo ss -tulpn; sudo ufw status verbose; systemctl is-active fail2ban ufw unattended-upgrades nft-lokal phoenixd relay albyhub lnbits caddy; } > ~/pruefung_$(date +%F).txt
+{ sudo sshd -T | grep -E '^(port|permitrootlogin|passwordauthentication|allowusers) '; sudo ss -tulpn; sudo ufw status verbose; systemctl is-active fail2ban ufw unattended-upgrades nft-local phoenixd relay albyhub lnbits caddy; } > ~/check_$(date +%F).txt
 ```
 
-Zwei Dateien vergleichst du mit `diff ~/pruefung_<altes-Datum>.txt ~/pruefung_<neues-Datum>.txt`. So fällt auf,
+Zwei Dateien vergleichst du mit `diff ~/check_<old-date>.txt ~/check_<new-date>.txt`. So fällt auf,
 wenn sich etwas verändert hat, zum Beispiel ein neuer offener Port.

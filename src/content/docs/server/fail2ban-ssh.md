@@ -5,7 +5,7 @@ description: Fail2ban sperrt IP-Adressen, die zu oft eine falsche SSH-Anmeldung 
 
 Fail2ban liest die Anmeldeversuche und sperrt eine IP-Adresse in der Firewall, wenn sie zu oft scheitert. Hier
 richtest du zuerst den Schutz für SSH ein. Der Schutz für die Weboberfläche kommt später im Kapitel
-[Fail2ban für LNbits](/dienste/fail2ban-web/).
+[Fail2ban für LNbits](/services/fail2ban-web/).
 
 ## Konfiguration
 

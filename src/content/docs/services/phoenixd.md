@@ -163,4 +163,4 @@ Optional bewertet systemd die Absicherung des Dienstes. Je niedriger die Zahl, d
 sudo systemd-analyze security phoenixd
 ```
 
-Weiter mit [Alby Hub](/dienste/albyhub/).
+Weiter mit [Alby Hub](/services/albyhub/).

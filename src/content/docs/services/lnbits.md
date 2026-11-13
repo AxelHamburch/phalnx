@@ -115,7 +115,7 @@ Beim letzten Befehl muss `127.0.0.1:5000` erscheinen.
 
 ## Ersteinrichtung über den Tunnel
 
-1. Tunnel öffnen (siehe [SSH-Tunnel](/dienste/tunnel/)), im Browser `http://localhost:5000` aufrufen.
+1. Tunnel öffnen (siehe [SSH-Tunnel](/services/tunnel/)), im Browser `http://localhost:5000` aufrufen.
 2. LNbits zeigt die Ersteinrichtung. Lege einen **Admin-Benutzer und ein Passwort** an (Passwortmanager).
 
 ## NWC-Verbindung von Alby Hub zu LNbits
@@ -147,6 +147,6 @@ Dann ein Test mit kleinen Beträgen: In LNbits eine Wallet anlegen, **100 Sats e
 senden**. Klappt beides, ist die Kette phoenixd, Alby Hub, Relay und LNbits in Ordnung.
 
 Für den Fall, dass der lokale Relay oder Alby Hub ausfällt, steht der Notweg im Kapitel
-[Notfall und Fehlersuche](/betrieb/notfall/).
+[Notfall und Fehlersuche](/operations/emergency/).
 
-Weiter mit [Caddy](/dienste/caddy/).
+Weiter mit [Caddy](/services/caddy/).

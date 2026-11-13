@@ -181,4 +181,4 @@ getrennt), danach `sudo fail2ban-client reload`.
 Auffällig ist, wenn `lnbits-admin` auslöst. Dann probiert jemand dein Caddy-Passwort. Sieh dann auch in
 LNbits nach, ob zur selben Zeit etwas geändert wurde.
 
-Weiter mit den [Port-Regeln pro Benutzer](/dienste/port-regeln/).
+Weiter mit den [Port-Regeln pro Benutzer](/services/port-rules/).

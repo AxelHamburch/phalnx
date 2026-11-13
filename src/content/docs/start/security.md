@@ -87,12 +87,13 @@ nicht unmöglich. Halte das Guthaben auf dem Server klein.
 
 - **Auto-Unlock speichert das Entsperr-Passwort von Alby Hub im Klartext.** Das ist der Preis dafür, dass
   alles nach einem Neustart von allein wieder läuft. Du kannst darauf verzichten und von Hand entsperren
-  (siehe [Alby Hub](/dienste/albyhub/#auto-unlock)).
+  (siehe [Alby Hub](/services/albyhub/#auto-unlock)).
 - **Fail2ban bremst nur das Raten von Passwörtern.** Lücken in Erweiterungen oder Angriffe mit gültigem
   Token verhindert es nicht.
-- **Alby Hub lauscht in dieser Version auf allen Adressen** und ist nur durch die Firewall von außen
-  geschützt.
+- **Alby Hub hat keine öffentliche Webseite.** Du erreichst es nur über einen SSH-Tunnel von deinem PC.
+  Technisch lässt sich das Programm nicht auf die lokale Adresse beschränken. Deshalb sperrt die Firewall
+  den Port von außen. Fällt die Firewall aus, wäre Alby Hub für das Internet sichtbar.
 - **Updates bleiben deine Aufgabe.** Ubuntu aktualisiert sich selbst, phoenixd, Alby Hub, LNbits und der
-  Relay nicht. Das Kapitel [Updates durchführen](/betrieb/updates/) zeigt, wie.
+  Relay nicht. Das Kapitel [Updates durchführen](/operations/updates/) zeigt, wie.
 
-Weiter mit dem [Überblick und der Architektur](/start/ueberblick/).
+Weiter mit dem [Überblick und der Architektur](/start/overview/).

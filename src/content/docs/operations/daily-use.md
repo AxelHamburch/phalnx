@@ -6,12 +6,12 @@ description: Was du im laufenden Betrieb regelmäßig tust, wie du Logs liest un
 ## Regelmäßig
 
 - **Wöchentlich:** `sudo apt update && sudo apt upgrade`, bei Bedarf Neustart. Siehe
-  [Updates durchführen](/betrieb/updates/).
+  [Updates durchführen](/operations/updates/).
 - **Neue Versionen** von phoenixd, Alby Hub, LNbits und Relay beobachten und nach Release-Hinweisen
   aktualisieren.
-- **Nach größeren Änderungen:** die [Prüfliste](/betrieb/pruefliste/) wiederholen.
+- **Nach größeren Änderungen:** die [Prüfliste](/operations/checklist/) wiederholen.
 - **Sperren ansehen:** `sudo fail2ban-client status sshd` und die Web-Jails. Siehe
-  [Fail2ban für LNbits](/dienste/fail2ban-web/).
+  [Fail2ban für LNbits](/services/fail2ban-web/).
 
 ## Logs ansehen
 

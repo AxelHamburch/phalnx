@@ -16,7 +16,7 @@ Statt `sshd_config` zu ändern, legst du eine eigene Datei an. Der Name beginnt 
 `PasswordAuthentication yes` mit, die sonst gewinnen würde.
 
 ```bash
-sudo nano /etc/ssh/sshd_config.d/00-haertung.conf
+sudo nano /etc/ssh/sshd_config.d/00-hardening.conf
 ```
 
 ```ini
@@ -40,7 +40,7 @@ ClientAliveCountMax 2
 - `AllowUsers` sorgt dafür, dass `uphoenixd`, `ualbyhub` und alle anderen sich **nie** per SSH anmelden
   können.
 - `AllowTcpForwarding no` verhindert SSH-Tunnel. Für den Zugang zu Alby Hub erlaubst du später gezielt einen
-  (Kapitel [SSH-Tunnel](/dienste/tunnel/)).
+  (Kapitel [SSH-Tunnel](/services/tunnel/)).
 
 ## Firewall öffnen, bevor SSH den Port wechselt
 
@@ -147,12 +147,12 @@ ssh __HOSTNAME__
 
 Hast du dich ausgesperrt, öffnest du die **Web-Konsole** des Anbieters und meldest dich als
 `__ADMIN_USER__` mit Passwort an (die Konsole läuft nicht über SSH). Korrigiere
-`/etc/ssh/sshd_config.d/00-haertung.conf` und starte SSH neu:
+`/etc/ssh/sshd_config.d/00-hardening.conf` und starte SSH neu:
 
 ```bash
 sudo systemctl restart ssh
 ```
 
-Weitere Hinweise stehen im Kapitel [Notfall und Fehlersuche](/betrieb/notfall/).
+Weitere Hinweise stehen im Kapitel [Notfall und Fehlersuche](/operations/emergency/).
 
 Weiter mit [Fail2ban für SSH](/server/fail2ban-ssh/).

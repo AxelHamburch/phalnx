@@ -4,7 +4,7 @@ description: Alby Hub unter einem eigenen Benutzer installieren, mit phoenixd ve
 ---
 
 Alby Hub steuert phoenixd und vergibt **NWC-Verbindungen** mit Budget. Es hat keine öffentliche Adresse.
-Du öffnest es über den [SSH-Tunnel](/dienste/tunnel/).
+Du öffnest es über den [SSH-Tunnel](/services/tunnel/).
 
 ## Installieren
 
@@ -61,7 +61,7 @@ Anführungszeichen und ohne Leerzeichen. Dein Passwort steht in `phoenix.conf` z
 (Vollzugriff) und `http-password-limited-access`. Alby Hub braucht das **Vollzugriffs-Passwort**, denn es muss
 zahlen können.
 
-Die Zeile `RELAY` kommt erst im Kapitel [Lokaler Relay](/dienste/relay/) dazu. Bis dahin nimmt Alby Hub die
+Die Zeile `RELAY` kommt erst im Kapitel [Lokaler Relay](/services/relay/) dazu. Bis dahin nimmt Alby Hub die
 offiziellen Relays.
 
 ## Als Dienst einrichten
@@ -133,8 +133,9 @@ Ob dieser Befehl bei jeder Version genau so antwortet, ist nicht geprüft. Kommt
 der Oberfläche von Alby Hub.
 :::
 
-Zeigt `ss` bei 8029 `*` statt `127.0.0.1`, lauscht Alby Hub auf allen Adressen. Das ist bei dieser Version so.
-Es ist nur deshalb unproblematisch, weil die Firewall den Port nicht öffnet. Prüfe es vom PC aus:
+Alby Hub hat **keine öffentliche Webseite**. Du erreichst es nur über den SSH-Tunnel. Zeigt `ss` bei 8029
+`*` statt `127.0.0.1`, ist das normal: Das Programm lässt sich nicht auf die lokale Adresse beschränken. Von
+außen kommt trotzdem niemand heran, weil die Firewall den Port nicht freigibt. Prüfe es vom PC aus:
 
 ```powershell
 Test-NetConnection __SERVER_IP__ -Port 8029
@@ -144,7 +145,7 @@ Es muss `TcpTestSucceeded : False` erscheinen.
 
 ## Ersteinrichtung über den Tunnel
 
-1. Tunnel öffnen (siehe [SSH-Tunnel](/dienste/tunnel/)), im Browser `http://localhost:8029` aufrufen.
+1. Tunnel öffnen (siehe [SSH-Tunnel](/services/tunnel/)), im Browser `http://localhost:8029` aufrufen.
 2. Ein **Entsperr-Passwort** vergeben. Es soll lang sein und gehört in den Passwortmanager.
 3. Mit `LN_BACKEND_TYPE=PHOENIX` sollte Alby Hub keinen Knoten-Typ mehr abfragen und phoenixd direkt nutzen.
    Fragt es doch, wähle „phoenixd" und trage Adresse und Passwort wie oben ein.
@@ -191,4 +192,4 @@ sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request"
 Im Log muss nach der Zeile `Started albyhub.service` der neue Start folgen. Lade dann `http://localhost:8029`
 neu. Kommt die Passwortabfrage trotzdem, ist Auto-Unlock nicht aktiv.
 
-Weiter mit dem [lokalen Relay](/dienste/relay/).
+Weiter mit dem [lokalen Relay](/services/relay/).

@@ -1,10 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
 	integrations: [
+		mermaid({ autoTheme: true }),
 		starlight({
 			title: 'Phalnx',
 			description:
@@ -27,46 +29,46 @@ export default defineConfig({
 				{
 					label: 'Einstieg',
 					items: [
-						{ label: 'Sicherheit und Vorteile', slug: 'start/sicherheit' },
-						{ label: 'Überblick und Architektur', slug: 'start/ueberblick' },
-						{ label: 'Vorbereitung und Bedienung', slug: 'start/vorbereitung' },
+						{ label: 'Sicherheit und Vorteile', slug: 'start/security' },
+						{ label: 'Überblick und Architektur', slug: 'start/overview' },
+						{ label: 'Vorbereitung und Bedienung', slug: 'start/preparation' },
 					],
 				},
 				{
 					label: 'Teil A: Server-Grundlage',
 					items: [
-						{ label: 'Erste Anmeldung und Updates', slug: 'server/erste-anmeldung' },
-						{ label: 'Swap und Tastaturlayout', slug: 'server/swap-tastatur' },
-						{ label: 'Admin-Benutzer', slug: 'server/admin-benutzer' },
-						{ label: 'SSH-Schlüssel', slug: 'server/ssh-schluessel' },
-						{ label: 'SSH härten und Firewall', slug: 'server/ssh-haertung' },
+						{ label: 'Erste Anmeldung und Updates', slug: 'server/first-login' },
+						{ label: 'Swap und Tastaturlayout', slug: 'server/swap-keyboard' },
+						{ label: 'Admin-Benutzer', slug: 'server/admin-user' },
+						{ label: 'SSH-Schlüssel', slug: 'server/ssh-keys' },
+						{ label: 'SSH härten und Firewall', slug: 'server/ssh-hardening' },
 						{ label: 'Fail2ban für SSH', slug: 'server/fail2ban-ssh' },
 						{ label: 'Automatische Updates', slug: 'server/auto-updates' },
-						{ label: 'Dienst-Benutzer', slug: 'server/dienst-benutzer' },
+						{ label: 'Dienst-Benutzer', slug: 'server/service-users' },
 					],
 				},
 				{
 					label: 'Teil B: Dienste',
 					items: [
-						{ label: 'SSH-Tunnel', slug: 'dienste/tunnel' },
-						{ label: 'phoenixd', slug: 'dienste/phoenixd' },
-						{ label: 'Alby Hub', slug: 'dienste/albyhub' },
-						{ label: 'Lokaler Relay (strfry)', slug: 'dienste/relay' },
-						{ label: 'LNbits', slug: 'dienste/lnbits' },
-						{ label: 'Caddy', slug: 'dienste/caddy' },
-						{ label: 'Fail2ban für LNbits', slug: 'dienste/fail2ban-web' },
-						{ label: 'Port-Regeln pro Benutzer', slug: 'dienste/port-regeln' },
+						{ label: 'SSH-Tunnel', slug: 'services/tunnel' },
+						{ label: 'phoenixd', slug: 'services/phoenixd' },
+						{ label: 'Alby Hub', slug: 'services/albyhub' },
+						{ label: 'Lokaler Relay (strfry)', slug: 'services/relay' },
+						{ label: 'LNbits', slug: 'services/lnbits' },
+						{ label: 'Caddy', slug: 'services/caddy' },
+						{ label: 'Fail2ban für LNbits', slug: 'services/fail2ban-web' },
+						{ label: 'Port-Regeln pro Benutzer', slug: 'services/port-rules' },
 					],
 				},
 				{
 					label: 'Teil C: Abnahme und Betrieb',
 					items: [
-						{ label: 'Neustart-Test', slug: 'betrieb/neustart-test' },
-						{ label: 'Prüfliste', slug: 'betrieb/pruefliste' },
-						{ label: 'Updates durchführen', slug: 'betrieb/updates' },
-						{ label: 'Geheimnisse und Backups', slug: 'betrieb/geheimnisse' },
-						{ label: 'Alltag', slug: 'betrieb/alltag' },
-						{ label: 'Notfall und Fehlersuche', slug: 'betrieb/notfall' },
+						{ label: 'Neustart-Test', slug: 'operations/reboot-test' },
+						{ label: 'Prüfliste', slug: 'operations/checklist' },
+						{ label: 'Updates durchführen', slug: 'operations/updates' },
+						{ label: 'Geheimnisse und Backups', slug: 'operations/secrets' },
+						{ label: 'Alltag', slug: 'operations/daily-use' },
+						{ label: 'Notfall und Fehlersuche', slug: 'operations/emergency' },
 					],
 				},
 			],

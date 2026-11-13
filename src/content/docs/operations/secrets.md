@@ -38,7 +38,7 @@ schützt.
   sonst den Seed und die Passwörter im Klartext.
 - Sichere vor allem `phoenixd` (`~/.phoenix`), die Daten von Alby Hub (`~/data`) und die von LNbits
   (`~/lnbits/data`).
-- Bewahre Sicherungen, die du vor einem Update anlegst (siehe [Updates durchführen](/betrieb/updates/)), nicht
+- Bewahre Sicherungen, die du vor einem Update anlegst (siehe [Updates durchführen](/operations/updates/)), nicht
   länger als nötig auf. Sie enthalten dieselben Geheimnisse wie die Originale.
 - **Snapshots** beim Anbieter enthalten ebenfalls Geheimnisse. Bewahre sie nicht ungeschützt auf.
 
