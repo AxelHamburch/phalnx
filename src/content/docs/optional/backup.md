@@ -295,14 +295,26 @@ echo "<age1…>" | sudo tee /etc/phalnx-backup.recipient
 sudo chmod 644 /etc/phalnx-backup.recipient
 ```
 
-Der öffentliche Schlüssel ist kein Geheimnis. Danach lösen wir das Backup einmal von Hand aus:
+Der öffentliche Schlüssel ist kein Geheimnis. Prüfe zuerst, dass **dein installiertes Skript** den Block für die
+verschlüsselte Kopie enthält. Hast du das Skript früher eingerichtet, fehlt er vielleicht. Die Prüfung muss `1` oder
+mehr ausgeben:
+
+```bash
+sudo grep -c phalnx-export /usr/local/sbin/phalnx-backup
+```
+
+Bei `0` öffnest du das Skript (`sudo nano /usr/local/sbin/phalnx-backup`) und fügst den Block
+„Optional: verschlüsselte Kopie zum Herunterladen“ aus dem Abschnitt [Das Skript](#das-skript) ein, **vor** der letzten Zeile
+`echo "Backup fertig …"`. Dann lösen wir das Backup einmal von Hand aus:
 
 ```bash
 sudo systemctl start phalnx-backup.service
 sudo ls -lh /var/backups/phalnx-export
 ```
 
-Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz.age` erscheinen, die dir (`__ADMIN_USER__`) gehört. Sie liegt in
+Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz.age` erscheinen, die dir (`__ADMIN_USER__`) gehört. Kommt stattdessen
+`No such file or directory`, hat das Skript keine verschlüsselte Kopie angelegt. Siehe die Tabelle „Wenn es nicht klappt“
+unten. Sie liegt in
 `/var/backups/phalnx-export`, getrennt vom unverschlüsselten Backup. Auch hier bleiben die letzten 14.
 
 ### 4. Auf den PC herunterladen
@@ -434,6 +446,7 @@ sicherst du nur Alby Hub, LNbits und Caddy. Der Seed bleibt im Passwortmanager u
 
 | Problem | Ursache und Lösung |
 |---|---|
+| `/var/backups/phalnx-export` fehlt, obwohl das Backup lief | Das Skript hat die verschlüsselte Kopie übersprungen. Prüfe 1. die Skriptversion: `sudo grep -c phalnx-export /usr/local/sbin/phalnx-backup` (muss mindestens `1` zeigen, sonst den Block ergänzen), 2. den Schlüssel: `sudo cat /etc/phalnx-backup.recipient` (eine Zeile `age1…`, nicht leer), 3. `age`: `age --version` auf dem Server |
 | `sudo ls` zeigt den Ordner nicht oder er ist leer | Das Skript ist fehlgeschlagen, es gibt dann kein Archiv. Das Log nennt den Grund: `sudo journalctl -u phalnx-backup -n 30 --no-pager` |
 | Du willst die Fehlermeldung direkt sehen | Starte das Skript ohne systemd: `sudo /usr/local/sbin/phalnx-backup`. Mehr Einzelheiten zeigt `sudo bash -x /usr/local/sbin/phalnx-backup`. |
 | `sqlite3: command not found` | Das Programm fehlt: `sudo apt install -y sqlite3` |
