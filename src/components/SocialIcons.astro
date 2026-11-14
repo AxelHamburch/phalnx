@@ -1,0 +1,24 @@
+---
+/**
+ * Überschreibt die Social-Symbole der Kopfzeile: zeigt links neben dem GitHub-Symbol „build: <Blockhöhe>".
+ * Die Blockhöhe schreibt `scripts/stamp-build.mjs` bei jedem Build nach `src/config/build.json`.
+ */
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+import build from '../config/build.json';
+
+const when = build.date ? new Date(build.date).toLocaleString('de-DE', { timeZone: 'UTC' }) + ' UTC' : '';
+---
+
+<span class="phalnx-build" title={`Bitcoin-Blockhöhe beim Erstellen dieser Seite${when ? ` (${when})` : ''}`}>
+	build: {build.block}
+</span>
+<Default {...Astro.props} />
+
+<style>
+	.phalnx-build {
+		font-size: var(--sl-text-xs);
+		color: var(--sl-color-gray-3);
+		white-space: nowrap;
+		font-variant-numeric: tabular-nums;
+	}
+</style>

@@ -1,0 +1,34 @@
+---
+/**
+ * Überschreibt die Fußzeile: Spendenhinweis (Lightning-Adresse) über der Standard-Fußzeile.
+ */
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+const ADDRESS = 'axelhamburch@21mio.space';
+---
+
+<div class="phalnx-donate">
+	<p>
+		<strong>Gefällt dir die Anleitung?</strong> Dann freue ich mich über ein paar Sats an meine Lightning-Adresse:
+	</p>
+	<p>
+		<a href={`lightning:${ADDRESS}`}><code>{ADDRESS}</code></a>
+		<button type="button" class="phalnx-copy" data-copy={ADDRESS}>Kopieren</button>
+	</p>
+</div>
+<Default {...Astro.props} />
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('.phalnx-copy').forEach((btn) => {
+		btn.addEventListener('click', async () => {
+			const old = btn.textContent;
+			try {
+				await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+				btn.textContent = 'Kopiert';
+			} catch {
+				btn.textContent = 'Nicht möglich';
+			}
+			setTimeout(() => (btn.textContent = old), 1500);
+		});
+	});
+</script>

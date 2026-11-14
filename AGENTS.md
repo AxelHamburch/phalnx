@@ -20,3 +20,14 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Build-Stempel (Pflicht vor jedem Build)
+
+Die Seite zeigt oben neben dem GitHub-Symbol `build: <Blockhöhe>`. Die Blockhöhe kommt von
+`https://mempool.space/api/blocks/tip/height` und steht in `src/config/build.json`.
+
+- **Immer `npm run build` benutzen, nie `astro build` direkt.** Das npm-Skript `prebuild` ruft
+  `scripts/stamp-build.mjs` auf und holt die aktuelle Blockhöhe automatisch.
+- Ist mempool.space nicht erreichbar, bleibt der alte Wert stehen und das Skript warnt. Dann den Build
+  wiederholen oder dem Nutzer sagen, dass der Stempel veraltet ist.
+- `src/config/build.json` gehört mit in jeden Commit, der einen Build auslöst.

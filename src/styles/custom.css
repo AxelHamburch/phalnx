@@ -274,3 +274,30 @@ pre.mermaid.phalnx-zoomable svg {
 	max-height: calc(92vh - 6.5rem);
 	object-fit: contain;
 }
+
+/* Spendenhinweis in der Fußzeile */
+.phalnx-donate {
+	margin-top: 2rem;
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.5rem;
+	background: var(--sl-color-gray-6);
+}
+.phalnx-donate p {
+	margin: 0;
+}
+.phalnx-donate p + p {
+	margin-top: 0.5rem;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+}
+.phalnx-copy {
+	padding: 0.2rem 0.7rem;
+	border: 1px solid var(--sl-color-gray-4);
+	border-radius: 0.3rem;
+	background: var(--sl-color-bg);
+	color: var(--sl-color-text);
+	cursor: pointer;
+}
