@@ -127,6 +127,20 @@ Ersetze die Platzhalter **samt der spitzen Klammern**. Ein Beispiel mit Dummy-We
 Guthaben landet nach der Bestätigung auf der Adresse. Prüfe die Adresse sehr genau, eine Überweisung auf Bitcoin
 lässt sich nicht zurückholen.
 
+**Das Ergebnis:** Klappt es, gibt der Befehl nach dem `sudo`-Passwort eine einzige Zeile aus, eine lange Zeichenfolge
+aus Ziffern und Buchstaben (64 Zeichen):
+
+```text
+9f3c…(64 Zeichen, Beispiel)
+```
+
+Das ist die **Transaktions-ID** der Schließung. Du kannst sie in einem Block-Explorer wie
+[mempool.space](https://mempool.space) in das Suchfeld einfügen und siehst dann den Stand: Zuerst steht die
+Transaktion unbestätigt im Mempool, danach zeigt der Explorer die Bestätigungen, sobald ein Block sie aufnimmt. Auch
+deine Zieladresse erscheint dort mit dem Betrag. Notiere die ID, bis das Geld bei dir angekommen ist. Kommt statt
+der Zeichenfolge eine Fehlermeldung, hat phoenixd den Kanal nicht geschlossen. Prüfe dann Kanal-ID, Adresse und
+Gebühr und gib den Befehl noch einmal ein.
+
 :::tip[Lege den Befehl vorher bereit]
 Im Ernstfall zählt jede Minute, und du bist aufgeregt. Lege dir den Befehl darum **schon jetzt fertig ausgefüllt** im
 Passwortmanager ab: mit deiner **Kanal-ID**, einer **Bitcoin-Adresse, die du selbst verwahrst** (zum Beispiel einer
