@@ -142,7 +142,7 @@ src/
 │   ├── server/              part A: server foundation
 │   ├── services/            part B: phoenixd, Alby Hub, relay, LNbits, Caddy ...
 │   ├── operations/          part C: acceptance, updates, emergency
-│   └── optional/            part D: optional add-ons (Telegram notifications, nightly backup)
+│   └── optional/            part D: optional add-ons (Telegram notifications, nightly backup, external backup, restore)
 ├── config/placeholders.ts   placeholders for the "My values" panel
 ├── config/apps.ts           application descriptions (tiles, popup, overview page)
 ├── config/build.json        build stamp (block height), written by scripts/stamp-build.mjs

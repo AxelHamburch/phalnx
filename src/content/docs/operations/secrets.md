@@ -36,7 +36,7 @@ schützt.
 
 - **Verschlüssele Backups, bevor sie den Server verlassen** (zum Beispiel mit `age` oder `gpg`). Sie enthalten
   sonst den Seed und die Passwörter im Klartext. Wie das mit `age` geht, zeigt das Kapitel
-  [Nächtliches Backup](/optional/backup/#verschlüsselt-auf-den-eigenen-pc-laden).
+  [Nächtliches Backup](/optional/backup-external/).
 - Sichere vor allem `phoenixd` (`~/.phoenix`), die Daten von Alby Hub (`~/data`) und die von LNbits
   (`~/lnbits/data`).
 - Bewahre Sicherungen, die du vor einem Update anlegst (siehe [Updates durchführen](/operations/updates/)), nicht
