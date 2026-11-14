@@ -343,10 +343,9 @@ sudo systemctl start phalnx-backup.service
 sudo ls -lh /var/backups/phalnx-export
 ```
 
-Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz.age` erscheinen, die dir (`__ADMIN_USER__`) gehört. Kommt stattdessen
-`No such file or directory`, hat das Skript keine verschlüsselte Kopie angelegt. Siehe die Tabelle „Wenn es nicht klappt“
-unten. Sie liegt in
-`/var/backups/phalnx-export`, getrennt vom unverschlüsselten Backup. Auch hier bleiben die letzten 14.
+Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz.age` erscheinen, die dir (`__ADMIN_USER__`) gehört. Sie liegt in
+`/var/backups/phalnx-export`, getrennt vom unverschlüsselten Backup. Auch hier bleiben die letzten 14. Kommt stattdessen `No such file or directory`, hat das Skript keine
+verschlüsselte Kopie angelegt. Siehe die Tabelle „Wenn es nicht klappt“ unten.
 
 ### 4. Auf den PC herunterladen
 
