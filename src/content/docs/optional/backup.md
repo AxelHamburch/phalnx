@@ -258,7 +258,15 @@ Prüfe es danach mit:
 age --version
 ```
 
-Es erscheint eine Versionsnummer (zum Beispiel `v1.3.2`). Ist `winget` nicht vorhanden, findest du Downloads auf der
+Es erscheint eine Versionsnummer (zum Beispiel `v1.3.2`).
+
+:::note[Die Versionen dürfen verschieden sein]
+Auf dem Server installiert Ubuntu 24.04 `age` in der Version **1.1.1**, unter Windows holt `winget` eine neuere (zum Beispiel
+1.3.2). Das ist in Ordnung: Das Dateiformat ist über alle Versionen gleich, und eine Datei, die der Server
+verschlüsselt, entschlüsselt dein PC problemlos. Erzeuge den Schlüssel mit dem normalen `age-keygen` und **ohne** neue
+Optionen wie `-pq`, denn die kennt die ältere Version auf dem Server nicht. Ob eine Zeile mit oder ohne `v` davor
+erscheint, ist nur eine andere Schreibweise.
+::: Ist `winget` nicht vorhanden, findest du Downloads auf der
 [Seite von age](https://github.com/FiloSottile/age/releases).
 
 ### 2. Schlüsselpaar auf dem PC erzeugen
