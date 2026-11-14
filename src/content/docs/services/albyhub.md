@@ -190,4 +190,36 @@ sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request"
 Im Log muss nach der Zeile `Started albyhub.service` der neue Start folgen. Lade dann `http://localhost:8029`
 neu. Kommt die Passwortabfrage trotzdem, ist Auto-Unlock nicht aktiv.
 
+## Alby Hub mit Guthaben füllen (Kanal öffnen)
+
+phoenixd hat zu Beginn **keinen Kanal**, und ohne Kanal kannst du weder senden noch empfangen. Der Kanal
+entsteht automatisch bei der ersten eingehenden Zahlung. Du füllst die angeschlossene phoenixd-Wallet also
+direkt in Alby Hub (über den Tunnel, `http://localhost:8029`):
+
+1. Lass dir in Alby Hub eine **Rechnung (Invoice)** zum Empfangen anzeigen, zum Beispiel über den Bereich
+   „Wallet", Knopf „Empfangen". Die Bezeichnungen können je nach Version leicht abweichen.
+2. Gib einen Betrag von etwa **50.000 Sats** ein.
+3. Bezahle die Rechnung aus einer anderen Wallet.
+
+Mit dieser ersten Zahlung öffnet ACINQ den Kanal zu deinem Knoten. Dafür behält ACINQ eine **Gebühr** ein, für
+die Liquidität und die Transaktionen zum Öffnen und späteren Schließen des Kanals. Sie liegt in der Größenordnung
+von **etwa 20.000 Sats**. Von 50.000 Sats bleiben dir dann rund **30.000 Sats** als Guthaben. Die aktuellen
+Bedingungen stehen auf [phoenix.acinq.co/server](https://phoenix.acinq.co/server). Zahle nur, was du bereit
+bist auszugeben, und halte das Guthaben insgesamt klein.
+
+Danach dauert es **einige Minuten**, bis der Kanal endgültig offen ist. Den Stand prüfst du im Terminal:
+
+```bash
+sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
+```
+
+In der Liste `channels` erscheint ein Eintrag. Steht dort `"state": "Normal"`, ist der Kanal offen. Bei
+`balanceSat` siehst du dein Guthaben (siehe die Erklärung der Felder im Kapitel
+[Updates durchführen](/operations/updates/#phoenixd)). Erst jetzt lohnt sich der Test.
+
+**Erste Transaktionen:** Mache in Alby Hub eine kleine Zahlung in beide Richtungen, zum Beispiel 100 Sats
+**empfangen** (Rechnung in Alby Hub erzeugen, aus einer anderen Wallet zahlen) und 100 Sats **senden** (Rechnung
+einer anderen Wallet bezahlen). Klappt beides, sind phoenixd und Alby Hub richtig verbunden. LNbits kommt erst in
+den späteren Kapiteln dazu.
+
 Weiter mit dem [lokalen Relay](/services/relay/).

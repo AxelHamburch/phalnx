@@ -143,7 +143,8 @@ sudo journalctl -u lnbits -n 50 --no-pager | grep -i nwc
 
 Es muss `NWCConnection is ready` erscheinen, mit `relay: ws://127.0.0.1:7777`.
 
-Dann ein Test mit kleinen Beträgen: In LNbits eine Wallet anlegen, **100 Sats empfangen** und **100 Sats
+Voraussetzung ist, dass in Alby Hub der Kanal offen und die phoenixd-Wallet gefüllt ist (siehe
+[Alby Hub](/services/albyhub/#alby-hub-mit-guthaben-füllen-kanal-öffnen)). Dann ein Test mit kleinen Beträgen: In LNbits eine Wallet anlegen, **100 Sats empfangen** und **100 Sats
 senden**. Klappt beides, ist die Kette phoenixd, Alby Hub, Relay und LNbits in Ordnung.
 
 Für den Fall, dass der lokale Relay oder Alby Hub ausfällt, steht der Notweg im Kapitel

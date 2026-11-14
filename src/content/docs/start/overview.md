@@ -31,6 +31,7 @@ flowchart TB
     P["phoenixd<br/>127.0.0.1:9740<br/>hält den Seed"]
   end
 
+  AC["ACINQ-Node<br/>einziger Kanal-Partner"]
   LN["Lightning-Netz"]
 
   V -->|HTTPS| C
@@ -40,7 +41,8 @@ flowchart TB
   L -->|NWC| R
   H -->|NWC| R
   H -->|HTTP-API mit Passwort| P
-  P -->|ausgehend| LN
+  P -->|ein Kanal, ausgehend| AC
+  AC -->|leitet weiter| LN
 
   classDef public fill:#fde68a,stroke:#b45309,color:#1f2937
   classDef internal fill:#bfdbfe,stroke:#1d4ed8,color:#1f2937
@@ -49,7 +51,7 @@ flowchart TB
   class C,S public
   class L,R,H internal
   class P safe
-  class V,A,LN outside
+  class V,A,AC,LN outside
   style PUB fill:#fffbeb,stroke:#b45309,color:#1f2937
   style INT fill:#eff6ff,stroke:#1d4ed8,color:#1f2937
   style SAFE fill:#f0fdf4,stroke:#15803d,color:#1f2937
@@ -58,6 +60,10 @@ flowchart TB
 **Farben:** Gelb ist öffentlich erreichbar, Blau läuft nur lokal auf dem Server, Grün ist der Tresor mit dem
 Seed. Gestrichelte Linien laufen **durch den SSH-Tunnel**. Du erreichst Alby Hub also nie über eine Webseite
 im Internet.
+
+phoenixd spricht **nicht** selbst mit dem Lightning-Netz. Es hat genau **einen Kanal zum Node von ACINQ**, dem
+Anbieter von phoenixd, und ACINQ leitet Zahlungen weiter. Dein Knoten ist damit ein **versteckter** (privater)
+Knoten: Er ist im Netz nicht öffentlich angekündigt und nimmt keine Verbindungen von außen an.
 
 ### So läuft eine Zahlung
 
@@ -72,7 +78,7 @@ sequenceDiagram
   participant R as Relay
   participant H as Alby Hub
   participant P as phoenixd
-  participant N as Lightning-Netz
+  participant N as ACINQ-Node
 
   Nutzer->>L: Rechnung bezahlen
   L->>R: NWC-Anfrage (verschlüsselt)
@@ -80,6 +86,7 @@ sequenceDiagram
   H->>H: Budget der Verbindung prüfen
   H->>P: Zahlung auslösen (HTTP-API)
   P->>N: Zahlung senden
+  Note over N: leitet ins Lightning-Netz weiter
   N-->>P: Bestätigung
   P-->>H: Ergebnis
   H-->>R: NWC-Antwort (verschlüsselt)
@@ -133,9 +140,9 @@ sein.
 | 5000 | 127.0.0.1 | LNbits | `ulnbits`, `caddy` |
 | 7777 | 127.0.0.1 | Relay | `urelay`, `ualbyhub`, `ulnbits` |
 
-phoenixd verbindet sich selbst **ausgehend** mit dem Lightning-Netz (Port 9735 beim Anbieter ACINQ). Dafür
-musst du auf dem Server nichts öffnen. Die Firewall erlaubt ausgehenden Verkehr ohnehin. Eine Regel brauchst
-du nur, falls du ausgehende Verbindungen selbst einschränkst.
+phoenixd verbindet sich selbst **ausgehend** mit dem Node von ACINQ (Port 9735) und hält dort seinen einen Kanal.
+Dafür musst du auf dem Server nichts öffnen. Die Firewall erlaubt ausgehenden Verkehr ohnehin. Eine Regel
+brauchst du nur, falls du ausgehende Verbindungen selbst einschränkst.
 
 ## Reihenfolge nach einem Neustart
 
