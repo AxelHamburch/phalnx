@@ -48,7 +48,13 @@ const qr = await QRCode.toString(ADDRESS, {
 		<img src="/favicon.png" alt="" width="48" height="48" />
 		<p><strong>Gefällt dir die Anleitung?</strong><br />Dann freuen wir uns über ein paar Sats.</p>
 	</div>
-	<div class="phalnx-donate-qr" set:html={qr} aria-label={`QR-Code der Lightning-Adresse ${ADDRESS}`} role="img"></div>
+	<a
+		class="phalnx-donate-qr"
+		href={`lightning:${ADDRESS}`}
+		title="Mit der Lightning-Wallet öffnen"
+		aria-label={`QR-Code der Lightning-Adresse ${ADDRESS}, anklicken öffnet die Wallet`}
+		set:html={qr}
+	></a>
 	<p class="phalnx-donate-row">
 		<a href={`lightning:${ADDRESS}`}><code>{ADDRESS}</code></a>
 		<button type="button" data-act="copy" data-address={ADDRESS}>Kopieren</button>

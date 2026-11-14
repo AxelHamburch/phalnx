@@ -322,6 +322,8 @@ pre.mermaid.phalnx-zoomable svg {
 	margin: 0 !important;
 }
 .phalnx-donate-qr {
+	display: block;
+	cursor: pointer;
 	width: 11rem;
 	margin: 0 auto 1rem;
 	border-radius: 0.5rem;
