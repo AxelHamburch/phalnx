@@ -39,7 +39,8 @@ schützt.
 - Sichere vor allem `phoenixd` (`~/.phoenix`), die Daten von Alby Hub (`~/data`) und die von LNbits
   (`~/lnbits/data`).
 - Bewahre Sicherungen, die du vor einem Update anlegst (siehe [Updates durchführen](/operations/updates/)), nicht
-  länger als nötig auf. Sie enthalten dieselben Geheimnisse wie die Originale.
+  länger als nötig auf. Sie enthalten dieselben Geheimnisse wie die Originale. Den Befehl zum Aufräumen findest du
+  am Ende von [Updates durchführen](/operations/updates/#sicherungen-nach-dem-update-aufräumen).
 - **Snapshots** beim Anbieter enthalten ebenfalls Geheimnisse. Bewahre sie nicht ungeschützt auf.
 
 ## Wenig Guthaben auf dem Server

@@ -382,6 +382,32 @@ müssen zur Version passen.
 `git checkout v<alte Version>` zurückgehen, `uv sync --all-extras` ausführen und die Sicherung zurückspielen,
 falls sich die Datenbank verändert hat.
 
+## Sicherungen nach dem Update aufräumen
+
+Beim Update bleiben alte Programmstände (`phoenixd-alt`, `albyhub-alt`) und Kopien der Daten
+(`data-backup`) liegen. Sie enthalten dieselben Geheimnisse wie die Originale. Wenn alles ein paar Tage sicher
+läuft und du **nicht mehr zurück** willst, löschst du sie. Zeige erst an, was vorhanden ist:
+
+```bash
+sudo ls -d /home/uphoenixd/phoenixd-alt /home/ualbyhub/albyhub-alt /home/ualbyhub/data-backup /home/ulnbits/lnbits/data-backup
+```
+
+Nicht vorhandene Ordner meldet `ls` als Fehler. Das ist in Ordnung, sie hast du bei diesem Update nicht
+angelegt. Dann löschst du alles auf einmal:
+
+```bash
+sudo rm -rf /home/uphoenixd/phoenixd-alt
+sudo rm -rf /home/ualbyhub/albyhub-alt
+sudo rm -rf /home/ualbyhub/data-backup
+sudo rm -rf /home/ulnbits/lnbits/data-backup
+```
+
+:::caution[Nicht zu früh löschen]
+Danach gibt es **keinen Rückweg** auf den alten Stand mehr. Lösche erst, wenn die Prüfung des Updates bestanden ist
+und der Dienst einige Tage fehlerfrei läuft. Der Ordner `~/.phoenix` mit dem Seed gehört **nicht** dazu und
+bleibt unberührt. Die Befehle löschen nur die genannten Ordner.
+:::
+
 ## Wann wie oft
 
 | Was | Wie oft |
