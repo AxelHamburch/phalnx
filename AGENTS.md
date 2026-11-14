@@ -31,3 +31,11 @@ Die Seite zeigt oben neben dem GitHub-Symbol `build: <Blockhöhe>`. Die Blockhö
 - Ist mempool.space nicht erreichbar, bleibt der alte Wert stehen und das Skript warnt. Dann den Build
   wiederholen oder dem Nutzer sagen, dass der Stempel veraltet ist.
 - `src/config/build.json` gehört mit in jeden Commit, der einen Build auslöst.
+
+## KI-Version der Anleitung
+
+`scripts/build-llms.mjs` erzeugt bei jedem `npm run build` die Dateien `public/llms-full.txt` (die ganze Anleitung in
+einer Datei) und `public/llms.txt` (Inhaltsverzeichnis). Reihenfolge und Seiten kommen aus der Seitenleiste in
+`astro.config.mjs`. Die Dateien werden nicht committet und müssen nicht gepflegt werden. Neue Seiten, die in der
+Seitenleiste stehen, sind automatisch enthalten. Gleiches gilt für neue Platzhalter in `src/config/placeholders.ts`
+und Anwendungen in `src/config/apps.ts`.

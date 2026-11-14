@@ -108,6 +108,14 @@ your node a hidden (private) node.
 | **C: Acceptance and operation** | Reboot test, checklist, updates, secrets and backups, daily use, emergency |
 | **D: Optional** | Telegram notifications, nightly backup |
 
+## AI version
+
+`npm run build` also writes `llms-full.txt` (the whole guide in one text file, with instructions for an AI
+assistant) and `llms.txt` (an index) next to the site. Users can give an AI the link
+`https://phalnx.21mio.space/llms-full.txt` together with a command and its output, and the AI can tell which step
+they are on and what the guide expects. The files are generated from the sidebar in `astro.config.mjs`, so there
+is nothing to maintain.
+
 ## Language
 
 The guide itself is currently **German only**, including the interface labels such as the "Meine Werte" button.

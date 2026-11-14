@@ -5,3 +5,7 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+
+# Wird bei jedem Build erzeugt (scripts/build-llms.mjs)
+public/llms.txt
+public/llms-full.txt
