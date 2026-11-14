@@ -93,6 +93,15 @@ export const PLACEHOLDERS: PlaceholderField[] = [
 		group: 'System',
 	},
 	{
+		key: 'UPDATE_TIME',
+		label: 'Uhrzeit für die automatischen Updates',
+		hint: 'Wann Ubuntu Updates einspielt (HH:MM). Eine Stunde vor dem Neustart ist sinnvoll.',
+		default: '03:30',
+		pattern: '([01][0-9]|2[0-3]):[0-5][0-9]',
+		error: 'Format HH:MM, zum Beispiel 03:30.',
+		group: 'System',
+	},
+	{
 		key: 'REBOOT_TIME',
 		label: 'Uhrzeit für den automatischen Neustart',
 		hint: 'Nach Kernel-Updates startet der Server dann neu (HH:MM).',
