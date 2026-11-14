@@ -34,7 +34,7 @@ Auf deinem PC:
 scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ phalnx-2026-11-14_02-00.tar.gz __ADMIN_USER__@__SERVER_IP__:
 ```
 
-Oder kürzer: `scp phalnx-2026-11-14_02-00.tar.gz __HOSTNAME__:`. Die Datei landet im Home-Verzeichnis von
+Die Datei landet im Home-Verzeichnis von
 `__ADMIN_USER__`. SSH überträgt sie verschlüsselt.
 
 ## 3. Entpacken (auf dem Server)

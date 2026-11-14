@@ -145,13 +145,6 @@ aufgelöst, darum die Anführungszeichen):
 scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ "__ADMIN_USER__@__SERVER_IP__:/var/backups/phalnx-export/*.age" .
 ```
 
-Hast du den Eintrag in der `.ssh\config` (siehe [SSH-Tunnel](/services/tunnel/#optional-tunnel-in-sshconfig-eintragen)),
-geht es kürzer:
-
-```powershell
-scp "__HOSTNAME__:/var/backups/phalnx-export/*.age" .
-```
-
 Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.
 Wie du ein Backup wieder zurückspielst, steht im Kapitel
 [Externe Backups wiederherstellen](/optional/backup-restore/).
