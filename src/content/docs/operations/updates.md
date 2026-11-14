@@ -29,22 +29,34 @@ Kapitel zeigt für jeden Baustein, wie du die installierte Version prüfst, die 
 
 ## Neueste Version nachsehen
 
-Prüfe **vor jedem Update**, ob es überhaupt eine neuere Version gibt. Dann sparst du dir den Aufwand. Du siehst
-es im Browser auf der Seite aus der Tabelle oder auf dem Server. Vergleiche die Zahl mit der installierten
-Version (der Befehl dafür steht beim jeweiligen Baustein unten).
+Prüfe **vor jedem Update**, ob es überhaupt eine neuere Version gibt. Dann sparst du dir den Aufwand. Dieser
+Block fragt alle Bausteine auf einmal ab. Kopiere ihn und füge ihn auf dem Server ein:
 
-| Baustein | Befehl auf dem Server |
-|---|---|
-| phoenixd | `curl -s https://api.github.com/repos/ACINQ/phoenixd/releases/latest \| grep '"tag_name"'` |
-| Alby Hub | `curl -s https://api.github.com/repos/getAlby/hub/releases/latest \| grep '"tag_name"'` |
-| LNbits | `curl -s https://api.github.com/repos/lnbits/lnbits/releases/latest \| grep '"tag_name"'` |
-| Relay (strfry) | `git ls-remote --tags --sort=-v:refname https://github.com/hoytech/strfry.git \| head -5` |
-| Caddy | `apt policy caddy` (Zeile „Candidate") |
+```bash
+echo "== phoenixd =="
+curl -s https://api.github.com/repos/ACINQ/phoenixd/releases/latest | grep '"tag_name"'
+echo "== Alby Hub =="
+curl -s https://api.github.com/repos/getAlby/hub/releases/latest | grep '"tag_name"'
+echo "== LNbits =="
+curl -s https://api.github.com/repos/lnbits/lnbits/releases/latest | grep '"tag_name"'
+echo "== Relay (strfry) =="
+git ls-remote --tags --sort=-v:refname https://github.com/hoytech/strfry.git | head -3
+echo "== Caddy =="
+apt-cache policy caddy | grep -E "Installed|Candidate"
+```
 
-Bei phoenixd, Alby Hub und LNbits steht die neueste Version in der Zeile `"tag_name"`, zum Beispiel
-`"tag_name": "v0.9.3"`. **strfry veröffentlicht keine Releases, nur Tags.** Darum gibt der Befehl mit
-`releases/latest` dort nichts aus, und du fragst die Tags ab. Die oberste Zeile ist die neueste Version
-(`refs/tags/1.1.3` heißt Version 1.1.3). Tags mit `beta` im Namen sind Vorabversionen.
+Unter jeder Überschrift steht die neueste Version. Bei phoenixd, Alby Hub und LNbits ist es die Zeile
+`"tag_name"`, bei strfry die oberste Zeile (`refs/tags/1.1.3` heißt Version 1.1.3, Tags mit `beta` sind
+Vorabversionen). Bei Caddy vergleichst du `Installed` mit `Candidate`. strfry veröffentlicht keine Releases,
+nur Tags. Darum fragt der Befehl dort die Tags ab.
+
+Die installierte Version zeigt der Befehl beim jeweiligen Baustein weiter unten. Die neueste Version siehst du
+auch im Browser:
+
+- phoenixd: [github.com/ACINQ/phoenixd/releases](https://github.com/ACINQ/phoenixd/releases)
+- Alby Hub: [github.com/getAlby/hub/releases](https://github.com/getAlby/hub/releases)
+- LNbits: [github.com/lnbits/lnbits/releases](https://github.com/lnbits/lnbits/releases)
+- Relay (strfry): [github.com/hoytech/strfry/tags](https://github.com/hoytech/strfry/tags)
 
 ## Ubuntu und die Pakete
 
@@ -107,8 +119,7 @@ phoenixd hält den Seed und den Kanal. Aktualisiere es mit besonderer Sorgfalt.
 sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
 ```
 
-Die neueste Version steht auf der [Release-Seite](https://github.com/ACINQ/phoenixd/releases) (siehe
-[Neueste Version nachsehen](#neueste-version-nachsehen)). Die Ausgabe enthält die Version (`version`, die Zahl vor dem Strich ist die Release-Version) und wichtige Daten
+Die neueste Version steht auf der [Release-Seite](https://github.com/ACINQ/phoenixd/releases). Die Ausgabe enthält die Version (`version`, die Zahl vor dem Strich ist die Release-Version) und wichtige Daten
 zu deinem Kanal:
 
 ```json
@@ -194,8 +205,7 @@ Dann sendest du eine kleine Zahlung. Läuft alles, löschst du `phoenixd-alt` na
 curl -s http://127.0.0.1:8029/api/info | grep -o '"version":"[^"]*"'
 ```
 
-Die neueste Version steht auf der [Release-Seite](https://github.com/getAlby/hub/releases) (siehe
-[Neueste Version nachsehen](#neueste-version-nachsehen)). Aktualisiere nur, wenn sie höher ist.
+Die neueste Version steht auf der [Release-Seite](https://github.com/getAlby/hub/releases) Aktualisiere nur, wenn sie höher ist.
 
 **Aktualisieren.** Erst Alby Hub stoppen und die Daten sichern:
 
@@ -258,8 +268,8 @@ Deshalb ist die Sicherung vorher wichtig.
 sudo -u urelay git -C /home/urelay/strfry describe --tags
 ```
 
-Prüfe vorher, ob es eine neuere Version gibt (siehe [Neueste Version nachsehen](#neueste-version-nachsehen)).
-Das Update lohnt sich nur, wenn die Tags eine höhere Nummer zeigen.
+Prüfe vorher auf der [Tags-Seite von strfry](https://github.com/hoytech/strfry/tags), ob es eine neuere Version
+gibt. Das Update lohnt sich nur, wenn dort eine höhere Nummer steht als die installierte.
 
 :::note[Das dauert]
 Das Übersetzen von strfry (`make`) braucht **einige Minuten**, auf einem kleinen Server auch länger. Warte, bis
@@ -307,8 +317,7 @@ sudo -u ulnbits git -C /home/ulnbits/lnbits describe --tags
 ```
 
 Die Version zeigt auch die Admin-Oberfläche von LNbits. Die neueste Version steht auf der
-[Release-Seite](https://github.com/lnbits/lnbits/releases) (siehe
-[Neueste Version nachsehen](#neueste-version-nachsehen)).
+[Release-Seite](https://github.com/lnbits/lnbits/releases).
 
 **Aktualisieren.** Erst die Daten sichern:
 
@@ -326,14 +335,17 @@ Die Sicherung enthält Geheimnisse und bleibt auf dem Server. Dann:
 sudo -u ulnbits -H bash -c 'cd ~/lnbits && exec bash'
 ```
 
-Trage die neue Version unter **Meine Werte** ein:
+Das holt die neueste fertige Version (ohne Vorabversionen):
 
 ```bash
 git fetch --tags
-git checkout v__VERSION_LNBITS__
+git checkout $(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1)
 ~/.local/bin/uv sync --all-extras
 exit
 ```
+
+Willst du eine **bestimmte** Version, ersetze die `git checkout`-Zeile durch `git checkout v1.7.1` (deine
+Versionsnummer mit `v` davor).
 
 ```bash
 sudo systemctl start lnbits

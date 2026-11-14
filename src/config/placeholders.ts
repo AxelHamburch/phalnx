@@ -147,13 +147,4 @@ export const PLACEHOLDERS: PlaceholderField[] = [
 		error: 'Zum Beispiel 0.9.3.',
 		group: 'Versionen',
 	},
-	{
-		key: 'VERSION_LNBITS',
-		label: 'LNbits-Version',
-		hint: 'Nur die Zahl ohne „v". Die aktuelle Version steht auf der Release-Seite.',
-		default: '1.3.1',
-		pattern: '[0-9]+(\\.[0-9]+){1,3}',
-		error: 'Zum Beispiel 1.3.1.',
-		group: 'Versionen',
-	},
 ];

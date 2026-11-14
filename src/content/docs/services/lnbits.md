@@ -7,7 +7,7 @@ LNbits ist die Weboberfläche mit Wallets und Erweiterungen. Es zahlt **nur übe
 nie das Passwort von phoenixd.
 
 Die aktuelle Version steht auf der [Release-Seite von LNbits](https://github.com/lnbits/lnbits/releases).
-Trage sie unter **Meine Werte** ein (nur die Zahl, ohne `v`).
+Die Anleitung holt automatisch die neueste fertige Version.
 
 ## Installieren
 
@@ -22,7 +22,7 @@ cd ~
 curl -LsSf https://astral.sh/uv/install.sh | sh
 git clone https://github.com/lnbits/lnbits.git
 cd lnbits
-git checkout v__VERSION_LNBITS__
+git checkout $(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1)
 ~/.local/bin/uv sync --all-extras
 ```
 
