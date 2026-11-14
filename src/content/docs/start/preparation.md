@@ -22,6 +22,56 @@ description: Was du vorher brauchst und wie du mit dieser Anleitung arbeitest, i
 - [ ] Beim Anbieter eine **Firewall** anlegen, falls vorhanden: eingehend nur TCP `__SSH_PORT__`, `80` und `443`.
 - [ ] Die **IP des Servers** notieren. In dieser Anleitung heißt sie `__SERVER_IP__`.
 
+## Passwortmanager vorbereiten
+
+Während der Einrichtung entstehen viele Zugangsdaten, Adressen und Befehle. Lege dir vorher im Passwortmanager
+einen Eintrag **Login- und Passwortliste** an und fülle ihn nach und nach. Das spart dir Suchen und schützt vor
+Fehlern. Die Vorlage übernimmt deine Werte aus **Meine Werte**:
+
+```text
+LNbits-Domain:           __DOMAIN__
+Server-IP:               __SERVER_IP__
+Servername:              __HOSTNAME__
+SSH-Port:                __SSH_PORT__
+Admin-Benutzer:          __ADMIN_USER__
+Passwort Admin-Benutzer: ...
+SSH-Passphrase:          ...
+
+Login:                   ssh -p __SSH_PORT__ -i $HOME.ssh__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
+Login kurz:              ssh __HOSTNAME__
+phoenixd Seed:           ...
+Alby-Hub-Passwort:       ...
+Tunnel zu Alby Hub:      ssh -N -L 8029:127.0.0.1:8029 __HOSTNAME__
+Alby Hub im Browser:     http://localhost:8029
+LNbits Super-User:       z. B. SuperUser
+LNbits Super-Passwort:   ...
+NWC-Adresse von Alby:    nostr+walletconnect://<Schlüssel>?relay=ws://127.0.0.1:7777&secret=<Geheimnis>
+LNbits-Nutzer:           z. B. DeinName
+LNbits-Nutzer-Passwort:  ...
+Caddy-Benutzer:          __CADDY_USER__
+Caddy-Passwort:          ...
+```
+
+Die Felder mit `...` füllst du aus, sobald du den jeweiligen Schritt erledigt hast. Die Befehle in der Liste
+zum Kopieren sind `ssh`-Befehle. Die Zeile **Login kurz** funktioniert, wenn du den Eintrag in der
+`.sshconfig` angelegt hast (siehe [SSH-Tunnel](/services/tunnel/#optional-tunnel-in-sshconfig-eintragen)).
+
+Lege auch die **Zugangsdaten deines VPS-Anbieters** im Passwortmanager ab.
+
+:::caution[Seed und NWC-Adresse sind Geld]
+Wer den **phoenixd-Seed** kennt, kann dein Guthaben nehmen. Die **NWC-Adresse** erlaubt Zahlungen im Rahmen ihres
+Budgets. Schütze den Passwortmanager mit einem starken Hauptpasswort und, wenn möglich, einem zweiten Faktor.
+Schreibe den Seed zusätzlich **auf Papier** auf und bewahre ihn getrennt auf. Lege ihn nicht ungeschützt in einer
+Cloud ab.
+:::
+
+### Empfehlung: Standard Notes
+
+Als Ablage eignet sich [Standard Notes](https://standardnotes.com/). Das ist eine Ende-zu-Ende-verschlüsselte
+Notiz-App, deren Inhalte nur du lesen kannst. Sie ist einfach zu bedienen und läuft auf PC und Handy. Jeder
+andere Passwortmanager, dem du vertraust, tut es genauso. Wichtig ist nur, dass die Liste **verschlüsselt** und an
+einem Ort liegt, den du auch bei einem Ausfall deines PCs erreichst.
+
 ## Meine Werte
 
 Oben in der Kopfzeile steht der Knopf **Meine Werte**. Dort trägst du zum Beispiel deine Server-IP,
