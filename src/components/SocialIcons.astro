@@ -9,7 +9,7 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 import QRCode from 'qrcode';
 import build from '../config/build.json';
 
-const ADDRESS = 'axelhamburch@21mio.space';
+const ADDRESS = 'phalnx@21mio.space';
 const when = build.date ? new Date(build.date).toLocaleString('de-DE', { timeZone: 'UTC' }) + ' UTC' : '';
 const qr = await QRCode.toString(ADDRESS, {
 	type: 'svg',
@@ -46,7 +46,7 @@ const qr = await QRCode.toString(ADDRESS, {
 <template class="phalnx-donate-tpl">
 	<div class="phalnx-donate-head">
 		<img src="/favicon.png" alt="" width="48" height="48" />
-		<p><strong>Gefällt dir die Anleitung?</strong><br />Dann freue ich mich über ein paar Sats.</p>
+		<p><strong>Gefällt dir die Anleitung?</strong><br />Dann freuen wir uns über ein paar Sats.</p>
 	</div>
 	<div class="phalnx-donate-qr" set:html={qr} aria-label={`QR-Code der Lightning-Adresse ${ADDRESS}`} role="img"></div>
 	<p class="phalnx-donate-row">

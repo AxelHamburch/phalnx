@@ -116,7 +116,7 @@ the server file names used in the guide are English.
 
 ## Support
 
-If the guide helps you, you are welcome to send a few sats: `axelhamburch@21mio.space` (Lightning address).
+If the guide helps you, you are welcome to send a few sats: `phalnx@21mio.space` (Lightning address).
 
 ## Development
 
