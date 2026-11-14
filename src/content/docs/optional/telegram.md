@@ -56,8 +56,16 @@ LNbits muss wissen, **an wen** es schreiben soll. Das ist die Chat-ID deines Kon
    https://api.telegram.org/bot<Token>/getUpdates
    ```
 
+   Öffne die Adresse in einem **privaten Fenster** (Inkognito-Modus) und schließe es danach. So landet der Token
+   nicht im Browserverlauf, der oft auf andere Geräte synchronisiert wird. Die Verbindung zu Telegram ist per HTTPS
+   verschlüsselt. Zeige die Adresse nicht auf Screenshots oder in geteilten Bildschirmen.
+
 3. In der Antwort suchst du `"chat":{"id":` und liest die Zahl dahinter ab, zum Beispiel `123456789`. Das ist deine
    **Chat-ID**. Notiere sie im Passwortmanager.
+
+**Alternative ohne Token in der Adresse:** Schreibe einem Bot, der dir deine ID nennt, zum Beispiel **@userinfobot**. Die Chat-ID
+ist **kein** Geheimnis, sie verrät niemandem etwas. Dann kommt der Token nur bei BotFather und in LNbits vor. Dieser Bot
+stammt aber nicht von Telegram selbst, das musst du ihm vertrauen.
 
 Kommt `"result":[]` (leer), hast du dem Bot noch nichts geschickt. Sende ihm eine Nachricht und lade die Seite neu.
 Für eine **Gruppe** fügst du den Bot der Gruppe hinzu und schreibst dort eine Nachricht. Die Chat-ID von Gruppen
