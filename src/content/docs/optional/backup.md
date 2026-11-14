@@ -365,13 +365,6 @@ scp "__HOSTNAME__:/var/backups/phalnx-export/*.age" .
 
 Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.
 
-Willst du nicht bis zur nächsten Nacht warten, löse **zuerst auf dem Server** ein frisches Backup aus (wie in Schritt 3).
-Danach lädst du es mit dem `scp`-Befehl von oben herunter:
-
-```bash
-sudo systemctl start phalnx-backup.service
-```
-
 ### 5. Entschlüsseln
 
 Auf deinem PC, im Ordner mit der Datei und der Schlüsseldatei. Setze den Namen deiner Datei ein:
