@@ -70,7 +70,7 @@ export const APPS: AppInfo[] = [
 		paragraphs: [
 			'Caddy ist ein Proxy-Server, der Anfragen aus dem Web an die Anwendungen auf dem VPS weiterleitet. Bei Phalnx ist das nur LNbits. Caddy sorgt außerdem für HTTPS, protokolliert den Webverkehr zusätzlich und schützt das Admin-Panel mit einem eigenen Passwort.',
 			'Das Super-User-Admin-Panel von LNbits sieht zunächst aus wie das eines normalen Nutzers, hat aber zusätzliche Registerkarten für Einstellungen und Nutzerverwaltung. Caddy erkennt diese Aufrufe und fragt zuerst nach einem Passwort. Erst danach gibt es den Zugriff für die Sitzung frei.',
-			'**Empfehlung:** Rufe das Super-User-Konto immer im **Inkognito-Modus** des Browsers auf. Das verhindert, dass du vergisst dich abzumelden, und du kannst im normalen Browser als gewöhnlicher Nutzer arbeiten.',
+			'**Empfehlung:** Rufe das Super-User-Konto immer im **Inkognito-Modus** des Browsers auf. Das verhindert, dass du vergisst dich abzumelden, und du kannst zusätzlich im normalen Browser mit einem anderen Nutzer arbeiten.',
 		],
 		link: '/services/caddy/',
 	},

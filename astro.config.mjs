@@ -10,6 +10,7 @@ export default defineConfig({
 		mermaid({ autoTheme: true }),
 		starlight({
 			title: 'Phalnx',
+			favicon: '/favicon.png',
 			description:
 				'Lightning-Server auf dem eigenen VPS: phoenixd, Alby Hub, LNbits und Caddy sicher einrichten und betreiben.',
 			// Nur Deutsch. Weitere Sprachen später unter `locales` ergänzen (z. B. en) und die Seiten
