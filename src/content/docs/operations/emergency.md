@@ -121,6 +121,15 @@ Ersetze die Platzhalter **samt der spitzen Klammern**. Ein Beispiel mit Dummy-We
 Guthaben landet nach der Bestätigung auf der Adresse. Prüfe die Adresse sehr genau, eine Überweisung auf Bitcoin
 lässt sich nicht zurückholen.
 
+:::tip[Lege den Befehl vorher bereit]
+Im Ernstfall zählt jede Minute, und du bist aufgeregt. Lege dir den Befehl darum **schon jetzt fertig ausgefüllt** im
+Passwortmanager ab: mit deiner **Kanal-ID**, einer **Bitcoin-Adresse, die du selbst verwahrst** (zum Beispiel einer
+Hardware-Wallet) und einer **Gebühr**, die zügig bestätigt wird. Dann musst du im Fall der Fälle nur noch kopieren,
+einfügen und die Gebühr kurz mit [mempool.space](https://mempool.space) vergleichen. So bist du vorbereitet und kannst
+schnell reagieren. Prüfe den Eintrag gelegentlich: Hat sich die Kanal-ID geändert (zum Beispiel nach einem neuen
+Kanal), passe ihn an, und teste die Adresse vorher mit einem kleinen Betrag.
+:::
+
 Kommst du per SSH nicht mehr auf den Server, geht es auch über die **Web-Konsole** des Anbieters. Hast du den
 **Seed** gesichert, kannst du das Guthaben notfalls auch auf einem neuen Gerät mit phoenixd wiederherstellen.
 
