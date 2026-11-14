@@ -1,8 +1,9 @@
 # Phalnx
 
-**A step-by-step guide to a hardened Lightning server on your own VPS.** Phalnx walks you from a fresh
-Ubuntu 24.04 server to a running, locked-down Lightning stack, and shows you how to check every step, update it
-and react when something goes wrong.
+**Hardened Lightning stack: phoenixd + Alby Hub (NWC) + Nostr relay + LNbits on a single VPS.**
+
+Phalnx is a step-by-step guide that walks you from a fresh Ubuntu 24.04 server to a running, locked-down Lightning
+stack, and shows you how to check every step, update it and react when something goes wrong.
 
 **Read it here: https://phalnx.21mio.space** (currently in German, English will follow)
 
@@ -94,7 +95,7 @@ your node a hidden (private) node.
   chapter (including how to close the channel and move the funds).
 - **Optional**: Telegram notifications for larger payments, and a nightly backup (dated archives in a rotating
   store, optionally encrypted with `age` for download).
-- **"Meine Werte" panel**: enter your IP, SSH port, domain and so on once, and every command in the guide, including
+- **"My values" panel** (labelled "Meine Werte" in the German guide): enter your IP, SSH port, domain and so on once, and every command in the guide, including
   the copy button, uses your values. They stay in your browser.
 
 ## The guide
@@ -109,7 +110,8 @@ your node a hidden (private) node.
 
 ## Language
 
-The guide itself is currently **German only**. English will follow. Repository structure, file names and
+The guide itself is currently **German only**, including the interface labels such as the "Meine Werte" button.
+English will follow. Repository structure, file names and
 the server file names used in the guide are English.
 
 ## Support
@@ -141,7 +143,7 @@ src/
 │   ├── services/            part B: phoenixd, Alby Hub, relay, LNbits, Caddy ...
 │   ├── operations/          part C: acceptance, updates, emergency
 │   └── optional/            part D: optional add-ons (Telegram notifications, nightly backup)
-├── config/placeholders.ts   placeholders for the "Meine Werte" panel
+├── config/placeholders.ts   placeholders for the "My values" panel
 ├── config/apps.ts           application descriptions (tiles, popup, overview page)
 ├── config/build.json        build stamp (block height), written by scripts/stamp-build.mjs
 ├── scripts/                 client logic (placeholders panel, diagram and logo zoom)
@@ -154,10 +156,10 @@ astro.config.mjs             title, language and sidebar
 Sidebar order and labels live in `astro.config.mjs`. Diagrams are written as ` ```mermaid ` blocks and
 rendered in the browser (`astro-mermaid`).
 
-## Placeholders ("Meine Werte")
+## Placeholders (the "My values" panel)
 
 Pages contain changeable values as `__KEY__`, for example `__SSH_PORT__`, `__SERVER_IP__` or `__DOMAIN__`.
-The **Meine Werte** button in the header lets the reader set them. The browser replaces them in text, code
+The **My values** button in the header (labelled **Meine Werte** while the guide is German) lets the reader set them. The browser replaces them in text, code
 blocks and the copy button. Values are stored in `localStorage` only.
 
 Add a placeholder:
@@ -182,7 +184,7 @@ Rules:
 - Only panel values or dummies appear in the guide: no real IPs, domains or credentials. Use the
   documentation range `203.0.113.0/24` for IPs and `example.org` for domains.
 - Server file names used in the guide are English (for example `00-hardening.conf`, `nft-local.service`).
-- Untested commands go into a `:::caution[Nicht getestet]` box.
+- Untested commands go into a caution box titled "Nicht getestet" (`:::caution[Nicht getestet]`, German like the rest of the guide).
 
 ## License
 
