@@ -277,6 +277,7 @@ pre.mermaid.phalnx-zoomable svg {
 
 /* Spenden-Fenster (geöffnet über das Symbol in der Kopfzeile) */
 .phalnx-donate-dialog {
+	margin: auto;
 	width: min(92vw, 26rem);
 	padding: 1.25rem 1.5rem;
 	border: 1px solid var(--sl-color-gray-5);
@@ -307,4 +308,36 @@ pre.mermaid.phalnx-zoomable svg {
 	background: var(--sl-color-gray-6);
 	color: var(--sl-color-text);
 	cursor: pointer;
+}
+.phalnx-donate-head {
+	display: flex;
+	gap: 0.9rem;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+.phalnx-donate-head img {
+	border-radius: 0.5rem;
+}
+.phalnx-donate-head p {
+	margin: 0 !important;
+}
+.phalnx-donate-qr {
+	width: 11rem;
+	margin: 0 auto 1rem;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	background: #fff;
+}
+.phalnx-donate-qr svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+.phalnx-donate-row {
+	justify-content: center;
+}
+.phalnx-donate-hint {
+	font-size: var(--sl-text-xs);
+	color: var(--sl-color-gray-3);
+	text-align: center;
 }
