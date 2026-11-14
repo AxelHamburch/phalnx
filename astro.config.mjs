@@ -74,6 +74,10 @@ export default defineConfig({
 						{ label: 'Notfall und Fehlersuche', slug: 'operations/emergency' },
 					],
 				},
+					{
+						label: 'Teil D: Optional',
+						items: [{ label: 'Telegram-Benachrichtigungen', slug: 'optional/telegram' }],
+					},
 			],
 		}),
 	],

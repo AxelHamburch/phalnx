@@ -120,7 +120,7 @@ sie einige Tage und stelle die Schwelle ein, damit sie nicht bei jeder Gebühr a
 | Keine Nachricht nach dem Speichern | **Enable Telegram** ist aus oder der Token ist falsch. Prüfe beides. |
 | Im Log steht eine Telegram-Fehlermeldung (zum Beispiel `chat not found`) | Falsche Chat-ID, oder du hast dem Bot noch nie `/start` geschrieben. |
 | `getUpdates` liefert eine leere Liste | Dem Bot zuerst eine Nachricht senden, dann neu laden. |
-| Nachrichten kommen nicht in der Gruppe an | Die Chat-ID der Gruppe fehlt das Minuszeichen, oder der Bot ist nicht Mitglied der Gruppe. |
+| Nachrichten kommen nicht in der Gruppe an | Bei der Chat-ID der Gruppe fehlt das Minuszeichen, oder der Bot ist nicht Mitglied der Gruppe. |
 | Du willst einen neuen Token | Bei **@BotFather** `/revoke` senden. Der alte Token ist danach ungültig. Trage den neuen in LNbits ein. |
 
 :::tip[Wenn der Token in falsche Hände geraten ist]
