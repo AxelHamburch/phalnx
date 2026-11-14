@@ -15,9 +15,8 @@ passiert, ohne ständig nachzusehen. LNbits schickt dir eine Nachricht, wenn
 Eine unerwartete Meldung über eine hohe Auszahlung oder über geänderte Einstellungen ist ein früher Hinweis auf
 einen Einbruch. Dann gehst du nach der [Notfall-Anleitung](/operations/emergency/) vor.
 
-:::note[Weitere Kapitel folgen]
-Später kommt in diesem Teil ein **Backup-System** dazu: die LNbits-Datenbank täglich sichern und auf ein anderes
-System exportieren.
+:::note[Auch optional: Backup]
+Die nächtliche Sicherung der Datenbanken beschreibt das Kapitel [Nächtliches Backup](/optional/backup/).
 :::
 
 ## Was du brauchst

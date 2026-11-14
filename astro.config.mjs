@@ -76,7 +76,10 @@ export default defineConfig({
 				},
 					{
 						label: 'Teil D: Optional',
-						items: [{ label: 'Telegram-Benachrichtigungen', slug: 'optional/telegram' }],
+						items: [
+							{ label: 'Telegram-Benachrichtigungen', slug: 'optional/telegram' },
+							{ label: 'Nächtliches Backup', slug: 'optional/backup' },
+						],
 					},
 			],
 		}),

@@ -165,7 +165,7 @@ Alby Hub. Es wird mit wenig Guthaben und der Härtung in dieser Anleitung klein 
 1. **Teil A** richtet den Server ein und härtet ihn.
 2. **Teil B** installiert die Dienste in der Reihenfolge phoenixd, Alby Hub, Relay, LNbits, Caddy.
 3. **Teil C** prüft alles, zeigt Updates und den Notfall.
-4. **Teil D** ist optional: Telegram-Benachrichtigungen und später ein Backup-System.
+4. **Teil D** ist optional: Telegram-Benachrichtigungen und das nächtliche Backup.
 
 Warum Caddy erst zuletzt kommt: Alby Hub und LNbits legen beim **ersten Aufruf** das Admin-Konto an. Wer die
 Seite zuerst öffnet, wird Admin. Deshalb machst du die Ersteinrichtung über den SSH-Tunnel, bevor etwas
