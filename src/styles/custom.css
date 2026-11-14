@@ -259,3 +259,18 @@ pre.mermaid.phalnx-zoomable svg {
 		width: 100%;
 	}
 }
+
+/* Logo in voller Auflösung (Startseite) */
+.phalnx-logo-zoom .phalnx-zoom-stage {
+	display: grid;
+	place-items: center;
+}
+.phalnx-logo-zoom img {
+	display: block;
+	max-width: none;
+}
+.phalnx-logo-zoom.is-fit img {
+	max-width: 100%;
+	max-height: calc(92vh - 6.5rem);
+	object-fit: contain;
+}

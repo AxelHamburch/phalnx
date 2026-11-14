@@ -41,9 +41,11 @@ const config = JSON.stringify({ fields: PLACEHOLDERS, groups: PLACEHOLDER_GROUPS
 <script>
 	import { initPlaceholders } from '../scripts/placeholders';
 	import { initDiagramZoom } from '../scripts/diagram-zoom';
+	import { initLogoZoom } from '../scripts/logo-zoom';
 
 	initPlaceholders();
 	initDiagramZoom();
+	initLogoZoom();
 
 	// Externe Links in einem neuen Fenster öffnen
 	document.querySelectorAll<HTMLAnchorElement>('main a[href^="http"]').forEach((a) => {
