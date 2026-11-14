@@ -295,17 +295,48 @@ echo "<age1…>" | sudo tee /etc/phalnx-backup.recipient
 sudo chmod 644 /etc/phalnx-backup.recipient
 ```
 
-Der öffentliche Schlüssel ist kein Geheimnis. Prüfe zuerst, dass **dein installiertes Skript** den Block für die
-verschlüsselte Kopie enthält. Hast du das Skript früher eingerichtet, fehlt er vielleicht. Die Prüfung muss `1` oder
-mehr ausgeben:
+Der öffentliche Schlüssel ist kein Geheimnis.
+
+**Zuerst eine Prüfung:** Dein Skript auf dem Server muss die Funktion für die verschlüsselte Kopie kennen. Hast du das
+Skript eingerichtet, bevor es diese Funktion gab, fehlt sie. Gib ein:
 
 ```bash
 sudo grep -c phalnx-export /usr/local/sbin/phalnx-backup
 ```
 
-Bei `0` öffnest du das Skript (`sudo nano /usr/local/sbin/phalnx-backup`) und fügst den Block
-„Optional: verschlüsselte Kopie zum Herunterladen“ aus dem Abschnitt [Das Skript](#das-skript) ein, **vor** der letzten Zeile
-`echo "Backup fertig …"`. Dann lösen wir das Backup einmal von Hand aus:
+- **`1` oder mehr:** Alles in Ordnung, weiter mit dem Backup unten.
+- **`0`:** Dein Skript ist noch die alte Fassung. Du bringst es mit **zwei Befehlen** auf den neuen Stand, ohne etwas
+  von Hand zu bearbeiten. Der erste löscht die letzte Zeile des Skripts:
+
+  ```bash
+  sudo sed -i '/^echo "Backup fertig/d' /usr/local/sbin/phalnx-backup
+  ```
+
+  Der zweite hängt die neue Funktion samt der letzten Zeile an. Kopiere ihn **ganz**, vom ersten `sudo` bis zum
+  alleinstehenden `EOF`:
+
+  ```bash
+  sudo tee -a /usr/local/sbin/phalnx-backup > /dev/null <<'EOF'
+  # Optional: verschlüsselte Kopie zum Herunterladen (nur wenn ein Empfängerschlüssel eingetragen ist)
+  RECIPIENT_FILE=/etc/phalnx-backup.recipient
+  EXPORT=/var/backups/phalnx-export
+  EXPORT_OWNER=__ADMIN_USER__
+  if [ -s "$RECIPIENT_FILE" ]; then
+    install -d -m 700 -o "$EXPORT_OWNER" -g "$EXPORT_OWNER" "$EXPORT"
+    age -R "$RECIPIENT_FILE" -o "$EXPORT/$NAME.tar.gz.age.part" "$DEST/$NAME.tar.gz"
+    chown "$EXPORT_OWNER:$EXPORT_OWNER" "$EXPORT/$NAME.tar.gz.age.part"
+    mv "$EXPORT/$NAME.tar.gz.age.part" "$EXPORT/$NAME.tar.gz.age"
+    ls -1 "$EXPORT"/phalnx-*.tar.gz.age | sort | head -n -"$KEEP" | xargs -r rm -f --
+    echo "Verschlüsselte Kopie: $EXPORT/$NAME.tar.gz.age"
+  fi
+
+  echo "Backup fertig: $NAME.tar.gz"
+  EOF
+  ```
+
+  Prüfe es danach noch einmal mit dem `grep`-Befehl von oben. Jetzt muss `1` oder mehr erscheinen.
+
+Dann lösen wir das Backup einmal von Hand aus:
 
 ```bash
 sudo systemctl start phalnx-backup.service
@@ -446,7 +477,7 @@ sicherst du nur Alby Hub, LNbits und Caddy. Der Seed bleibt im Passwortmanager u
 
 | Problem | Ursache und Lösung |
 |---|---|
-| `/var/backups/phalnx-export` fehlt, obwohl das Backup lief | Das Skript hat die verschlüsselte Kopie übersprungen. Prüfe 1. die Skriptversion: `sudo grep -c phalnx-export /usr/local/sbin/phalnx-backup` (muss mindestens `1` zeigen, sonst den Block ergänzen), 2. den Schlüssel: `sudo cat /etc/phalnx-backup.recipient` (eine Zeile `age1…`, nicht leer), 3. `age`: `age --version` auf dem Server |
+| `/var/backups/phalnx-export` fehlt, obwohl das Backup lief | Das Skript hat die verschlüsselte Kopie übersprungen. Prüfe 1. die Skriptversion: `sudo grep -c phalnx-export /usr/local/sbin/phalnx-backup` (muss mindestens `1` zeigen, sonst die zwei Befehle aus Schritt 3 ausführen), 2. den Schlüssel: `sudo cat /etc/phalnx-backup.recipient` (eine Zeile `age1…`, nicht leer), 3. `age`: `age --version` auf dem Server |
 | `sudo ls` zeigt den Ordner nicht oder er ist leer | Das Skript ist fehlgeschlagen, es gibt dann kein Archiv. Das Log nennt den Grund: `sudo journalctl -u phalnx-backup -n 30 --no-pager` |
 | Du willst die Fehlermeldung direkt sehen | Starte das Skript ohne systemd: `sudo /usr/local/sbin/phalnx-backup`. Mehr Einzelheiten zeigt `sudo bash -x /usr/local/sbin/phalnx-backup`. |
 | `sqlite3: command not found` | Das Programm fehlt: `sudo apt install -y sqlite3` |
