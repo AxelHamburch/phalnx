@@ -25,7 +25,7 @@ Ein Dienst im Detail:
 
 ```bash
 sudo journalctl -u phoenixd -n 50 --no-pager
-sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request"
+sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request" | tail -n 30
 sudo journalctl -u lnbits -n 50 --no-pager
 sudo journalctl -u relay -n 50 --no-pager
 ```

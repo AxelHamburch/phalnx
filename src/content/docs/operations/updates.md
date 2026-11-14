@@ -17,38 +17,43 @@ Kapitel zeigt für jeden Baustein, wie du die installierte Version prüfst, die 
 
 ## Übersicht
 
-| Baustein | Version prüfen | Neueste Version | Updatet sich selbst |
+| Baustein | Installierte Version | Neueste Version | Updatet sich selbst |
 |---|---|---|---|
 | Ubuntu und Pakete | `apt list --upgradable` | `sudo apt update` | ja (Sicherheitsupdates) |
-| Caddy | `caddy version` | `apt` | nein, über `apt` |
-| Fail2ban | `fail2ban-client --version` | `apt` | nein, über `apt` |
+| Caddy | `caddy version` | `apt policy caddy` | nein, über `apt` |
+| Fail2ban | `fail2ban-client --version` | `apt policy fail2ban` | nein, über `apt` |
 | phoenixd | siehe unten | [Release-Seite](https://github.com/ACINQ/phoenixd/releases) | nein |
 | Alby Hub | siehe unten | [Release-Seite](https://github.com/getAlby/hub/releases) | nein |
-| Relay (strfry) | siehe unten | [Release-Seite](https://github.com/hoytech/strfry/releases) | nein |
+| Relay (strfry) | siehe unten | [Tags-Seite](https://github.com/hoytech/strfry/tags) | nein |
 | LNbits | siehe unten | [Release-Seite](https://github.com/lnbits/lnbits/releases) | nein |
 
-Die neueste Version liest du auch auf dem Server ab. Das gilt für jeden Baustein, nur der Name ändert sich:
+## Neueste Version nachsehen
 
-```bash
-curl -s https://api.github.com/repos/ACINQ/phoenixd/releases/latest | grep '"tag_name"'
-```
+Prüfe **vor jedem Update**, ob es überhaupt eine neuere Version gibt. Dann sparst du dir den Aufwand. Du siehst
+es im Browser auf der Seite aus der Tabelle oder auf dem Server. Vergleiche die Zahl mit der installierten
+Version (der Befehl dafür steht beim jeweiligen Baustein unten).
 
-Ersetze `ACINQ/phoenixd` durch `getAlby/hub`, `hoytech/strfry` oder `lnbits/lnbits`.
+| Baustein | Befehl auf dem Server |
+|---|---|
+| phoenixd | `curl -s https://api.github.com/repos/ACINQ/phoenixd/releases/latest \| grep '"tag_name"'` |
+| Alby Hub | `curl -s https://api.github.com/repos/getAlby/hub/releases/latest \| grep '"tag_name"'` |
+| LNbits | `curl -s https://api.github.com/repos/lnbits/lnbits/releases/latest \| grep '"tag_name"'` |
+| Relay (strfry) | `git ls-remote --tags --sort=-v:refname https://github.com/hoytech/strfry.git \| head -5` |
+| Caddy | `apt policy caddy` (Zeile „Candidate") |
+
+Bei phoenixd, Alby Hub und LNbits steht die neueste Version in der Zeile `"tag_name"`, zum Beispiel
+`"tag_name": "v0.9.3"`. **strfry veröffentlicht keine Releases, nur Tags.** Darum gibt der Befehl mit
+`releases/latest` dort nichts aus, und du fragst die Tags ab. Die oberste Zeile ist die neueste Version
+(`refs/tags/1.1.3` heißt Version 1.1.3). Tags mit `beta` im Namen sind Vorabversionen.
 
 ## Ubuntu und die Pakete
 
-Wöchentlich und von Hand:
+Die Sicherheitsupdates und der Neustart laufen **automatisch**, siehe
+[Automatische Updates](/server/auto-updates/). Von Hand brauchst du das nur, um **schnell** zu reagieren, zum
+Beispiel bei einem dringenden Sicherheitsupdate. Ein Befehl macht alles:
 
 ```bash
-sudo apt update
-```
-
-```bash
-apt list --upgradable
-```
-
-```bash
-sudo apt upgrade
+sudo apt update && apt list --upgradable && sudo apt upgrade
 ```
 
 Ist danach ein Neustart nötig (`*** System restart required ***` bei der Anmeldung), startest du den Server zu
@@ -60,14 +65,32 @@ sudo reboot
 
 Nach dem Neustart gilt wie immer: Alle Dienste müssen von allein laufen, siehe [Neustart-Test](/operations/reboot-test/).
 
+**Arbeitet die Automatik?** Zeige an, wann zuletzt Pakete aktualisiert wurden und wann der Server zuletzt
+neu gestartet ist:
+
+```bash
+grep -E "^Start-Date" /var/log/apt/history.log | tail -n 3; last -x reboot | head -n 3
+```
+
+Die erste Ausgabe zeigt die letzten Update-Läufe, die zweite die letzten Neustarts. Beides sollte zu den Zeiten
+aus [Automatische Updates](/server/auto-updates/) passen. Liegt der letzte Update-Lauf Wochen zurück, arbeitet
+die Automatik nicht richtig.
+
 ## Caddy
 
 ```bash
 caddy version
 ```
 
+Prüfe, ob es eine neuere Version gibt. Die Zeile „Candidate" zeigt die verfügbare Version:
+
 ```bash
-sudo apt update
+sudo apt update && apt policy caddy
+```
+
+Ist „Installed" gleich „Candidate", bist du aktuell. Sonst:
+
+```bash
 sudo apt install --only-upgrade caddy
 ```
 
@@ -84,7 +107,8 @@ phoenixd hält den Seed und den Kanal. Aktualisiere es mit besonderer Sorgfalt.
 sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
 ```
 
-Die Ausgabe enthält die Version (`version`, die Zahl vor dem Strich ist die Release-Version) und wichtige Daten
+Die neueste Version steht auf der [Release-Seite](https://github.com/ACINQ/phoenixd/releases) (siehe
+[Neueste Version nachsehen](#neueste-version-nachsehen)). Die Ausgabe enthält die Version (`version`, die Zahl vor dem Strich ist die Release-Version) und wichtige Daten
 zu deinem Kanal:
 
 ```json
@@ -170,6 +194,9 @@ Dann sendest du eine kleine Zahlung. Läuft alles, löschst du `phoenixd-alt` na
 curl -s http://127.0.0.1:8029/api/info | grep -o '"version":"[^"]*"'
 ```
 
+Die neueste Version steht auf der [Release-Seite](https://github.com/getAlby/hub/releases) (siehe
+[Neueste Version nachsehen](#neueste-version-nachsehen)). Aktualisiere nur, wenn sie höher ist.
+
 **Aktualisieren.** Erst Alby Hub stoppen und die Daten sichern:
 
 ```bash
@@ -207,10 +234,16 @@ sudo systemctl start albyhub
 **Prüfen:**
 
 ```bash
-sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request"
+sudo systemctl status albyhub --no-pager
 ```
 
-Öffne danach Alby Hub über den Tunnel. Ohne Passwortabfrage (Auto-Unlock) und mit sichtbarem Saldo ist es in
+Dort muss `active (running)` stehen. Fehler im Log zeigst du so an:
+
+```bash
+sudo journalctl -u albyhub --since "10 min ago" --no-pager | grep -iE "error|fatal|panic"
+```
+
+Es sollte **nichts** ausgegeben werden. Öffne danach Alby Hub über den Tunnel. Ohne Passwortabfrage (Auto-Unlock) und mit sichtbarem Saldo ist es in
 Ordnung. Sende eine kleine Zahlung aus LNbits. Neue Versionen von Alby Hub können die Datenbank umstellen.
 Deshalb ist die Sicherung vorher wichtig.
 
@@ -224,6 +257,14 @@ Deshalb ist die Sicherung vorher wichtig.
 ```bash
 sudo -u urelay git -C /home/urelay/strfry describe --tags
 ```
+
+Prüfe vorher, ob es eine neuere Version gibt (siehe [Neueste Version nachsehen](#neueste-version-nachsehen)).
+Das Update lohnt sich nur, wenn die Tags eine höhere Nummer zeigen.
+
+:::note[Das dauert]
+Das Übersetzen von strfry (`make`) braucht **einige Minuten**, auf einem kleinen Server auch länger. Warte, bis
+die Eingabeaufforderung zurückkommt, und brich nicht ab.
+:::
 
 **Aktualisieren.** Der Relay speichert nichts Wichtiges. Verbindungen laufen kurz weg:
 
@@ -265,7 +306,9 @@ notfalls neu, damit sie sich wieder verbinden.
 sudo -u ulnbits git -C /home/ulnbits/lnbits describe --tags
 ```
 
-Die Version zeigt auch die Admin-Oberfläche von LNbits.
+Die Version zeigt auch die Admin-Oberfläche von LNbits. Die neueste Version steht auf der
+[Release-Seite](https://github.com/lnbits/lnbits/releases) (siehe
+[Neueste Version nachsehen](#neueste-version-nachsehen)).
 
 **Aktualisieren.** Erst die Daten sichern:
 
@@ -314,7 +357,7 @@ falls sich die Datenbank verändert hat.
 
 | Was | Wie oft |
 |---|---|
-| Ubuntu-Pakete | wöchentlich (die Sicherheitsupdates laufen ohnehin automatisch) |
+| Ubuntu-Pakete | automatisch. Von Hand nur, wenn es eilt, und gelegentlich die Kontrolle, ob die Automatik läuft |
 | Caddy und Fail2ban | mit den Ubuntu-Paketen |
 | phoenixd, Alby Hub, LNbits, Relay | bei jeder neuen Version mit Sicherheitsrelevanz, sonst alle paar Wochen. Folge den Release-Seiten. |
 

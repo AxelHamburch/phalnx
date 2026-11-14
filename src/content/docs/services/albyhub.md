@@ -181,14 +181,20 @@ Saldo muss sofort erscheinen.
 sudo systemctl restart albyhub
 ```
 
-Danach das Log ansehen, ohne die vielen Zeilen `handled API request`, damit nur der Start übrig bleibt:
+Danach prüfst du den Dienst. Es muss `active (running)` stehen:
 
 ```bash
-sudo journalctl -u albyhub -n 200 --no-pager | grep -v "handled API request"
+sudo systemctl status albyhub --no-pager
 ```
 
-Im Log muss nach der Zeile `Started albyhub.service` der neue Start folgen. Lade dann `http://localhost:8029`
-neu. Kommt die Passwortabfrage trotzdem, ist Auto-Unlock nicht aktiv.
+Das Log von Alby Hub ist sehr lang. Lass dir darum nur Fehler der letzten Minuten zeigen:
+
+```bash
+sudo journalctl -u albyhub --since "10 min ago" --no-pager | grep -iE "error|fatal|panic"
+```
+
+Es sollte **nichts** erscheinen. Dann ist der Start sauber gelaufen. Lade jetzt `http://localhost:8029` neu.
+Kommt die Passwortabfrage trotzdem, ist Auto-Unlock nicht aktiv.
 
 ## Alby Hub mit Guthaben füllen (Kanal öffnen)
 
