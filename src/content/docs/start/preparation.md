@@ -37,7 +37,7 @@ Admin-Benutzer:          __ADMIN_USER__
 Passwort Admin-Benutzer: ...
 SSH-Passphrase:          ...
 
-Login:                   ssh -p __SSH_PORT__ -i $HOME.ssh__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
+Login:                   ssh -p __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
 Login kurz:              ssh __HOSTNAME__
 phoenixd Seed:           ...
 Alby-Hub-Passwort:       ...
@@ -54,7 +54,7 @@ Caddy-Passwort:          ...
 
 Die Felder mit `...` füllst du aus, sobald du den jeweiligen Schritt erledigt hast. Die Befehle in der Liste
 zum Kopieren sind `ssh`-Befehle. Die Zeile **Login kurz** funktioniert, wenn du den Eintrag in der
-`.sshconfig` angelegt hast (siehe [SSH-Tunnel](/services/tunnel/#optional-tunnel-in-sshconfig-eintragen)).
+`.ssh\config` angelegt hast (siehe [SSH-Tunnel](/services/tunnel/#optional-tunnel-in-sshconfig-eintragen)).
 
 Lege auch die **Zugangsdaten deines VPS-Anbieters** im Passwortmanager ab.
 

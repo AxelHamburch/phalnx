@@ -17,8 +17,8 @@ Die Backups liegen in einem **Umlaufspeicher**: Es werden die letzten 14 behalte
 
 :::caution[Das schützt nicht vor einem Serverausfall]
 Die Backups liegen **auf dem Server selbst**. Sie helfen bei einem Bedienfehler, einem fehlerhaften Update oder
-einer beschädigten Datenbank. Geht der Server verloren, sind sie mit weg. Dafür kommt später der **Export auf ein
-anderes System**. Bis dahin gilt: Die Dateien enthalten den **Seed** und alle Passwörter im **Klartext**. Kopiere sie
+einer beschädigten Datenbank. Geht der Server verloren, sind sie mit weg. Dafür gibt es die **verschlüsselte Kopie zum Herunterladen**
+(siehe unten). Die Dateien auf dem Server enthalten den **Seed** und alle Passwörter im **Klartext**. Kopiere sie
 **nie unverschlüsselt** vom Server.
 :::
 
@@ -105,6 +105,19 @@ mv "$DEST/$NAME.tar.gz.part" "$DEST/$NAME.tar.gz"
 
 # Umlaufspeicher: nur die neuesten $KEEP Archive behalten
 ls -1 "$DEST"/phalnx-*.tar.gz | sort | head -n -"$KEEP" | xargs -r rm -f --
+
+# Optional: verschlüsselte Kopie zum Herunterladen (nur wenn ein Empfängerschlüssel eingetragen ist)
+RECIPIENT_FILE=/etc/phalnx-backup.recipient
+EXPORT=/var/backups/phalnx-export
+EXPORT_OWNER=__ADMIN_USER__
+if [ -s "$RECIPIENT_FILE" ]; then
+  install -d -m 700 -o "$EXPORT_OWNER" -g "$EXPORT_OWNER" "$EXPORT"
+  age -R "$RECIPIENT_FILE" -o "$EXPORT/$NAME.tar.gz.age.part" "$DEST/$NAME.tar.gz"
+  chown "$EXPORT_OWNER:$EXPORT_OWNER" "$EXPORT/$NAME.tar.gz.age.part"
+  mv "$EXPORT/$NAME.tar.gz.age.part" "$EXPORT/$NAME.tar.gz.age"
+  ls -1 "$EXPORT"/phalnx-*.tar.gz.age | sort | head -n -"$KEEP" | xargs -r rm -f --
+  echo "Verschlüsselte Kopie: $EXPORT/$NAME.tar.gz.age"
+fi
 
 echo "Backup fertig: $NAME.tar.gz"
 ```
@@ -205,6 +218,130 @@ sudo journalctl -u phalnx-backup --since "2 days ago" --no-pager
 
 Im Log muss `Backup fertig` stehen. Steht dort ein Fehler, läuft das Backup nicht. Schau am Tag nach der
 Einrichtung nach und danach gelegentlich, so wie bei der [Kontrolle der Updates](/operations/updates/#ubuntu-und-die-pakete).
+
+## Verschlüsselt auf den eigenen PC laden
+
+Damit du ein Backup **sicher außerhalb des Servers** hast, verschlüsselst du es und lädst es auf deinen PC. Dafür
+dient das Programm **age**. Das Prinzip: Auf dem Server liegt nur der **öffentliche** Schlüssel. Er kann
+verschlüsseln, aber nicht entschlüsseln. Den **geheimen** Schlüssel hast nur du, auf deinem PC. Selbst wer den
+Server übernimmt, kann die schon heruntergeladenen Backups nicht lesen.
+
+Das Skript legt die verschlüsselte Kopie jede Nacht zusätzlich an, sobald ein öffentlicher Schlüssel auf dem
+Server eingetragen ist. Ohne Schlüssel bleibt alles wie bisher.
+
+### 1. age installieren
+
+Auf dem Server:
+
+```bash
+sudo apt install -y age
+```
+
+Auf deinem PC (eine der Zeilen, je nach System):
+
+```text
+Windows (PowerShell):  winget install FiloSottile.age
+macOS:                 brew install age
+Linux (Debian/Ubuntu): sudo apt install age
+```
+
+Prüfe es mit `age --version`. Unter Windows musst du das Terminal danach neu öffnen. Ist `winget` nicht
+vorhanden, findest du Downloads auf der [Seite von age](https://github.com/FiloSottile/age/releases).
+
+### 2. Schlüsselpaar auf dem PC erzeugen
+
+Auf deinem PC, in einem Ordner deiner Wahl:
+
+```bash
+age-keygen -o phalnx-backup-key.txt
+```
+
+Es erscheint eine Zeile `Public key: age1…`. Das ist der **öffentliche** Schlüssel. Die Datei
+`phalnx-backup-key.txt` enthält den **geheimen** Schlüssel (`AGE-SECRET-KEY-…`).
+
+:::danger[Ohne den geheimen Schlüssel sind die Backups wertlos]
+Speichere den **Inhalt** von `phalnx-backup-key.txt` im Passwortmanager und lege eine Kopie an einen zweiten Ort
+(Papier oder ein verschlüsselter USB-Stick). Verlierst du ihn, kann **niemand** die Backups entschlüsseln. Lege die
+Datei **nie** auf den Server und gib sie nie weiter.
+:::
+
+### 3. Öffentlichen Schlüssel auf den Server legen
+
+Auf dem Server. Ersetze `<age1…>` samt der Klammern durch deine Zeile `Public key`:
+
+```bash
+echo "<age1…>" | sudo tee /etc/phalnx-backup.recipient
+sudo chmod 644 /etc/phalnx-backup.recipient
+```
+
+Der öffentliche Schlüssel ist kein Geheimnis. Danach lösen wir das Backup einmal von Hand aus:
+
+```bash
+sudo systemctl start phalnx-backup.service
+sudo ls -lh /var/backups/phalnx-export
+```
+
+Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz.age` erscheinen, die dir (`__ADMIN_USER__`) gehört. Sie liegt in
+`/var/backups/phalnx-export`, getrennt vom unverschlüsselten Backup. Auch hier bleiben die letzten 14.
+
+### 4. Auf den PC herunterladen
+
+Auf deinem PC. Ein Befehl holt **alle** verschlüsselten Backups in den aktuellen Ordner (der `*` wird auf dem Server
+aufgelöst, darum die Anführungszeichen):
+
+```powershell
+scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ "__ADMIN_USER__@__SERVER_IP__:/var/backups/phalnx-export/*.age" .
+```
+
+Hast du den Eintrag in der `.ssh\config` (siehe [SSH-Tunnel](/services/tunnel/#optional-tunnel-in-sshconfig-eintragen)),
+geht es kürzer:
+
+```powershell
+scp "__HOSTNAME__:/var/backups/phalnx-export/*.age" .
+```
+
+Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.
+
+Ein frisches Backup **jetzt** anlegen und danach laden (das Passwort für `sudo` fragt `ssh -t`):
+
+```powershell
+ssh -t __HOSTNAME__ "sudo systemctl start phalnx-backup.service"
+```
+
+### 5. Entschlüsseln
+
+Auf deinem PC, im Ordner mit der Datei und der Schlüsseldatei. Setze den Namen deiner Datei ein:
+
+```bash
+age -d -i phalnx-backup-key.txt -o phalnx-2026-11-14_02-00.tar.gz phalnx-2026-11-14_02-00.tar.gz.age
+```
+
+Es entsteht das entschlüsselte Archiv. Es enthält wieder den Seed und alle Passwörter im Klartext. Lösche es, sobald
+du es nicht mehr brauchst.
+
+## Von deinem PC wieder hochladen
+
+Das brauchst du, wenn du ein Backup auf den Server **zurückspielen** willst, zum Beispiel auf einem neuen Server.
+Entschlüsselt wird auf dem **PC** (Schritt 5 oben). Der geheime Schlüssel bleibt so von jedem Server fern. Das
+entschlüsselte Archiv wandert dann über SSH, das verschlüsselt überträgt.
+
+Auf deinem PC:
+
+```powershell
+scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ phalnx-2026-11-14_02-00.tar.gz __ADMIN_USER__@__SERVER_IP__:
+```
+
+Oder kürzer: `scp phalnx-2026-11-14_02-00.tar.gz __HOSTNAME__:`. Die Datei landet im Home-Verzeichnis von `__ADMIN_USER__`.
+Auf dem Server entpackst du sie und löschst sie danach sofort:
+
+```bash
+sudo mkdir -p /root/restore
+sudo tar -xzf ~/phalnx-2026-11-14_02-00.tar.gz -C /root/restore
+rm ~/phalnx-2026-11-14_02-00.tar.gz
+```
+
+Weiter geht es im Abschnitt [Zurückspielen](#zurückspielen), dort ab `sudo systemctl stop lnbits`. Das Entpacken
+dort ist schon erledigt. Lösche danach `/root/restore`. Entferne auch das entschlüsselte Archiv auf deinem PC.
 
 ## Ein Backup testen
 
