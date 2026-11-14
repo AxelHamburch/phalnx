@@ -8,7 +8,7 @@ export interface AppInfo {
 	icon: string;
 	/** Ein Satz für die Kachel */
 	short: string;
-	/** Absätze für Popup und Übersichtsseite (einfaches Markdown: nur **fett**) */
+	/** Absätze für Popup und Übersichtsseite (einfaches Markdown: **fett** und [Text](https://…)) */
 	paragraphs: string[];
 	/** Kapitel mit der Anleitung */
 	link: string;
@@ -23,6 +23,7 @@ export const APPS: AppInfo[] = [
 		paragraphs: [
 			'phoenixd und der Anbieter ACINQ sind erprobt und robust. Du musst dir nur den **Seed** merken und sicher aufbewahren, dann kommst du immer wieder an dein Geld.',
 			'Du musst nur dafür sorgen, dass phoenixd aktuell bleibt. Alles andere rund um die Sicherung der Lightning-Daten, etwa das Static Channel Backup (SCB), übernimmt ACINQ. Dafür verlangt ACINQ Gebühren, die transparent angegeben sind.',
+			'**Gebühren von phoenixd (ACINQ):** Senden per Lightning kostet 0,4 % + 4 sat, Empfangen ist kostenlos. Wenn neue Liquidität nötig ist, fallen 1 % + Mining-Gebühren an. Details: [Auto Liquidity](https://phoenix.acinq.co/server/auto-liquidity) · [Gebührentabelle (FAQ)](https://phoenix.acinq.co/faq). Stand: 14.11.2026. Die Zahlen können sich ändern, maßgeblich sind die verlinkten Seiten.',
 		],
 		link: '/services/phoenixd/',
 	},
@@ -77,5 +78,7 @@ export const APPS: AppInfo[] = [
 
 /** Ersetzt **fett** durch <strong> (die Texte stammen aus dieser Datei, nicht von Nutzern). */
 export function inline(text: string): string {
-	return text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+	return text
+		.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+		.replace(/\[([^\]]+)\]\((https:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
 }
