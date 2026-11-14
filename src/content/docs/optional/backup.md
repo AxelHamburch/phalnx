@@ -365,11 +365,18 @@ scp "__HOSTNAME__:/var/backups/phalnx-export/*.age" .
 
 Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.
 
-Ein frisches Backup **jetzt** anlegen und danach laden (das Passwort für `sudo` fragt `ssh -t`):
+Willst du nicht bis zur nächsten Nacht warten, löse das Backup **jetzt** von deinem PC aus. Der Befehl meldet sich
+beim Server an, führt dort `sudo systemctl start phalnx-backup.service` aus (dasselbe wie das Auslösen von Hand
+auf dem Server) und trennt die Verbindung wieder. Die Option `-t` gibt dem Befehl ein Terminal, damit `sudo` nach
+deinem Passwort fragen kann.
 
 ```powershell
 ssh -t __HOSTNAME__ "sudo systemctl start phalnx-backup.service"
 ```
+
+Der Befehl wartet, bis das Backup fertig ist, und gibt bei Erfolg **nichts** aus. Eine Meldung wie `Job for
+phalnx-backup.service failed` heißt, dass es fehlgeschlagen ist (siehe „Wenn es nicht klappt“). Danach liegt ein neues
+Archiv mit der aktuellen Uhrzeit im Namen im Export-Ordner, und du lädst es mit dem `scp`-Befehl von oben herunter.
 
 ### 5. Entschlüsseln
 
