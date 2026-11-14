@@ -31,6 +31,7 @@ export default defineConfig({
 					label: 'Einstieg',
 					items: [
 						{ label: 'Sicherheit und Vorteile', slug: 'start/security' },
+						{ label: 'Wozu welche Anwendung?', slug: 'start/applications' },
 						{ label: 'Überblick und Architektur', slug: 'start/overview' },
 						{ label: 'Vorbereitung und Bedienung', slug: 'start/preparation' },
 					],

@@ -1,0 +1,52 @@
+---
+/**
+ * Kacheln der Anwendungen für die Startseite. Ein Klick öffnet ein Popup mit der Begründung.
+ */
+import { Icon } from '@astrojs/starlight/components';
+import { APPS, inline } from '../config/apps';
+---
+
+<div class="phalnx-apps">
+	{
+		APPS.map((app) => (
+			<button type="button" class="phalnx-app" data-dialog={`app-${app.id}`}>
+				<span class="phalnx-app-title">
+					<Icon name={app.icon as any} size="1.4rem" />
+					{app.name}
+				</span>
+				<span class="phalnx-app-text">{app.short}</span>
+				<span class="phalnx-app-more">Warum diese Anwendung? →</span>
+			</button>
+		))
+	}
+</div>
+
+{
+	APPS.map((app) => (
+		<dialog id={`app-${app.id}`} class="phalnx-app-dialog" aria-label={app.name}>
+			<form method="dialog" class="phalnx-app-close">
+				<button aria-label="Schließen">✕</button>
+			</form>
+			<h2>{app.name}</h2>
+			{app.paragraphs.map((p) => (
+				<p set:html={inline(p)} />
+			))}
+			<p>
+				<a href={app.link}>Zum Kapitel {app.name} →</a>
+			</p>
+		</dialog>
+	))
+}
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>('.phalnx-app').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			(document.getElementById(btn.dataset.dialog!) as HTMLDialogElement | null)?.showModal();
+		});
+	});
+	document.querySelectorAll<HTMLDialogElement>('.phalnx-app-dialog').forEach((d) => {
+		d.addEventListener('click', (e) => {
+			if (e.target === d) d.close();
+		});
+	});
+</script>

@@ -178,3 +178,69 @@ pre.mermaid svg {
 pre.mermaid.phalnx-zoomable svg {
 	min-width: 520px;
 }
+
+/* Kacheln der Anwendungen (Startseite) */
+.phalnx-apps {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+	margin-top: 1rem;
+}
+.phalnx-app {
+	background: var(--sl-color-black);
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.5rem;
+	color: var(--sl-color-text);
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	font: inherit;
+	gap: 0.6rem;
+	padding: 1rem 1.2rem;
+	text-align: left;
+}
+.phalnx-app:hover,
+.phalnx-app:focus-visible {
+	border-color: var(--sl-color-accent);
+}
+.phalnx-app-title {
+	align-items: center;
+	color: var(--sl-color-white);
+	display: flex;
+	font-size: var(--sl-text-h4);
+	font-weight: 600;
+	gap: 0.6rem;
+}
+.phalnx-app-more {
+	color: var(--sl-color-accent-high);
+	font-size: var(--sl-text-sm);
+	margin-top: auto;
+}
+.phalnx-app-dialog {
+	background: var(--sl-color-bg);
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 0.6rem;
+	color: var(--sl-color-text);
+	max-height: 85vh;
+	max-width: min(40rem, 92vw);
+	padding: 1.5rem 1.8rem;
+}
+.phalnx-app-dialog::backdrop {
+	background: rgb(0 0 0 / 0.6);
+}
+.phalnx-app-dialog h2 {
+	margin-top: 0;
+}
+.phalnx-app-close {
+	float: right;
+}
+.phalnx-app-close button {
+	background: transparent;
+	border: 0;
+	color: var(--sl-color-gray-3);
+	cursor: pointer;
+	font-size: 1.2rem;
+}
+.phalnx-apps > .phalnx-app {
+	margin-top: 0;
+}

@@ -14,26 +14,17 @@ hero:
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import AppCards from '../../components/AppCards.astro';
 
 ## Was du hier bekommst
 
-Diese Anleitung führt dich von einem leeren Ubuntu-Server zu einem laufenden System aus vier Bausteinen,
+Diese Anleitung führt dich von einem leeren Ubuntu-Server zu einem laufenden System aus fünf Anwendungen,
 die jeweils für sich ausgetauscht werden können:
 
-<CardGrid>
-	<Card title="phoenixd" icon="rocket">
-		Der Lightning-Knoten. Hält Seed und Kanal und bleibt als einziger Dienst im Besitz des Seeds.
-	</Card>
-	<Card title="Alby Hub" icon="setting">
-		Verwaltet das Wallet, vergibt NWC-Verbindungen mit Budget und ist nur über einen SSH-Tunnel erreichbar.
-	</Card>
-	<Card title="LNbits" icon="open-book">
-		Die Weboberfläche mit Wallets und Erweiterungen. Zahlt nur über NWC mit Limit.
-	</Card>
-	<Card title="Caddy" icon="seti:lock">
-		Reverse Proxy mit automatischem HTTPS und zusätzlichem Passwortschutz für den Admin-Bereich.
-	</Card>
-</CardGrid>
+<AppCards />
+
+Ein Klick auf eine Kachel erklärt, warum die Anwendung dabei ist und was sie bringt. Alles zusammen steht auf der
+Seite [Wozu welche Anwendung?](/start/applications/).
 
 ## So ist die Anleitung aufgebaut
 

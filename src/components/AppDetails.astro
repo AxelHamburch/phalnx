@@ -1,0 +1,20 @@
+---
+/**
+ * Ausführliche Beschreibung aller Anwendungen für die Übersichtsseite.
+ */
+import { APPS, inline } from '../config/apps';
+---
+
+{
+	APPS.map((app) => (
+		<>
+			<h2 id={app.id}>{app.name}</h2>
+			{app.paragraphs.map((p) => (
+				<p set:html={inline(p)} />
+			))}
+			<p>
+				<a href={app.link}>Zum Kapitel {app.name} →</a>
+			</p>
+		</>
+	))
+}
