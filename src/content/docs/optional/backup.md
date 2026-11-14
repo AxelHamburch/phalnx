@@ -245,8 +245,21 @@ macOS:                 brew install age
 Linux (Debian/Ubuntu): sudo apt install age
 ```
 
-Prüfe es mit `age --version`. Unter Windows musst du das Terminal danach neu öffnen. Ist `winget` nicht
-vorhanden, findest du Downloads auf der [Seite von age](https://github.com/FiloSottile/age/releases).
+:::caution[Unter Windows: Terminal neu öffnen]
+Nach der Installation meldet `winget` „Path environment variable modified; restart your shell". Das heißt: Das
+**bereits offene** Terminal kennt `age` noch nicht, und `age --version` meldet „Die Benennung age wurde nicht als Name
+eines Cmdlet … erkannt". Schließe das PowerShell-Fenster und öffne ein **neues**. Arbeitest du in einem Terminal in
+VS Code, schließe **VS Code ganz** und starte es neu. Erst dann gilt der neue Pfad.
+:::
+
+Prüfe es danach mit:
+
+```bash
+age --version
+```
+
+Es erscheint eine Versionsnummer (zum Beispiel `v1.3.2`). Ist `winget` nicht vorhanden, findest du Downloads auf der
+[Seite von age](https://github.com/FiloSottile/age/releases).
 
 ### 2. Schlüsselpaar auf dem PC erzeugen
 
