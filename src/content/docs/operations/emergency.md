@@ -110,7 +110,13 @@ Dafür brauchst du drei Angaben:
 | `<Bitcoin-Adresse>` | Eine **On-Chain-Adresse** (beginnt mit `bc1`, `1` oder `3`) aus einer Wallet, die **du** kontrollierst und die **nicht** auf dem Server liegt, zum Beispiel eine Hardware-Wallet. Kopiere sie dort aus dem Empfangen-Bereich. |
 | `<Gebühr>` | Die Gebühr in **sat pro Byte** (sat/vB) für die Transaktion. Eine aktuelle Empfehlung zeigt [mempool.space](https://mempool.space) bei „Transaction Fees". Eine höhere Zahl bestätigt schneller, eine niedrigere kostet weniger. |
 
-Den Befehl führst du als `__ADMIN_USER__` aus:
+Die **Kanal-ID** liest du als `__ADMIN_USER__` so ab. Sie steht im Eintrag `channels` unter `channelId`:
+
+```bash
+sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli getinfo
+```
+
+Den Befehl zum Schließen führst du als `__ADMIN_USER__` aus:
 
 ```bash
 sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli closechannel --channelId=<Kanal-ID> --address=<Bitcoin-Adresse> --feerateSatByte=<Gebühr>

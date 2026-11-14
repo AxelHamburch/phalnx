@@ -5,6 +5,8 @@
 Phalnx is a step-by-step guide that walks you from a fresh Ubuntu 24.04 server to a running, locked-down Lightning
 stack, and shows you how to check every step, update it and react when something goes wrong.
 
+*Prepared by humans, developed by AI, tested by humans.*
+
 **Read it here: https://phalnx.21mio.space** (currently in German, English will follow)
 
 ## What is Phalnx?
