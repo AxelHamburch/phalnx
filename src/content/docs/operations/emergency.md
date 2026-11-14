@@ -94,10 +94,35 @@ Typische Ursachen:
 Repariere nichts am betroffenen System. Reagiere in dieser Reihenfolge:
 :::
 
-1. **Guthaben abziehen:** Schließe den Kanal (phoenixd `closechannel`) und bringe das Geld in Sicherheit.
+1. **Guthaben abziehen:** Schließe den Kanal und schicke das Geld an eine Bitcoin-Adresse, die du kontrollierst
+   (siehe unten).
 2. **Schlüssel rotieren:** Neue SSH-Schlüssel, neue Passwörter, neue NWC-Verbindungen.
 3. **Server neu aufsetzen** und diese Anleitung von vorn durchgehen. Hole die Daten nur aus Sicherungen, die
    du vor dem Verdacht angelegt hast.
+
+### Kanal schließen und Guthaben in Sicherheit bringen
+
+Dafür brauchst du drei Angaben:
+
+| Angabe | Woher |
+|---|---|
+| `<Kanal-ID>` | Der Wert `channelId` aus `phoenix-cli getinfo` (siehe [Updates durchführen](/operations/updates/#phoenixd)). Du brauchst nur die lange Zeichenfolge. |
+| `<Bitcoin-Adresse>` | Eine **On-Chain-Adresse** (beginnt mit `bc1`, `1` oder `3`) aus einer Wallet, die **du** kontrollierst und die **nicht** auf dem Server liegt, zum Beispiel eine Hardware-Wallet. Kopiere sie dort aus dem Empfangen-Bereich. |
+| `<Gebühr>` | Die Gebühr in **sat pro Byte** (sat/vB) für die Transaktion. Eine aktuelle Empfehlung zeigt [mempool.space](https://mempool.space) bei „Transaction Fees". Eine höhere Zahl bestätigt schneller, eine niedrigere kostet weniger. |
+
+Den Befehl führst du als `__ADMIN_USER__` aus:
+
+```bash
+sudo -u uphoenixd -H /home/uphoenixd/phoenixd/phoenix-cli closechannel --channelId=<Kanal-ID> --address=<Bitcoin-Adresse> --feerateSatByte=<Gebühr>
+```
+
+Ersetze die Platzhalter **samt der spitzen Klammern**. Ein Beispiel mit Dummy-Werten, so sieht die Form aus:
+`--channelId=f80b…(64 Zeichen) --address=bc1q… --feerateSatByte=10`. phoenixd schließt den Kanal, und das
+Guthaben landet nach der Bestätigung auf der Adresse. Prüfe die Adresse sehr genau, eine Überweisung auf Bitcoin
+lässt sich nicht zurückholen.
+
+Kommst du per SSH nicht mehr auf den Server, geht es auch über die **Web-Konsole** des Anbieters. Hast du den
+**Seed** gesichert, kannst du das Guthaben notfalls auch auf einem neuen Gerät mit phoenixd wiederherstellen.
 
 ## Weitere Hilfe
 
