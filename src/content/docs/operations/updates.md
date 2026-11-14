@@ -20,7 +20,7 @@ Kapitel zeigt für jeden Baustein, wie du die installierte Version prüfst, die 
 | Baustein | Installierte Version | Neueste Version | Updatet sich selbst |
 |---|---|---|---|
 | Ubuntu und Pakete | `apt list --upgradable` | `sudo apt update` | ja (Sicherheitsupdates) |
-| Caddy | `caddy version` | `apt policy caddy` | nein, über `apt` |
+| Caddy | `caddy version` | `apt policy caddy`, [Release-Seite](https://github.com/caddyserver/caddy/releases) | nein, über `apt` |
 | Fail2ban | `fail2ban-client --version` | `apt policy fail2ban` | nein, über `apt` |
 | phoenixd | siehe unten | [Release-Seite](https://github.com/ACINQ/phoenixd/releases) | nein |
 | Alby Hub | siehe unten | [Release-Seite](https://github.com/getAlby/hub/releases) | nein |
@@ -57,6 +57,10 @@ auch im Browser:
 - Alby Hub: [github.com/getAlby/hub/releases](https://github.com/getAlby/hub/releases)
 - LNbits: [github.com/lnbits/lnbits/releases](https://github.com/lnbits/lnbits/releases)
 - Relay (strfry): [github.com/hoytech/strfry/tags](https://github.com/hoytech/strfry/tags)
+- Caddy: [github.com/caddyserver/caddy/releases](https://github.com/caddyserver/caddy/releases)
+
+Bei Caddy ist `Candidate` maßgeblich, denn das ist die Version, die `apt` wirklich installiert. Auf der Release-Seite
+erscheint eine neue Version oft ein paar Tage früher als im Paketarchiv.
 
 ## Ubuntu und die Pakete
 
@@ -356,6 +360,19 @@ sudo systemctl start lnbits
 ```bash
 sudo journalctl -u lnbits -n 50 --no-pager
 sudo journalctl -u lnbits -n 50 --no-pager | grep -i nwc
+```
+
+Die zweite Zeile zeigt, ob die Finanzierungsquelle (NWC) läuft. Zum Beobachten gibt es zwei weitere Befehle.
+Laufend mitlesen, beginnend mit den Ereignissen der letzten zwei Stunden (beenden mit **Strg+C**):
+
+```bash
+sudo journalctl -u lnbits -f --since "2 hour ago"
+```
+
+Einen bestimmten Zeitraum ansehen (das Datum ist ein Beispiel, setze deinen Zeitraum ein):
+
+```bash
+sudo journalctl -u lnbits --since "2026-11-14 05:00:00" --until "2026-11-14 08:00:00"
 ```
 
 Öffne LNbits und sende 100 Sats. Prüfe außerdem, ob deine **Erweiterungen** noch funktionieren, denn sie
