@@ -25,10 +25,8 @@ export default defineConfig({
 			components: {
 				// Fügt den Knopf „Meine Werte" in die Kopfzeile ein.
 				ThemeSelect: './src/components/ThemeSelect.astro',
-					// Zeigt „build: <Blockhöhe>" neben dem GitHub-Symbol.
+					// Spenden-Symbol, „build: <Blockhöhe>" und GitHub-Symbol in der Kopfzeile.
 					SocialIcons: './src/components/SocialIcons.astro',
-					// Fügt den Spendenhinweis in die Fußzeile ein.
-					Footer: './src/components/Footer.astro',
 			},
 			customCss: ['./src/styles/custom.css'],
 			sidebar: [

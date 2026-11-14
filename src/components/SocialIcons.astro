@@ -1,18 +1,80 @@
 ---
 /**
- * Überschreibt die Social-Symbole der Kopfzeile: zeigt links neben dem GitHub-Symbol „build: <Blockhöhe>".
+ * Überschreibt die Social-Symbole der Kopfzeile. Von links nach rechts:
+ * Spenden-Symbol (öffnet ein Fenster mit der Lightning-Adresse), „build: <Blockhöhe>", GitHub.
  * Die Blockhöhe schreibt `scripts/stamp-build.mjs` bei jedem Build nach `src/config/build.json`.
  */
 import Default from '@astrojs/starlight/components/SocialIcons.astro';
 import build from '../config/build.json';
 
+const ADDRESS = 'axelhamburch@21mio.space';
 const when = build.date ? new Date(build.date).toLocaleString('de-DE', { timeZone: 'UTC' }) + ' UTC' : '';
 ---
 
+<button type="button" class="phalnx-donate-btn" data-address={ADDRESS} aria-haspopup="dialog" title="Sats spenden">
+	<span class="sr-only">Spenden</span>
+	<svg
+		aria-hidden="true"
+		width="20"
+		height="20"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"></path>
+		<path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"></path>
+		<path d="m2 15 6 6"></path>
+		<path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"></path>
+	</svg>
+</button>
 <span class="phalnx-build" title={`Bitcoin-Blockhöhe beim Erstellen dieser Seite${when ? ` (${when})` : ''}`}>
 	build: {build.block}
 </span>
 <Default {...Astro.props} />
+
+<script>
+	let dialog: HTMLDialogElement | null = null;
+
+	function build(address: string) {
+		dialog = document.createElement('dialog');
+		dialog.className = 'phalnx-donate-dialog';
+		dialog.setAttribute('aria-label', 'Sats spenden');
+		dialog.innerHTML = `
+			<p><strong>Gefällt dir die Anleitung?</strong></p>
+			<p>Dann freue ich mich über ein paar Sats an meine Lightning-Adresse:</p>
+			<p class="phalnx-donate-row">
+				<a href="lightning:${address}"><code>${address}</code></a>
+				<button type="button" data-act="copy">Kopieren</button>
+			</p>
+			<p class="phalnx-donate-actions"><button type="button" data-act="close">Schließen</button></p>`;
+		dialog.addEventListener('click', async (e) => {
+			const t = e.target as HTMLElement;
+			const btn = t.closest('button');
+			if (t === dialog || btn?.dataset.act === 'close') dialog!.close();
+			if (btn?.dataset.act === 'copy') {
+				const old = btn.textContent;
+				try {
+					await navigator.clipboard.writeText(address);
+					btn.textContent = 'Kopiert';
+				} catch {
+					btn.textContent = 'Nicht möglich';
+				}
+				setTimeout(() => (btn.textContent = old), 1500);
+			}
+		});
+		document.body.appendChild(dialog);
+	}
+
+	document.querySelectorAll<HTMLButtonElement>('.phalnx-donate-btn').forEach((b) => {
+		b.addEventListener('click', () => {
+			if (!dialog) build(b.dataset.address ?? '');
+			dialog!.showModal();
+		});
+	});
+</script>
 
 <style>
 	.phalnx-build {
@@ -20,5 +82,17 @@ const when = build.date ? new Date(build.date).toLocaleString('de-DE', { timeZon
 		color: var(--sl-color-gray-3);
 		white-space: nowrap;
 		font-variant-numeric: tabular-nums;
+	}
+	.phalnx-donate-btn {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.25rem;
+		border: 0;
+		background: none;
+		color: var(--sl-color-text-accent);
+		cursor: pointer;
+	}
+	.phalnx-donate-btn:hover {
+		color: var(--sl-color-white);
 	}
 </style>
