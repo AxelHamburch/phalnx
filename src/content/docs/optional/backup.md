@@ -4,14 +4,16 @@ description: Die Datenbanken von phoenixd, Alby Hub und LNbits jede Nacht sicher
 ---
 
 Dieses Kapitel ist **optional**, aber dringend empfohlen. Jede Nacht um **02:00 Uhr** entsteht ein Backup, das nach
-dem Datum benannt ist, zum Beispiel `phalnx-2026-11-14.tar.gz`. Es sichert
+Datum und Uhrzeit benannt ist, zum Beispiel `phalnx-2026-11-14_02-00.tar.gz`. So erkennst du auch Backups, die du von
+Hand auslöst. Sie liegen im Ordner **`/var/backups/phalnx`** auf dem Server. Das Backup sichert
 
 - **phoenixd** (`~/.phoenix`, mit Seed und Konfiguration),
 - **Alby Hub** (`~/data` und `albyhub.env`),
-- **LNbits** (`~/lnbits/data` mit der Datenbank und den Erweiterungen, dazu die `.env`).
+- **LNbits** (`~/lnbits/data` mit der Datenbank und den Erweiterungen, dazu die `.env`),
+- **Caddy** (das `Caddyfile` und die Datei mit dem Passwort-Hash des Admin-Schutzes).
 
-Die Backups liegen in einem **Umlaufspeicher**: Es werden die letzten 14 behalten, das älteste wird jeweils
-gelöscht. So wächst der Speicher nicht endlos.
+Die Backups liegen in einem **Umlaufspeicher**: Es werden die letzten 14 behalten (Backups von Hand zählen mit), das
+älteste wird jeweils gelöscht. So wächst der Speicher nicht endlos.
 
 :::caution[Das schützt nicht vor einem Serverausfall]
 Die Backups liegen **auf dem Server selbst**. Sie helfen bei einem Bedienfehler, einem fehlerhaften Update oder
@@ -54,7 +56,7 @@ umask 077
 
 DEST=/var/backups/phalnx
 KEEP=14
-NAME="phalnx-$(date +%F)"
+NAME="phalnx-$(date +%F_%H-%M)"
 
 mkdir -p "$DEST"
 STAGE=$(mktemp -d "$DEST/.stage.XXXXXX")
@@ -82,9 +84,20 @@ backup_dir() {
   for f in "$@"; do cp -p "$f" "$out/"; done
 }
 
+# backup_files <Name> <Datei> [<Datei> ...]: einzelne Konfigurationsdateien sichern
+backup_files() {
+  local name=$1
+  shift
+  mkdir -p "$STAGE/$name"
+  for f in "$@"; do
+    if [ -e "$f" ]; then cp -p "$f" "$STAGE/$name/"; else echo "Fehlt: $f" >&2; fi
+  done
+}
+
 backup_dir phoenixd /home/uphoenixd/.phoenix
 backup_dir albyhub  /home/ualbyhub/data /home/ualbyhub/albyhub.env
 backup_dir lnbits   /home/ulnbits/lnbits/data /home/ulnbits/lnbits/.env
+backup_files caddy  /etc/caddy/Caddyfile /etc/systemd/system/caddy.service.d/override.conf
 
 # Archiv unter Zwischennamen schreiben, erst am Ende umbenennen
 tar -C "$STAGE" -czf "$DEST/$NAME.tar.gz.part" .
@@ -104,7 +117,12 @@ sudo chmod 700 /usr/local/sbin/phalnx-backup
 ```
 
 Wie viele Backups behalten werden, steht oben in `KEEP=14`. Ändere die Zahl, wenn du mehr oder weniger Tage
-aufbewahren willst. Willst du einen Dienst nicht sichern, löschst du die passende Zeile `backup_dir …`.
+aufbewahren willst. Willst du einen Dienst nicht sichern, löschst du die passende Zeile `backup_dir …` oder `backup_files …`. Weitere
+Konfigurationsdateien, etwa die Fail2ban-Dateien unter `/etc/fail2ban/`, nimmst du auf dieselbe Weise in eine
+weitere Zeile `backup_files` auf.
+
+Die Datei `override.conf` entsteht mit `systemctl edit caddy` und enthält den Hash des Caddy-Passworts. Behandle sie wie
+ein Geheimnis. Fehlt eine Datei, schreibt das Skript `Fehlt: …` ins Log und sichert den Rest.
 
 ## Zeitplan um 02:00 Uhr
 
@@ -165,15 +183,17 @@ Je nach Datenmenge dauert das einige Sekunden. Dann siehst du das Ergebnis:
 sudo ls -lh /var/backups/phalnx
 ```
 
-Es muss eine Datei `phalnx-<heutiges Datum>.tar.gz` mit Rechten `-rw-------` und Besitzer `root` erscheinen. Dass
+Es muss eine Datei `phalnx-<Datum>_<Uhrzeit>.tar.gz` mit Rechten `-rw-------` und Besitzer `root` erscheinen.
+Das Ergebnis liegt immer in `/var/backups/phalnx`. Der Ordner gehört `root` und ist für andere gesperrt (`700`). Darum
+braucht jeder Befehl dort `sudo`, und ein Platzhalter wie `*` funktioniert nur innerhalb von `sudo bash -c '…'`. Dass
 alle drei Dienste enthalten sind und die Datenbanken mitgesichert wurden, zeigt der Inhalt:
 
 ```bash
-sudo tar -tzf /var/backups/phalnx/phalnx-$(date +%F).tar.gz | grep -E "sql.gz|seed|\.env"
+sudo bash -c 'tar -tzf "$(ls -1 /var/backups/phalnx/phalnx-*.tar.gz | tail -n 1)" | grep -E "sql.gz|seed|.env|Caddyfile"'
 ```
 
 Du solltest unter `phoenixd/`, `albyhub/` und `lnbits/` jeweils mindestens eine Datei mit `.sql.gz` am Ende sehen,
-dazu `seed.dat` bei phoenixd. Die Namen der Datenbanken hängen von den Programmen ab. Fehlt eine, ist das Backup
+dazu `seed.dat` bei phoenixd und `Caddyfile` bei Caddy. Der Befehl nimmt das neueste Archiv. Die Namen der Datenbanken hängen von den Programmen ab. Fehlt eine, ist das Backup
 unvollständig.
 
 Den Zeitplan und den Lauf der letzten Nacht prüfst du so:
@@ -188,12 +208,12 @@ Einrichtung nach und danach gelegentlich, so wie bei der [Kontrolle der Updates]
 
 ## Ein Backup testen
 
-Ein Backup, das du nie getestet hast, ist kein Backup. Entpacke eines in einen **Testordner** und prüfe, ob sich die
+Ein Backup, das du nie getestet hast, ist kein Backup. Entpacke das neueste in einen **Testordner** und prüfe, ob sich die
 LNbits-Datenbank wiederherstellen lässt. Das ändert nichts am laufenden System:
 
 ```bash
 sudo mkdir -p /root/restore-test
-sudo tar -xzf /var/backups/phalnx/phalnx-$(date +%F).tar.gz -C /root/restore-test
+sudo bash -c 'tar -xzf "$(ls -1 /var/backups/phalnx/phalnx-*.tar.gz | tail -n 1)" -C /root/restore-test'
 sudo ls /root/restore-test/lnbits
 ```
 
@@ -211,11 +231,12 @@ sudo rm -rf /root/restore-test
 ## Zurückspielen
 
 Das Zurückspielen brauchst du nur im Ernstfall, zum Beispiel nach einem misslungenen Update. Als Beispiel
-LNbits mit dem Backup vom 14. November 2026. Setze deinen Tag ein:
+LNbits mit dem Backup vom 14. November 2026, 02:00 Uhr. Setze den Namen deines Archivs ein
+(`sudo ls -1 /var/backups/phalnx` zeigt alle):
 
 ```bash
 sudo mkdir -p /root/restore
-sudo tar -xzf /var/backups/phalnx/phalnx-2026-11-14.tar.gz -C /root/restore
+sudo tar -xzf /var/backups/phalnx/phalnx-2026-11-14_02-00.tar.gz -C /root/restore
 sudo systemctl stop lnbits
 ```
 
@@ -238,6 +259,29 @@ Der **Seed** ist der Rettungsweg: Mit ihm stellst du phoenixd auf einem neuen Se
 phoenixd-Backup dient vor allem dazu, `seed.dat` und die Konfiguration zu sichern. Spiele die Datenbank von
 phoenixd nur zurück, wenn du genau weißt, was du tust.
 :::
+
+### Ist das phoenixd-Backup sinnvoll?
+
+Es ist nützlich, aber **nicht zum Zurückspielen**. Der Seed ist der eigentliche Rettungsweg, und du hast ihn im
+Passwortmanager und auf Papier. Das Backup hilft bei diesen Dingen:
+
+- Es enthält `phoenix.conf` mit deinen Einstellungen.
+- Es enthält den **Zahlungsverlauf** (die Datenbank). Den brauchst du für Abrechnung und Nachvollziehen.
+
+Der Preis: Der Seed liegt zusätzlich in jedem Backup im Klartext. Das ist ein Grund mehr, die Archive **nur verschlüsselt**
+vom Server zu nehmen. Wenn du das nicht willst, nimmst du die Zeile `backup_dir phoenixd …` aus dem Skript. Dann
+sicherst du nur Alby Hub, LNbits und Caddy. Der Seed bleibt im Passwortmanager und auf Papier.
+
+## Wenn es nicht klappt
+
+| Problem | Ursache und Lösung |
+|---|---|
+| `sudo ls` zeigt den Ordner nicht oder er ist leer | Das Skript ist fehlgeschlagen, es gibt dann kein Archiv. Das Log nennt den Grund: `sudo journalctl -u phalnx-backup -n 30 --no-pager` |
+| Du willst die Fehlermeldung direkt sehen | Starte das Skript ohne systemd: `sudo /usr/local/sbin/phalnx-backup`. Mehr Einzelheiten zeigt `sudo bash -x /usr/local/sbin/phalnx-backup`. |
+| `sqlite3: command not found` | Das Programm fehlt: `sudo apt install -y sqlite3` |
+| `Permission denied` beim Start | Rechte setzen (`chmod 700`, `chown root:root`), siehe Abschnitt „Das Skript" |
+| `No such file or directory` für einen Quellordner | Der Dienst heißt bei dir anders oder ist nicht installiert. Passe den Pfad an oder lösche die Zeile. |
+| `Fehlt: …` im Log | Eine einzelne Datei existiert nicht, der Rest ist gesichert. |
 
 ## Platz im Blick behalten
 
