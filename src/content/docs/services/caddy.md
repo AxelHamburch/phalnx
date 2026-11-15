@@ -19,19 +19,39 @@ Resolve-DnsName __DOMAIN__
 
 Die Ausgabe muss die Server-IP zeigen. Erst dann weiter, sonst bekommt Caddy kein Zertifikat.
 
-:::tip[Zeigt dein PC noch die alte IP?]
-Hast du den A-Eintrag gerade geändert, kann dein PC oder dein Router die **alte** IP noch zwischenspeichern
-(die Zahl in der Spalte `TTL` sind die Sekunden, die der alte Wert noch gilt). Ein Online-DNS-Check zeigt dann
-schon die neue IP, dein Browser landet aber beim alten Server. Frage direkt einen öffentlichen DNS-Server, der
-nichts zwischengespeichert hat:
+:::tip[Neue oder geänderte IP: Es kann dauern]
+Hast du den A-Eintrag gerade erst gesetzt oder die IP umgestellt, dauert es, bis **dein** PC die neue IP sieht.
+Wichtig ist zuerst, dass ein Online-Check wie [dnschecker.org](https://dnschecker.org) weltweit die **richtige
+IP** anzeigt. Dann ist der Eintrag korrekt, und du musst nichts mehr ändern.
+
+Dein PC, dein Router oder dein Provider speichern den alten Wert noch, bis seine **TTL** abgelaufen ist. Die TTL
+stellst du beim Domain-Anbieter ein. Je nach Wert dauert das bis zu einigen Stunden. In der Ausgabe von
+`Resolve-DnsName` steht in der Spalte `TTL` die Restzeit in Sekunden. Der Browser landet bis dahin beim **alten**
+Server und meldet zum Beispiel `ERR_SSL_PROTOCOL_ERROR` oder einen Fehler `503`.
+
+Prüfe, ob ein öffentlicher DNS-Server schon die neue IP kennt:
 
 ```powershell
 Resolve-DnsName __DOMAIN__ -Server 1.1.1.1
 ```
 
-Zeigt das die neue IP, leere den Zwischenspeicher deines PCs mit `ipconfig /flushdns`. Hilft das nicht, liegt
-der Wert im Router. Dann startest du ihn neu oder wartest, bis die TTL abgelaufen ist. Der Browser meldet
-beim alten Server oft `ERR_SSL_PROTOCOL_ERROR`.
+Kommt dort die neue IP, ist alles in Ordnung, nur dein PC hängt noch am Zwischenspeicher. Du kannst warten oder
+es umgehen:
+
+- **Test ohne Warten:** Dieser Befehl nimmt die neue IP direkt und zeigt, ob Caddy und LNbits antworten. Es muss
+  `200` kommen:
+
+  ```bash
+  curl -s -o /dev/null -w '%{http_code}\n' --resolve __DOMAIN__:443:__SERVER_IP__ https://__DOMAIN__/
+  ```
+
+- **Zwischenspeicher des PCs leeren:** `ipconfig /flushdns` in einer PowerShell **mit Administratorrechten**. Zählt
+  die TTL danach weiter herunter, liegt der alte Wert im Router oder beim Provider.
+- **Browser an Cloudflare binden:** In Chrome unter Einstellungen → Datenschutz und Sicherheit → Sicherheit
+  **Sicheres DNS verwenden** einschalten und Cloudflare (1.1.1.1) wählen. Dann fragt der Browser direkt dort und
+  sieht die neue IP.
+- **Beim nächsten Umzug:** Senke die TTL beim Domain-Anbieter schon einige Stunden vorher auf einen kleinen Wert,
+  falls er das erlaubt.
 :::
 
 ## Installieren (offizielles Paket)
