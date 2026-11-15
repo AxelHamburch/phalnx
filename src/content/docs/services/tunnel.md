@@ -59,8 +59,16 @@ Der Kurzname `__HOSTNAME__` kommt aus der Datei `.ssh\config` (siehe [SSH härte
 
 ## 3. Im Browser öffnen
 
+Solange das Tunnel-Fenster offen ist, erreichst du diese Adressen im Browser deines PCs:
+
 - Alby Hub: `http://localhost:8029`
-- LNbits (erst nach der Installation): `http://localhost:5000`
+- LNbits: `http://localhost:5000`
+
+:::note[Erst nach der Installation erreichbar]
+Der Tunnel leitet nur weiter. Hinter den Ports muss auch etwas laufen. Alby Hub und LNbits installierst du erst in
+den nächsten Kapiteln. Bis dahin zeigt der Browser „Verbindung abgelehnt" oder „Seite nicht erreichbar".
+Das ist normal und kein Fehler. Probiere die Adressen aus, sobald das jeweilige Kapitel erledigt ist.
+:::
 
 ## Optional: Tunnel in `.ssh\config` eintragen
 
