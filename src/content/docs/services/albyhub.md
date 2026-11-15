@@ -144,10 +144,14 @@ Es muss `TcpTestSucceeded : False` erscheinen.
 ## Ersteinrichtung über den Tunnel
 
 1. Tunnel öffnen (siehe [SSH-Tunnel](/services/tunnel/)), im Browser `http://localhost:8029` aufrufen.
-2. Ein **Entsperr-Passwort** vergeben. Es soll lang sein und gehört in den Passwortmanager.
-3. Mit `LN_BACKEND_TYPE=PHOENIX` sollte Alby Hub keinen Knoten-Typ mehr abfragen und phoenixd direkt nutzen.
-   Fragt es doch, wähle „phoenixd" und trage Adresse und Passwort wie oben ein.
-4. Das Verbinden mit einem Alby-Account ist optional.
+2. Auf der Willkommensseite („Welcome to Alby Hub") wählst du **Get Started (PHOENIX)**. Du musst nichts
+   eintragen, denn Alby Hub erkennt phoenixd über `LN_BACKEND_TYPE=PHOENIX` und nutzt es direkt. Die Auswahl
+   „Advanced Setup" brauchst du nicht.
+3. Die Seite „Connect Your Alby Account" überspringst du mit **Maybe later**. Das Verbinden mit einem
+   Alby-Account ist optional und wird später in Teil D: Optional gezeigt.
+4. Bei „Create Password" vergibst du ein **Entsperr-Passwort**, wiederholst es und setzt den Haken bei
+   „I've secured this password in a safe place". Es soll lang sein und gehört in den Passwortmanager. Es lässt
+   sich nicht zurücksetzen. Dann klickst du auf **Create Password**.
 5. Auf der Startseite muss der Saldo von phoenixd erscheinen, anfangs 0.
 
 Alby Hub legt beim ersten Aufruf das Konto an. Wer die Seite zuerst öffnet, wird Besitzer. Das bist du, weil
