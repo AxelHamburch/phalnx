@@ -74,14 +74,20 @@ echo '$nrconf{restart} = "l";' | sudo tee /etc/needrestart/conf.d/99-no-autorest
 `"l"` heißt: nur auflisten, nichts neu starten. Die Dienste laufen weiter. Der Neustart um `__REBOOT_TIME__` sorgt
 später für den Neustart mit den neuen Bibliotheken.
 
-**3. Den Neustart auf eine feste Zeit legen.** Ergänze in `/etc/apt/apt.conf.d/50unattended-upgrades`:
+**3. Den Neustart auf eine feste Zeit legen.** Öffne die Datei wieder in `nano`:
+
+```bash
+sudo nano /etc/apt/apt.conf.d/50unattended-upgrades
+```
+
+Gehe mit Strg+End ans Dateiende und füge **in `nano`** (nicht im Terminal) diese zwei Zeilen ein:
 
 ```text
 Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "__REBOOT_TIME__";
 ```
 
-Der Server startet nur neu, wenn ein Update es verlangt (die Datei `/var/run/reboot-required` existiert). Gibt es
+Speichere (Strg+X, Y, Enter). Der Server startet nur neu, wenn ein Update es verlangt (die Datei `/var/run/reboot-required` existiert). Gibt es
 nichts zu tun, bleibt er an.
 
 ### Wann hat der Server zuletzt neu gestartet?
