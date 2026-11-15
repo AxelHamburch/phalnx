@@ -41,56 +41,13 @@ Wähle ein **neues** Passwort (nicht das LNbits-Passwort) und erzeuge den Hash:
 caddy hash-password
 ```
 
-Der Hash beginnt mit `$2a---
-title: Caddy
-description: Caddy als Reverse Proxy mit automatischem HTTPS für LNbits einrichten und den Admin-Bereich mit einem zusätzlichen Passwort schützen.
----
-
-Caddy macht **nur LNbits** öffentlich, mit automatischem HTTPS-Zertifikat. Der Admin-Bereich von LNbits liegt
-zusätzlich hinter einem zweiten Passwort. Für Alby Hub gibt es bewusst keinen Eintrag.
-
-## DNS
-
-Beim Domain-Anbieter legst du einen **A-Eintrag** an: `__DOMAIN__` → `__SERVER_IP__`. Auf dem PC prüfst du:
-
-```powershell
-Resolve-DnsName __DOMAIN__
-```
-
-Die Ausgabe muss die Server-IP zeigen. Erst dann weiter, sonst bekommt Caddy kein Zertifikat.
-
-## Installieren (offizielles Paket)
-
-```bash
-sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-sudo chmod o+r /usr/share/keyrings/caddy-stable-archive-keyring.gpg /etc/apt/sources.list.d/caddy-stable.list
-sudo apt update
-sudo apt install -y caddy
-```
-
-```bash
-sudo install -d -o caddy -g caddy -m 750 /var/log/caddy
-```
-
-Dabei entsteht der Benutzer `caddy`. Den brauchen die [Port-Regeln](/services/port-rules/).
-
-## Passwort für den Admin-Bereich
-
-Wähle ein **neues** Passwort (nicht das LNbits-Passwort) und erzeuge den Hash:
-
-```bash
-caddy hash-password
-```
-
-.
+Der Hash beginnt mit `$2a$`.
 
 :::caution[Jetzt „Meine Werte" öffnen]
 Kopiere den Hash und öffne oben in der Kopfzeile **Meine Werte**. Trage ihn dort im Feld
 **Passwort-Hash für Caddy** ein. Erst dann stehen in den folgenden Befehlen dieser Seite dein echter Hash statt
-des Platzhalters `HASH_EINFUEGEN`. Sonst startet Caddy nicht. Der Hash wird aus Sicherheitsgründen **nicht gespeichert**. Lädst du die Seite neu,
-trägst du ihn erneut ein.
+des Platzhalters `HASH_EINFUEGEN`. Sonst startet Caddy nicht. Der Hash wird aus Sicherheitsgründen **nicht
+gespeichert**. Lädst du die Seite neu, trägst du ihn erneut ein.
 :::
 
 Du trägst ihn als Umgebungsvariable ein, damit er nicht im Caddyfile steht:
