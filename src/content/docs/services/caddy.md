@@ -14,7 +14,25 @@ Beim Domain-Anbieter legst du einen **A-Eintrag** an: `__DOMAIN__` → `__SERVER
 Resolve-DnsName __DOMAIN__
 ```
 
+`Resolve-DnsName` gibt es nur in PowerShell. In jedem Terminal (PowerShell, `cmd`, Git Bash) geht stattdessen
+`nslookup __DOMAIN__`, auf macOS und Linux `dig +short __DOMAIN__`.
+
 Die Ausgabe muss die Server-IP zeigen. Erst dann weiter, sonst bekommt Caddy kein Zertifikat.
+
+:::tip[Zeigt dein PC noch die alte IP?]
+Hast du den A-Eintrag gerade geändert, kann dein PC oder dein Router die **alte** IP noch zwischenspeichern
+(die Zahl in der Spalte `TTL` sind die Sekunden, die der alte Wert noch gilt). Ein Online-DNS-Check zeigt dann
+schon die neue IP, dein Browser landet aber beim alten Server. Frage direkt einen öffentlichen DNS-Server, der
+nichts zwischengespeichert hat:
+
+```powershell
+Resolve-DnsName __DOMAIN__ -Server 1.1.1.1
+```
+
+Zeigt das die neue IP, leere den Zwischenspeicher deines PCs mit `ipconfig /flushdns`. Hilft das nicht, liegt
+der Wert im Router. Dann startest du ihn neu oder wartest, bis die TTL abgelaufen ist. Der Browser meldet
+beim alten Server oft `ERR_SSL_PROTOCOL_ERROR`.
+:::
 
 ## Installieren (offizielles Paket)
 
@@ -187,11 +205,25 @@ curl -s -o /dev/null -w '%{http_code}\n' https://__DOMAIN__/
 curl -s -o /dev/null -w '%{http_code}\n' https://__DOMAIN__/admin
 ```
 
-Erwartet: `200` für die erste Adresse und `401` für `/admin`. Im Browser fragt `https://__DOMAIN__/admin`
-zuerst das Caddy-Passwort ab, danach kommt der LNbits-Login.
+Erwartet: `200` für die erste Adresse und `401` für `/admin`.
+
+### Im Browser testen
+
+Öffne ein **Inkognito-Fenster**, damit keine alten Daten stören:
+
+1. Rufe `https://__DOMAIN__` auf. Es muss die Anmeldeseite von LNbits erscheinen, mit gültigem Schloss-Symbol.
+2. Melde dich mit dem **Super User** an, den du bei der Ersteinrichtung von LNbits angelegt hast. Dabei kommt
+   **keine** Passwortabfrage von Caddy, denn der Login gehört nicht zum geschützten Bereich.
+3. Klicke dann in LNbits auf **Settings** oder **Users**. Jetzt fragt der Browser nach dem Caddy-Passwort. Als
+   Benutzername gibst du `__CADDY_USER__` ein, als Passwort das, aus dem du den Hash erzeugt hast. Erst danach
+   öffnet sich der Bereich.
+
+Kommt die Abfrage bei Settings oder Users nicht, ist der Admin-Schutz nicht aktiv (siehe unten).
 
 ### Wenn es nicht klappt
 
+- **Der Browser zeigt `ERR_SSL_PROTOCOL_ERROR` oder eine ganz andere Seite:** Meist löst dein PC die Domain noch
+  auf die alte IP auf (siehe Tipp im Abschnitt DNS). Prüfe mit `Resolve-DnsName __DOMAIN__ -Server 1.1.1.1`.
 - **`502` statt `200`:** Caddy erreicht LNbits nicht. Prüfe `sudo systemctl status lnbits --no-pager` und
   `sudo ss -tlnp | grep 5000` (es muss `127.0.0.1:5000` erscheinen).
 - **Caddy startet nicht (`failed`):** Meist fehlt `LNBITS_ADMIN_HASH`. Prüfe
