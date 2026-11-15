@@ -68,8 +68,8 @@ sudo journalctl -u lnbits --since "10 min ago" --no-pager | grep -i telegram
 ```
 
 Dort steht, was schiefging, zum Beispiel `chat not found` (falsche Chat-ID, oder du hast dem Bot noch nicht
-`/start` geschrieben) oder `ReadTimeout: Timed out waiting for Telegram`. Bei `ReadTimeout` erreicht der **Server**
-Telegram nicht (siehe unten).
+`/start` geschrieben) oder `ReadTimeout: Timed out waiting for Telegram`. Bei `ReadTimeout` antwortet Telegram nicht,
+meist liegt es am Token (siehe unten).
 
 ## 4. Festlegen, worüber du informiert wirst
 
@@ -107,19 +107,26 @@ sie einige Tage und stelle die Schwelle ein, damit sie nicht bei jeder Gebühr a
 |---|---|
 | Keine Nachricht nach dem Speichern | **Enable Telegram** ist aus oder der Token ist falsch. Prüfe beides. |
 | Im Log steht eine Telegram-Fehlermeldung (zum Beispiel `chat not found`) | Falsche Chat-ID, oder du hast dem Bot noch nie `/start` geschrieben. |
-| Im Log steht `ReadTimeout: Timed out waiting for Telegram` | Der Server erreicht `api.telegram.org` nicht. Test siehe unten. |
+| Im Log steht `ReadTimeout: Timed out waiting for Telegram` | Telegram antwortet nicht. Teste den Token (siehe unten), hole bei Bedarf einen neuen. |
 | Du willst einen neuen Token | Bei **@BotFather** `/revoke` senden. Der alte Token ist danach ungültig. Trage den neuen in LNbits ein. |
 
-### Erreicht der Server Telegram?
+### Token testen
+
+Mit diesem Test prüfst du, ob Telegram deinen Token annimmt. Der Token bleibt dabei unsichtbar und landet nicht im
+Befehlsverlauf:
 
 ```bash
-curl -4 -sS -m 10 -o /dev/null -w '%{http_code}\n' https://api.telegram.org
-curl -6 -sS -m 10 -o /dev/null -w '%{http_code}\n' https://api.telegram.org
+read -rs TG
+curl -sS -m 15 -w '\n%{http_code} in %{time_total}s\n' "https://api.telegram.org/bot$TG/getMe"
+unset TG
 ```
 
-Es muss jeweils eine Zahl wie `302` oder `200` kommen. Bei einer Zeitüberschreitung (`timed out`) ist diese
-Verbindung (IPv4 oder IPv6) vom Server zu Telegram gestört. Die lokalen Port-Regeln dieser Anleitung blockieren
-Telegram nicht, sie betreffen nur `127.0.0.1`.
+Beim ersten Befehl fügst du den Token ein (es erscheint nichts) und drückst Enter. Erwartet wird
+`{"ok":true,"result":{…}}` in unter einer Sekunde.
+
+- `404 Not Found` oder `401 Unauthorized`: Der Token ist falsch oder ungültig.
+- **Keine Antwort** (`timed out`, `0 bytes received`): Auch das kann am Token liegen. Hole bei **@BotFather** einen neuen
+  (`/mybots` → Bot wählen → **API Token** → **Revoke current token**) und teste ihn. Das hat in einem Test das Problem gelöst.
 
 :::tip[Wenn der Token in falsche Hände geraten ist]
 Sende bei BotFather `/revoke` und trage den neuen Token in LNbits ein. Das kostet dich nichts, und der alte
