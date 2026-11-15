@@ -142,7 +142,7 @@ Auf deinem PC. Ein Befehl holt **alle** verschlüsselten Backups in den aktuelle
 aufgelöst, darum die Anführungszeichen):
 
 ```powershell
-scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ "__ADMIN_USER__@__SERVER_IP__:/var/backups/phalnx-export/*.age" .
+scp -P __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ "__ADMIN_USER__@__SERVER_IP__:/var/backups/phalnx-export/*.age" .
 ```
 
 Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.

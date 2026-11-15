@@ -110,7 +110,7 @@ Es muss `:__SSH_PORT__` erscheinen, nicht `:22`.
 Auf dem PC:
 
 ```powershell
-ssh -p __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
+ssh -p __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
 ```
 
 Das **muss gehen**. Die beiden nächsten müssen **scheitern**:

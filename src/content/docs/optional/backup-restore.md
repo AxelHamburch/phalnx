@@ -31,7 +31,7 @@ du es nicht mehr brauchst.
 Auf deinem PC:
 
 ```powershell
-scp -P __SSH_PORT__ -i $HOME\.ssh\__SSH_KEY__ phalnx-2026-11-14_02-00.tar.gz __ADMIN_USER__@__SERVER_IP__:
+scp -P __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ phalnx-2026-11-14_02-00.tar.gz __ADMIN_USER__@__SERVER_IP__:
 ```
 
 Die Datei landet im Home-Verzeichnis von

@@ -22,7 +22,7 @@ New-Item -ItemType Directory -Force $HOME\.ssh
 Dann erzeugst du den Schlüssel:
 
 ```powershell
-ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME\.ssh\__SSH_KEY__
+ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME/.ssh/__SSH_KEY__
 ```
 
 - Bei **„Enter passphrase"** vergibst du unbedingt eine **starke** Passphrase. Ohne sie reicht der Diebstahl der
@@ -70,7 +70,7 @@ chmod 600 /home/__ADMIN_USER__/.ssh/authorized_keys
 Öffne ein **neues** Terminal-Fenster und lass das Fenster mit der Root-Sitzung offen:
 
 ```powershell
-ssh -i $HOME\.ssh\__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
+ssh -i $HOME/.ssh/__SSH_KEY__ __ADMIN_USER__@__SERVER_IP__
 ```
 
 Auf dem Server dann:
