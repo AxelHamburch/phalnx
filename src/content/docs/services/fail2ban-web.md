@@ -25,15 +25,22 @@ ausgesperrt. Mehrere Personen hinter **einer** öffentlichen IP (Event-WLAN, Mob
 
 ## 1. Log prüfen
 
-Das Log muss JSON-Zeilen enthalten. Ist es leer, rufe einmal `https://__DOMAIN__/` im Browser auf und
+Das Log muss JSON-Zeilen enthalten. Jede Zeile ist sehr lang, deshalb zeigt dieser Befehl nur die vier wichtigen
+Angaben der letzten drei Zugriffe. Ist das Log leer, rufe einmal `https://__DOMAIN__/` im Browser auf und
 wiederhole den Befehl:
 
 ```bash
-sudo tail -n 2 /var/log/caddy/access.log
+sudo tail -n 3 /var/log/caddy/access.log | sed -E 's/.*"remote_ip":"([^"]*)".*"method":"([^"]*)".*"uri":"([^"]*)".*"status":([0-9]+).*/\1 \2 \3 \4/'
 ```
 
-In einer Zeile müssen `"remote_ip":"..."`, `"method"`, `"uri"` und am Ende `"status":...` vorkommen. Sieht es
-anders aus, mache nicht weiter. Die Filter gehen vom Standard-JSON-Format von Caddy aus.
+Jede Zeile der Ausgabe besteht aus IP-Adresse, Methode, Adresse und Statuscode, zum Beispiel:
+
+```text
+203.0.113.7 GET /static/js/two-factor.js?v=1794754325 200
+```
+
+Siehst du stattdessen die lange, unveränderte JSON-Zeile, passt das Format nicht. Dann mache nicht weiter. Die
+Filter gehen vom Standard-JSON-Format von Caddy aus.
 
 ## 2. Filter für den Login
 
