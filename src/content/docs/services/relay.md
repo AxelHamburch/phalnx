@@ -120,6 +120,13 @@ PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=tmpfs
 BindPaths=/home/urelay
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+CapabilityBoundingSet=
+AmbientCapabilities=
 UMask=0077
 
 [Install]
@@ -128,6 +135,10 @@ WantedBy=multi-user.target
 
 `LimitNOFILE` braucht strfry, weil es beim Start viele Dateien öffnen darf (`nofiles` in der Konfiguration).
 Fehlt es, bricht strfry mit einer Meldung zu `nofiles` ab.
+
+Die Zeilen `NoNewPrivileges` bis `UMask` sind die **Sandbox**, dieselbe wie bei phoenixd, Alby Hub und LNbits.
+Startet das Relay damit nicht, schau mit `sudo journalctl -u relay -n 50 --no-pager` nach dem Grund und lockere
+zuerst `CapabilityBoundingSet=` und `AmbientCapabilities=`.
 
 ```bash
 sudo systemctl daemon-reload
