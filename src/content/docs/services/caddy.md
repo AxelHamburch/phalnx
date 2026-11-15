@@ -156,7 +156,9 @@ Anführungszeichen, denn er enthält `$`-Zeichen:
 sudo -u caddy env LNBITS_ADMIN_HASH='__CADDY_HASH__' caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
 ```
 
-Am Ende muss `Valid configuration` stehen. Die Warnung „Caddyfile input is not formatted" betrifft nur die
+Am Ende muss `Valid configuration` stehen. Kommt stattdessen `base64-decoding password: illegal base64 data`, steht
+im Befehl noch der Platzhalter `HASH_EINFUEGEN` statt deines echten Hashes. Trage ihn unter **Meine Werte** ein
+(oder ersetze ihn von Hand) und prüfe dasselbe auch bei `systemctl edit caddy` oben. Die Warnung „Caddyfile input is not formatted" betrifft nur die
 Optik und ist kein Fehler. Danach startest du neu:
 
 ```bash
