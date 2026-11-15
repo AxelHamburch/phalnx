@@ -25,7 +25,8 @@ und 60 GB SSD für unter 4 Euro im Monat (Preis zum Zeitpunkt des Tests, er kann
 
 - Die Rechenzentren stehen in Europa.
 - Die technische Ausstattung ist sehr gut. Ich hatte bisher keine Probleme.
-- Das Kunden- und Control-Panel wirkt etwas veraltet.
+- Das Kunden- und Control-Panel wirkt etwas veraltet und die Bereitstellung ist oft nicht „unverzüglich“.
+  Etwas Wartezeit musst du ggf. in Kauf nehmen.
 - Der Kundenservice scheint überlastet und antwortet träge. Das bringt netcup schlechte Bewertungen auf
   Bewertungsportalen ein. Wer weiß, was er will, und den Server einmal eingerichtet hat, braucht den Service
   kaum und bekommt ein unschlagbares Preis-Leistungs-Verhältnis.
