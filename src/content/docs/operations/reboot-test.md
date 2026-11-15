@@ -19,27 +19,29 @@ Warte etwa eine Minute und melde dich wieder an. Dann prüfst du:
 systemctl is-active phoenixd relay albyhub lnbits caddy nft-local fail2ban
 ```
 
-Jede Zeile muss `active` zeigen. Danach:
+Jede Zeile muss `active` zeigen. Das gilt auch für `nft-local` (Port-Regeln) und `fail2ban`. Dann prüfst du, ob sich
+LNbits von allein wieder mit Alby Hub verbunden hat:
 
 ```bash
 sudo journalctl -u lnbits -b --no-pager | grep -i nwc
 ```
 
-Der Befehl ist interessant, weil er zeigt, ob sich LNbits nach dem Neustart selbst wieder mit Alby Hub verbunden hat,
-ohne dass du eine Zahlung auslösen musst. `-b` begrenzt das Log auf den aktuellen Start, `grep -i nwc` behält nur
-die Zeilen zur NWC-Verbindung. Dort siehst du, ob LNbits den Relay erreicht und die Verbindung zu Alby Hub
-aufgebaut hat. Meldungen über abgelehnte Verbindungen oder Zeitüberschreitungen weisen darauf hin, dass der
-Relay oder Alby Hub noch nicht bereit waren oder die NWC-Adresse nicht stimmt. So findest du den Fehler, bevor
-du im nächsten Schritt 100 Sats sendest.
+`-b` zeigt nur den aktuellen Start. Am Ende muss eine Zeile stehen wie:
+
+```text
+SUCCESS | Backend NWCWallet connected and with a balance of 1006000 msat.
+```
+
+Die Zahl ist das Guthaben der Finanzierungsquelle in **Millisats** (1.000 msat = 1 Sat). Die Zeile davor muss
+`NWCConnection is ready. relay: ws://127.0.0.1:7777` heißen. Fehlt die Verbindung oder gibt es Zeitüberschreitungen,
+waren Relay oder Alby Hub noch nicht bereit, oder die NWC-Adresse stimmt nicht.
 
 ## Was zu prüfen ist
 
 - **Alby Hub entsperrt sich selbst.** Öffne es über den Tunnel. Ist es gesperrt, fehlt Auto-Unlock (siehe
   [Alby Hub](/services/albyhub/#auto-unlock)).
-- **LNbits zahlt ohne Eingriff.** Sende 100 Sats aus LNbits. Klappt das, ist die Reihenfolge richtig und die
-  NWC-Verbindung baut sich nach dem Neustart selbst wieder auf.
-- **Die Port-Regeln sind wieder da:** `sudo nft list table inet local` zeigt die vier Regeln.
-- **Fail2ban läuft** und kennt alle Jails: `sudo fail2ban-client status`.
+- **Optional: LNbits zahlt ohne Eingriff.** Sende 100 Sats aus LNbits. Klappt das, ist die Reihenfolge richtig
+  und die NWC-Verbindung baut sich nach dem Neustart selbst wieder auf.
 
 ## Wenn LNbits nicht zahlen kann
 
