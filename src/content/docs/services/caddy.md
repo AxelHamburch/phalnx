@@ -6,6 +6,12 @@ description: Caddy als Reverse Proxy mit automatischem HTTPS für LNbits einrich
 Caddy macht **nur LNbits** öffentlich, mit automatischem HTTPS-Zertifikat. Der Admin-Bereich von LNbits liegt
 zusätzlich hinter einem zweiten Passwort. Für Alby Hub gibt es bewusst keinen Eintrag.
 
+:::tip[Domain rechtzeitig einstellen]
+Richte die Domain und den A-Eintrag (siehe unten) am besten **schon vor diesem Kapitel** ein, zum Beispiel gleich zu
+Beginn der Anleitung. Die Umstellung wird erst mit Verzögerung überall sichtbar, das kann einige Stunden
+dauern. Wer erst hier anfängt, muss sonst warten, bis Caddy sein Zertifikat holen kann.
+:::
+
 ## DNS
 
 Beim Domain-Anbieter legst du einen **A-Eintrag** an: `__DOMAIN__` → `__SERVER_IP__`. Auf dem PC prüfst du:
