@@ -35,28 +35,21 @@ apt install -y ufw fail2ban unattended-upgrades curl nano
 
 Bei Rückfragen zu Konfigurationsdateien behältst du die vorhandene Version.
 
-## Neustart, wenn der Kernel aktualisiert wurde
+## Neustart
 
-Hat das Update einen neuen Kernel installiert, startest du den Server neu und meldest dich danach wieder
-als `root` an:
+Starte den Server jetzt einmal neu. Damit ist ein neuer Kernel aktiv, und der neue Servername greift überall:
 
 ```bash
 reboot
 ```
 
-Ob ein Neustart nötig ist, siehst du an der Meldung `*** System restart required ***` bei der Anmeldung.
-
-## Prüfen
-
-Damit der neue Servername überall greift, meldest du dich einmal ab und wieder als `root` an:
-
-```bash
-exit
-```
+Warte etwa eine Minute und melde dich dann wieder als `root` an:
 
 ```powershell
 ssh root@__SERVER_IP__
 ```
+
+## Prüfen
 
 In der Eingabezeile steht jetzt `root@__HOSTNAME__` statt des alten Namens vom Anbieter. Dann prüfst du:
 
