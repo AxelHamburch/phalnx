@@ -47,7 +47,14 @@ waren Relay oder Alby Hub noch nicht bereit, oder die NWC-Adresse stimmt nicht.
 
 LNbits startet unabhängig von Alby Hub und vom Relay. War die Finanzierungsquelle beim Start noch nicht
 erreichbar, kann LNbits zunächst eine Fehlermeldung zeigen. Wie sich LNbits dabei verhält, hängt von der
-Version ab. Hilft Abwarten nicht, startest du LNbits neu:
+Version ab. Ob beim Neustart etwas schiefgelaufen ist, siehst du im Log der letzten zwei Stunden:
+
+```bash
+sudo journalctl -u lnbits -f --since "2 hour ago"
+```
+
+`-f` zeigt neue Zeilen laufend an. Mit Strg+C beendest du die Anzeige. Hilft Abwarten nicht, startest du LNbits
+neu:
 
 ```bash
 sudo systemctl restart lnbits
