@@ -47,48 +47,29 @@ ihn nie weiter, auch nicht an eine KI (siehe [Hilfe bei Fehlern](/start/preparat
 
 LNbits muss wissen, **an wen** es schreiben soll. Das ist die Chat-ID deines Kontos.
 
-1. Öffne den neuen Bot in Telegram (über den Link von BotFather oder die Suche) und sende ihm `/start`. Der Bot
-   kann dir erst schreiben, wenn **du** ihm zuerst geschrieben hast.
-2. Rufe auf deinem PC im Browser diese Adresse auf. Ersetze `<Token>` samt der Klammern durch deinen Token:
+1. Öffne den neuen Bot in Telegram (Link von BotFather) und sende ihm `/start`. Der Bot kann dir erst schreiben,
+   wenn **du** ihm zuerst geschrieben hast.
+2. Öffne [t.me/userinfobot](https://t.me/userinfobot) (**@userinfobot**) und schreibe ihm „hallo". Er antwortet mit
+   deiner **ID**. Das ist die Chat-ID, zum Beispiel `123456789`. Notiere sie im Passwortmanager.
 
-   ```text
-   https://api.telegram.org/bot<Token>/getUpdates
-   ```
-
-   Öffne die Adresse in einem **privaten Fenster** (Inkognito-Modus) und schließe es danach. So landet der Token
-   nicht im Browserverlauf, der oft auf andere Geräte synchronisiert wird. Die Verbindung zu Telegram ist per HTTPS
-   verschlüsselt. Zeige die Adresse nicht auf Screenshots oder in geteilten Bildschirmen.
-
-3. In der Antwort suchst du `"chat":{"id":` und liest die Zahl dahinter ab, zum Beispiel `123456789`. Das ist deine
-   **Chat-ID**. Notiere sie im Passwortmanager.
-
-**Alternative ohne Token in der Adresse:** Schreibe einem Bot, der dir deine ID nennt, zum Beispiel **@userinfobot**. Die Chat-ID
-ist **kein** Geheimnis, sie verrät niemandem etwas. Dann kommt der Token nur bei BotFather und in LNbits vor. Dieser Bot
-stammt aber nicht von Telegram selbst, das musst du ihm vertrauen.
-
-Kommt `"result":[]` (leer), hast du dem Bot noch nichts geschickt. Sende ihm eine Nachricht und lade die Seite neu.
-Für eine **Gruppe** fügst du den Bot der Gruppe hinzu und schreibst dort eine Nachricht. Die Chat-ID von Gruppen
-ist eine **negative** Zahl, die Minuszeichen gehört dazu.
+Die Chat-ID ist kein Geheimnis. Der Bot stammt aber nicht von Telegram selbst. Gib ihm nie deinen Token.
 
 ## 3. In LNbits eintragen
 
-1. Öffne die Admin-Oberfläche von LNbits (Super-User, über Caddy mit dem zusätzlichen Passwort) und gehe zu den
-   **Admin-Einstellungen**. Wähle links die Seite **Configure Notifications** aus.
-2. Im Block **Telegram Configuration**:
-   - **Enable Telegram** einschalten.
-   - **Access Token**: den Token von BotFather eintragen.
-   - **Telegram Chat ID**: deine Chat-ID eintragen.
-3. Oben auf **Speichern** klicken.
+1. Öffne als Super-User die Admin-Oberfläche von LNbits (über Caddy mit dem zusätzlichen Passwort) und gehe zu
+   **Settings → System → Benachrichtigungen → Telegram Configuration**.
+2. **Enable Telegram** einschalten, den **Access Token** von BotFather und die **Telegram Chat ID** eintragen.
+3. **Speichern** klicken und den Server neu starten (**Restart Server**).
 
-Beim Speichern schickt LNbits normalerweise eine Nachricht „Settings updated" (das ist eine der Meldungen aus dem
-nächsten Schritt). Kommt sie in Telegram an, funktioniert alles. Kommt nichts, klicke auf **Server neu starten**,
-und prüfe dann das Log:
+Beim Speichern und beim Start schickt LNbits normalerweise eine Nachricht. Kommt nichts an, prüfe das Log:
 
 ```bash
 sudo journalctl -u lnbits --since "10 min ago" --no-pager | grep -i telegram
 ```
 
-Dort steht, was Telegram abgelehnt hat, zum Beispiel einen falschen Token oder eine falsche Chat-ID.
+Dort steht, was schiefging, zum Beispiel `chat not found` (falsche Chat-ID, oder du hast dem Bot noch nicht
+`/start` geschrieben) oder `ReadTimeout: Timed out waiting for Telegram`. Bei `ReadTimeout` erreicht der **Server**
+Telegram nicht (siehe unten).
 
 ## 4. Festlegen, worüber du informiert wirst
 
@@ -126,9 +107,19 @@ sie einige Tage und stelle die Schwelle ein, damit sie nicht bei jeder Gebühr a
 |---|---|
 | Keine Nachricht nach dem Speichern | **Enable Telegram** ist aus oder der Token ist falsch. Prüfe beides. |
 | Im Log steht eine Telegram-Fehlermeldung (zum Beispiel `chat not found`) | Falsche Chat-ID, oder du hast dem Bot noch nie `/start` geschrieben. |
-| `getUpdates` liefert eine leere Liste | Dem Bot zuerst eine Nachricht senden, dann neu laden. |
-| Nachrichten kommen nicht in der Gruppe an | Bei der Chat-ID der Gruppe fehlt das Minuszeichen, oder der Bot ist nicht Mitglied der Gruppe. |
+| Im Log steht `ReadTimeout: Timed out waiting for Telegram` | Der Server erreicht `api.telegram.org` nicht. Test siehe unten. |
 | Du willst einen neuen Token | Bei **@BotFather** `/revoke` senden. Der alte Token ist danach ungültig. Trage den neuen in LNbits ein. |
+
+### Erreicht der Server Telegram?
+
+```bash
+curl -4 -sS -m 10 -o /dev/null -w '%{http_code}\n' https://api.telegram.org
+curl -6 -sS -m 10 -o /dev/null -w '%{http_code}\n' https://api.telegram.org
+```
+
+Es muss jeweils eine Zahl wie `302` oder `200` kommen. Bei einer Zeitüberschreitung (`timed out`) ist diese
+Verbindung (IPv4 oder IPv6) vom Server zu Telegram gestört. Die lokalen Port-Regeln dieser Anleitung blockieren
+Telegram nicht, sie betreffen nur `127.0.0.1`.
 
 :::tip[Wenn der Token in falsche Hände geraten ist]
 Sende bei BotFather `/revoke` und trage den neuen Token in LNbits ein. Das kostet dich nichts, und der alte
