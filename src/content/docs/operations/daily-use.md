@@ -56,14 +56,6 @@ Fehler seit dem letzten Start des Servers:
 sudo journalctl -p err -b --no-pager | tail -20
 ```
 
-:::note[Meldung „user NOT in sudoers"]
-Steht dort zum Beispiel `ulnbits : user NOT in sudoers ; COMMAND=/usr/bin/apt update`, hat jemand `sudo` in der
-Shell eines **Dienst-Benutzers** eingegeben. Die Dienst-Benutzer dürfen kein `sudo`, das ist Absicht und **kein
-Angriff und kein Fehler**. Der Eintrag zeigt, dass die Sperre funktioniert. Die Meldung `auth could not identify
-password` davor gehört dazu. Gib solche Befehle in der Shell von `__ADMIN_USER__` ein, nach `exit`. Taucht der
-Eintrag auf, ohne dass du es warst, prüfe die Anmeldungen mit `last` und die [Notfall-Seite](/operations/emergency/).
-:::
-
 ## Dienste verwalten
 
 | Aufgabe | Befehl |
