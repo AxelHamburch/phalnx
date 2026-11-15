@@ -126,34 +126,19 @@ In der Service-Datei fehlen Sandbox-Zeilen.
 
 ## Überraschungen finden
 
-Nichts darf laufen, was du nicht selbst eingerichtet hast:
+Nichts darf laufen, was du nicht selbst eingerichtet hast. Zwei Befehle zeigen versteckte Zeitpläne und
+selbst angelegte Dienste:
 
 ```bash
-sudo crontab -l
 sudo ls /etc/cron.d /var/spool/cron/crontabs
-```
-
-Erwartet: `no crontab for root`. In `/etc/cron.d` stehen nur Systemeinträge (`e2scrub_all` ist von Ubuntu, eine
-Datei wie `kernel` mit `fstrim` kommt oft vom VPS-Anbieter und ist harmlos). Eine Datei, die du nicht
-einordnen kannst, siehst du dir an: `sudo cat /etc/cron.d/<Name>`.
-
-Die Liste aller aktivierten Dienste ist lang (rund 50) und besteht größtenteils aus Systemdiensten von
-Ubuntu und deinem Anbieter. Die kannst du nicht alle einzeln kennen, deshalb prüfst du etwas anderes: Welche
-Dienste wurden **selbst angelegt**? Die liegen als echte Dateien in `/etc/systemd/system`:
-
-```bash
 find /etc/systemd/system -maxdepth 1 -name '*.service' -type f
 ```
 
-Erwartet sind genau deine fünf: `albyhub`, `lnbits`, `nft-local`, `phoenixd` und `relay`. Eine weitere Datei ist
-ein Grund nachzusehen: `systemctl cat <Name>`.
+Erwartet:
+- **Cron:** nur Systemeinträge wie `e2scrub_all` und `kernel` in `/etc/cron.d`, der Ordner `crontabs` ist leer.
+- **Dienste:** genau deine fünf: `albyhub`, `lnbits`, `nft-local`, `phoenixd` und `relay`.
 
-Für einen Server unnötig, aber harmlos, sind etwa `ModemManager`, `udisks2` und `multipathd`. Willst du die
-Angriffsfläche verkleinern, schaltest du sie ab:
-
-```bash
-sudo systemctl disable --now ModemManager
-```
+Alles andere siehst du dir an: `sudo cat /etc/cron.d/<Name>` oder `systemctl cat <Name>`.
 
 ## Zusammenfassung der Tests
 
