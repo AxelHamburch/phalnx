@@ -82,6 +82,13 @@ zum Kopieren sind `ssh`-Befehle. Die Zeile **Login kurz** funktioniert, wenn du 
 
 Lege auch die **Zugangsdaten deines VPS-Anbieters** im Passwortmanager ab.
 
+:::note[Nur die Zugänge für den Dauerbetrieb]
+Die Liste enthält nur die **wichtigen, wiederkehrenden** Logins und Passwörter für den Dauerbetrieb. Während der
+Installation brauchst du zusätzlich **temporäre** Angaben, zum Beispiel das Root-Passwort vom Anbieter oder
+ein Passwort von phoenixd, das du kurz zwischenspeicherst, um es an die nächste Stelle zu übergeben. Solche
+Werte brauchst du danach nicht mehr. Lösche sie, sobald der jeweilige Schritt erledigt ist.
+:::
+
 :::caution[Seed und NWC-Adresse sind Geld]
 Wer den **phoenixd-Seed** kennt, kann dein Guthaben nehmen. Die **NWC-Adresse** erlaubt Zahlungen im Rahmen ihres
 Budgets. Schütze den Passwortmanager mit einem starken Hauptpasswort und, wenn möglich, einem zweiten Faktor.
