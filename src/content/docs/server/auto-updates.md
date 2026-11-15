@@ -114,7 +114,7 @@ Dann prüfst du, ob ein Neustart nötig ist:
 ls /var/run/reboot-required
 ```
 
-Gibt es die Datei, starte neu:
+Kommt `No such file or directory`, ist **kein** Neustart nötig. Das ist der Normalfall. Gibt es die Datei, starte neu:
 
 ```bash
 sudo reboot
