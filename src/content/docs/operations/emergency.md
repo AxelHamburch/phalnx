@@ -43,7 +43,7 @@ LNbits liest aus der NWC-Adresse nur **ein** `relay=` und schaltet nicht selbst 
 aus, stellst du es von Hand auf den offiziellen:
 
 1. In der NWC-Adresse von LNbits das `relay=` auf den offiziellen Relay ändern:
-   `relay=wss%3A%2F%2Frelay.getalby.com`
+   `relay=wss://relay.getalby.com`
 2. Speichern und LNbits neu starten: `sudo systemctl restart lnbits`.
 3. Alby Hub hört dort schon, denn der offizielle Relay steht in seiner `RELAY`-Liste.
 4. Repariere danach den lokalen Relay und stelle die Adresse zurück.

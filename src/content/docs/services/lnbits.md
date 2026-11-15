@@ -125,6 +125,40 @@ Beim letzten Befehl muss `127.0.0.1:5000` erscheinen.
    kann. Zum Testen genügen 1.000 Sats.
 2. Nimm die dort im Passwortmanager abgelegte Verbindungsadresse. Sie sieht so aus:
    `nostr+walletconnect://<pubkey>?relay=...&relay=...&secret=...`
+3. **Alle `relay=`-Teile entfernen und genau einen einsetzen**, den lokalen. Die Adresse muss dann so aussehen:
+
+   ```text
+   nostr+walletconnect://<pubkey>?relay=ws://127.0.0.1:7777&secret=<secret>
+   ```
+4. In LNbits (`http://localhost:5000`): **Settings → Funding**. Bei **Funding source** wählst du
+   **Nostr Wallet Connect** und fügst die angepasste Adresse bei **Pairing URL** ein. Dann klickst du auf
+   **Save** und startest den Server neu (**Restart Server**), denn die Finanzierungsquelle gilt erst nach einem
+   Neustart.
+
+### Prüfen
+
+LNbits braucht beim Start etwas länger:
+
+```bash
+sudo systemctl status lnbits --no-pager
+sudo journalctl -u lnbits -n 30 --no-pager
+sudo ss -tlnp | grep 5000
+```
+
+Beim letzten Befehl muss `127.0.0.1:5000` erscheinen.
+
+## Ersteinrichtung über den Tunnel
+
+1. Tunnel öffnen (siehe [SSH-Tunnel](/services/tunnel/)), im Browser `http://localhost:5000` aufrufen.
+2. LNbits zeigt die Ersteinrichtung. Lege einen **Admin-Benutzer und ein Passwort** an (Passwortmanager).
+
+## NWC-Verbindung von Alby Hub zu LNbits
+
+1. Du hast in Alby Hub schon eine **Sub-Wallet** für LNbits angelegt (siehe
+   [Alby Hub](/services/albyhub/#sub-wallet-für-lnbits-anlegen)). Ihr Guthaben begrenzt, was LNbits ausgeben
+   kann. Zum Testen genügen 1.000 Sats.
+2. Nimm die dort im Passwortmanager abgelegte Verbindungsadresse. Sie sieht so aus:
+   `nostr+walletconnect://<pubkey>?relay=...&relay=...&secret=...`
 3. **Alle `relay=`-Teile entfernen und genau einen einsetzen**, den lokalen:
 
    ```text
