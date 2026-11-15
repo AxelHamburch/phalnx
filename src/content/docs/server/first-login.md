@@ -48,11 +48,23 @@ Ob ein Neustart nötig ist, siehst du an der Meldung `*** System restart require
 
 ## Prüfen
 
+Damit der neue Servername überall greift, meldest du dich einmal ab und wieder als `root` an:
+
+```bash
+exit
+```
+
+```powershell
+ssh root@__SERVER_IP__
+```
+
+In der Eingabezeile steht jetzt `root@__HOSTNAME__` statt des alten Namens vom Anbieter. Dann prüfst du:
+
 ```bash
 hostnamectl
 timedatectl
 ```
 
-Es müssen dein Servername und deine Zeitzone stehen.
+Es müssen dein Servername (`Static hostname: __HOSTNAME__`) und deine Zeitzone stehen.
 
 Weiter mit [Swap und Tastaturlayout](/server/swap-keyboard/).

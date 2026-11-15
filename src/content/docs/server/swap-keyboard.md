@@ -64,6 +64,9 @@ In der Ausgabe muss `XKBLAYOUT="__KEYBOARD__"` stehen. Dann übernimmst du es:
 sudo setupcon --save
 ```
 
+Dabei erscheinen oft Warnungen wie `Unknown X keysym "dead_belowmacron"`. Sie sind harmlos, du kannst sie
+ignorieren.
+
 Im Kundenbereich des Anbieters gibt es oft zusätzlich ein Layout für die Konsole. Es sollte zum Layout auf
 dem Server passen.
 
