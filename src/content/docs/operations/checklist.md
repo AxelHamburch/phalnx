@@ -121,12 +121,8 @@ Optional bewertet systemd, wie stark die Sandbox der Dienste abgesichert ist:
 for s in phoenixd relay albyhub lnbits; do sudo systemd-analyze security $s --no-pager | tail -1; done
 ```
 
-Jede Zeile endet mit einer Zahl und einer Stufe. Bei allen vier Diensten ist `5.1 MEDIUM` zu erwarten. Je niedriger
-die Zahl, desto besser. Liegt ein Dienst deutlich darüber (zum Beispiel `8.3 EXPOSED`), fehlen in seiner Service-Datei
-Sandbox-Zeilen.
-MEDIUM ist hier normal, denn die Zahl misst nur, welche zusätzlichen Sandbox-Optionen in der Service-Datei gesetzt
-sind. Entscheidend sind die getrennten Benutzer, die Dateirechte und die Firewall. Zum Vergleichen taugt die Zahl, wenn
-sie sich nach einer Änderung an einer Service-Datei plötzlich stark verschlechtert.
+Bei allen vier Diensten ist `5.1 MEDIUM` zu erwarten. Deutlich schlechter (zum Beispiel `8.3 EXPOSED`) heißt:
+In der Service-Datei fehlen Sandbox-Zeilen.
 
 ## Überraschungen finden
 
