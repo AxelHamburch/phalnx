@@ -80,26 +80,22 @@ Weiter unten auf derselben Seite legst du die Meldungen fest. Das sind die Werte
 | **Settings updated** | Einstellungen wurden gespeichert | an lassen. Eine Meldung, die du nicht ausgelöst hast, ist ein Alarm. |
 | **Server Start/Stop** | LNbits wurde gestartet oder gestoppt | an lassen. Zeigt dir auch den Neustart nach den automatischen Updates. |
 | **Credit / Debit** | Der Super-User hat ein Konto gutgeschrieben oder belastet | an lassen |
-| **Incoming Payments** | Eingang ab einem Betrag (Standard 1.000.000 Sats) | Betrag auf einen Wert setzen, der für dich „größer" ist, zum Beispiel 10.000 |
-| **Outgoing Payments** | Ausgang ab einem Betrag (Standard 1.000.000 Sats) | **niedrig setzen**, zum Beispiel 1.000 bis 5.000. Hier willst du schnell Bescheid wissen. |
-| **Server Status** | Regelmäßiger Statusbericht (Standard alle 24 Stunden) | optional. Bleibt er aus, ist der Server vielleicht aus. |
-| **Balance Delta Changed** | Der Unterschied zwischen Knoten-Saldo und LNbits-Saldo hat sich verändert (Prüfung jede Minute) | Schwelle auf einen Wert über den üblichen Gebühren setzen, zum Beispiel 1.000. |
+| **Incoming Payments** | Eingang ab einem Betrag (Standard 1.000.000 Sats) | auf **10.000 Sats** setzen. Mikrozahlungen darunter werden ausgeblendet. |
+| **Outgoing Payments** | Ausgang ab einem Betrag (Standard 1.000.000 Sats) | auf **10.000 Sats** setzen, wie beim Eingang |
+| **Server Status** | Regelmäßiger Statusbericht (Standard alle 24 Stunden) | auf **168 Stunden** setzen. Ein Bericht pro Woche reicht. Bleibt er aus, ist der Server vielleicht aus. |
+| **Balance Delta Changed** | Der Unterschied zwischen Knoten-Saldo und LNbits-Saldo hat sich verändert (Prüfung jede Minute) | auf **0** setzen (Meldung aus). Du steuerst das Guthaben in Alby Hub selbst, deshalb weicht der Wert immer ab. |
 | **Watchdog Limit** | Meldet, wenn der Knoten deutlich weniger Guthaben hat als LNbits verwaltet | an, wenn du es nutzen willst |
 
-Die Standardwerte für Ein- und Ausgang von 1.000.000 Sats sind für ein Setup mit **kleinem Guthaben** viel zu hoch.
-Du würdest nie eine Meldung bekommen. Setze die Grenzen so, dass sie etwa ein Zehntel deines Budgets
-ausmachen. Speichere danach wieder mit **Speichern**.
-
-Die Meldung **Balance Delta** vergleicht den Saldo, den die Finanzierungsquelle meldet (hier über NWC), mit der
-Summe aller LNbits-Konten. Wie genau das bei deiner Einrichtung ausfällt, kann ich nicht allgemein sagen. Beobachte
-sie einige Tage und stelle die Schwelle ein, damit sie nicht bei jeder Gebühr auslöst.
+Die Standardwerte von 1.000.000 Sats sind für ein Setup mit kleinem Guthaben viel zu hoch, du bekämst nie eine
+Meldung. Speichere danach mit **Speichern**.
 
 ## 5. Testen
 
-1. Sende dir in LNbits eine Zahlung **über** deinem Grenzwert, zum Beispiel einen Betrag knapp über der
-   Ausgangsgrenze, und bezahle sie.
-2. Es muss in Telegram eine Nachricht erscheinen, mit Betrag und Konto.
-3. Stelle den Grenzwert danach wieder auf deinen Wunschwert.
+Der einfachste Test: Klicke in den Einstellungen auf **Speichern**. Es muss in Telegram die Meldung
+**Settings updated** erscheinen.
+
+Eine Zahlung löst erst ab 10.000 Sats eine Meldung aus. Willst du das testen, setze die Grenze für Ausgang oder
+Eingang kurz auf 100 Sats, zahle etwas mehr und stelle sie danach wieder auf 10.000 Sats.
 
 ## Wenn es nicht klappt
 
