@@ -120,10 +120,10 @@ Beim letzten Befehl muss `127.0.0.1:5000` erscheinen.
 
 ## NWC-Verbindung von Alby Hub zu LNbits
 
-1. In Alby Hub (`http://localhost:8029`): **Neue Verbindung** anlegen, Name `lnbits`, **Budget klein**. Zum
-   Testen genügen 1.000 Sats, später zum Beispiel 10.000 Sats pro Monat. Rechte: Rechnung bezahlen,
-   Rechnung erstellen, Saldo lesen, Transaktionen lesen.
-2. Die Verbindungsadresse kopieren. Sie sieht so aus:
+1. Du hast in Alby Hub schon eine **Sub-Wallet** für LNbits angelegt (siehe
+   [Alby Hub](/services/albyhub/#sub-wallet-für-lnbits-anlegen)). Ihr Guthaben begrenzt, was LNbits ausgeben
+   kann. Zum Testen genügen 1.000 Sats.
+2. Nimm die dort im Passwortmanager abgelegte Verbindungsadresse. Sie sieht so aus:
    `nostr+walletconnect://<pubkey>?relay=...&relay=...&secret=...`
 3. **Alle `relay=`-Teile entfernen und genau einen einsetzen**, den lokalen:
 

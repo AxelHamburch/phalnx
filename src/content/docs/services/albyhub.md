@@ -206,16 +206,20 @@ phoenixd hat zu Beginn **keinen Kanal**, und ohne Kanal kannst du weder senden n
 entsteht automatisch bei der ersten eingehenden Zahlung. Du füllst die angeschlossene phoenixd-Wallet also
 direkt in Alby Hub (über den Tunnel, `http://localhost:8029`):
 
-1. Lass dir in Alby Hub eine **Rechnung (Invoice)** zum Empfangen anzeigen, zum Beispiel über den Bereich
-   „Wallet", Knopf „Empfangen". Die Bezeichnungen können je nach Version leicht abweichen.
-2. Gib einen Betrag von etwa **50.000 Sats** ein.
-3. Bezahle die Rechnung aus einer anderen Wallet.
+1. Öffne links **Wallet** und klicke auf **Receive**.
+2. Gib den Betrag ein und eine Beschreibung, zum Beispiel `phoenix start`, und klicke auf **Create Invoice**.
+   Beginne mit **nicht weniger als 30.000 Sats**: Das Öffnen des Kanals und die Gebühren dafür kosten schon
+   rund 20.000 Sats (siehe unten).
+3. Bezahle die Rechnung aus einer anderen Wallet. Kommt die Zahlung an, zeigt Alby Hub **Payment Received**.
 
 Mit dieser ersten Zahlung öffnet ACINQ den Kanal zu deinem Knoten. Dafür behält ACINQ eine **Gebühr** ein, für
 die Liquidität und die Transaktionen zum Öffnen und späteren Schließen des Kanals. Sie liegt in der Größenordnung
-von **etwa 20.000 Sats**. Von 50.000 Sats bleiben dir dann rund **30.000 Sats** als Guthaben. Die aktuellen
-Bedingungen stehen auf [phoenix.acinq.co/server](https://phoenix.acinq.co/server). Zahle nur, was du bereit
-bist auszugeben, und halte das Guthaben insgesamt klein.
+von **etwa 20.000 Sats**. Von 30.000 Sats bleiben dir dann rund **10.000 Sats** als Guthaben, mit mehr Startbetrag
+entsprechend mehr. Die aktuellen Bedingungen stehen auf [phoenix.acinq.co/server](https://phoenix.acinq.co/server).
+Zahle nur, was du bereit bist auszugeben, und halte das Guthaben insgesamt klein.
+
+Auf der Startseite („Home") hakt Alby Hub nun den Schritt **1. Receive your first payment** ab und zeigt den
+zweiten Schritt: **2. Connect your first app**. Genau das brauchst du als Nächstes (siehe unten).
 
 Danach dauert es **einige Minuten**, bis der Kanal endgültig offen ist. Den Stand prüfst du im Terminal:
 
@@ -231,5 +235,24 @@ In der Liste `channels` erscheint ein Eintrag. Steht dort `"state": "Normal"`, i
 **empfangen** (Rechnung in Alby Hub erzeugen, aus einer anderen Wallet zahlen) und 100 Sats **senden** (Rechnung
 einer anderen Wallet bezahlen). Klappt beides, sind phoenixd und Alby Hub richtig verbunden. LNbits kommt erst in
 den späteren Kapiteln dazu.
+
+## Sub-Wallet für LNbits anlegen
+
+LNbits bekommt nicht Zugriff auf die ganze Wallet, sondern auf eine eigene **Sub-Wallet** mit eigenem Guthaben.
+Das ist der Schritt „Connect your first app" (über den Tunnel, `http://localhost:8029`):
+
+1. Öffne links **Sub-wallets** und klicke auf **Create Sub-wallet**.
+2. Als Name nimmst du den Namen deiner LNbits-Instanz, zum Beispiel `__DOMAIN__`, und klickst auf
+   **Create Sub-wallet**.
+3. Die **Lightning address** überspringst du, sie gehört zu einem Alby-Account. Du kannst die Sub-Wallet aber
+   schon mit **Top Up** um etwa 1.000 Sats auffüllen. Dann klickst du auf **Next**.
+4. Jetzt kommt der wichtige Teil. Klicke auf **Copy Connection Secret** und lege den Wert im
+   **Passwortmanager** ab. Alby Hub zeigt ihn **nur jetzt** und nie wieder. Den QR-Code (Reveal QR) brauchst du
+   nicht.
+5. Scrolle ganz nach unten und klicke auf **Finish**, damit die Verbindung übernommen wird.
+
+Der kopierte Wert ist die NWC-Adresse (`nostr+walletconnect://…`). Du passt sie im Kapitel
+[LNbits](/services/lnbits/#nwc-verbindung-von-alby-hub-zu-lnbits) leicht an und trägst sie dort als
+Finanzierungsquelle ein.
 
 Weiter mit dem [lokalen Relay](/services/relay/).
