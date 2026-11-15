@@ -8,7 +8,18 @@ der öffentliche liegt auf dem Server.
 
 ## Schlüssel erzeugen (auf dem PC)
 
-Im Terminal deines PCs (unter Windows PowerShell), **nicht** auf dem Server:
+Im Terminal deines PCs (unter Windows **PowerShell**, nicht die Eingabeaufforderung `cmd`), **nicht** auf dem Server.
+Die Eingabezeile beginnt in PowerShell mit `PS`, zum Beispiel `PS C:\Users\...>`. Steht dort nur `C:\Users\...>`,
+hast du `cmd` offen. Dort funktionieren `$HOME` und `Get-Content` nicht. Öffne dann PowerShell über das
+Startmenü.
+
+Lege zuerst den Ordner `.ssh` an, falls er noch fehlt (ist er schon da, passiert nichts):
+
+```powershell
+New-Item -ItemType Directory -Force $HOME\.ssh
+```
+
+Dann erzeugst du den Schlüssel:
 
 ```powershell
 ssh-keygen -t ed25519 -C "__HOSTNAME__-admin" -f $HOME\.ssh\__SSH_KEY__
