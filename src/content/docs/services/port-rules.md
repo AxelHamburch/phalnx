@@ -117,9 +117,14 @@ sudo -u ualbyhub curl -s -m 3 -o /dev/null -w '%{http_code}\n' http://127.0.0.1:
 
 Das muss **antworten**: `401` (verbunden, aber ohne Passwort).
 
-Dann öffnest du den Tunnel neu und rufst `http://localhost:8029` auf. Alby Hub muss laden. Lädt es nicht
-mehr, kommt die Tunnel-Verbindung nicht als `__ADMIN_USER__` an. Zum Schluss sendest du aus LNbits noch
-einmal 100 Sats, um die NWC-Kette zu prüfen.
+Dann öffnest du den Tunnel neu, in einem **eigenen Fenster** auf deinem PC (siehe [SSH-Tunnel](/services/tunnel/)):
+
+```bash
+ssh -N -L 8029:127.0.0.1:8029 __HOSTNAME__
+```
+
+Das Fenster bleibt leer und offen. Rufe im Browser `http://localhost:8029` auf. Alby Hub muss laden. Lädt es
+nicht mehr, kommt die Tunnel-Verbindung nicht als `__ADMIN_USER__` an.
 
 :::note[Grenze der Regel]
 Die Regel schützt nur Verbindungen über `localhost`. Als `root` (also bei einer Übernahme von `root`) hilft
