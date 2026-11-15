@@ -157,6 +157,12 @@ Es muss `TcpTestSucceeded : False` erscheinen.
 Alby Hub legt beim ersten Aufruf das Konto an. Wer die Seite zuerst öffnet, wird Besitzer. Das bist du, weil
 sie nur über den Tunnel erreichbar ist.
 
+:::note[Anmeldung merkt sich der Browser]
+Öffnest du `http://localhost:8029` später über den Tunnel wieder, kommst du ohne Passwortabfrage direkt in
+Alby Hub. Der Browser merkt sich die Anmeldung. Wer das nicht möchte, öffnet die Adresse in einem
+**Inkognito-Fenster**. Dann fragt Alby Hub bei jeder neuen Sitzung das Passwort ab.
+:::
+
 ## Alby Hub mit Guthaben füllen (Kanal öffnen)
 
 phoenixd hat zu Beginn **keinen Kanal**, und ohne Kanal kannst du weder senden noch empfangen. Der Kanal
