@@ -14,6 +14,29 @@ description: Was du vorher brauchst und wie du mit dieser Anleitung arbeitest, i
 - Einen **Passwortmanager** für die Passphrase des SSH-Schlüssels, das Admin-Passwort und weitere Passwörter.
 - Etwas **Zeit und Ruhe**. Die Anleitung ist so gebaut, dass du jeden Schritt prüfst, bevor du weitermachst.
 
+## VPS-Empfehlung
+
+Getestet habe ich den Phalnx-Stack auf einem preisgünstigen **netcup VPS nano G11.5s** mit 2 vCore, 2 GB RAM
+und 60 GB SSD für unter 4 Euro im Monat (Preis zum Zeitpunkt des Tests, er kann sich ändern).
+
+[![netcup VPS nano G11.5s: 2 vCore, 2 GB RAM, 60 GB SSD](../../../assets/netcup-vps-nano.png)](https://www.netcup.com/de/?ref=261688)
+
+**Meine Erfahrung mit netcup:**
+
+- Die Rechenzentren stehen in Europa.
+- Die technische Ausstattung ist sehr gut. Ich hatte bisher keine Probleme.
+- Das Kunden- und Control-Panel wirkt etwas veraltet.
+- Der Kundenservice scheint überlastet und antwortet träge. Das bringt netcup schlechte Bewertungen auf
+  Bewertungsportalen ein. Wer weiß, was er will, und den Server einmal eingerichtet hat, braucht den Service
+  kaum und bekommt ein unschlagbares Preis-Leistungs-Verhältnis.
+
+:::tip[Phalnx unterstützen]
+Das Bild und [dieser Link](https://www.netcup.com/de/?ref=261688) führen zu netcup mit meinem Empfehlungslink.
+Wenn du darüber bestellst, unterstützt du diese Seite. Für dich ändert sich am Preis nichts. Wähle dort
+**Server → vServer Lite → VPS nano G11.5s**. Jeder andere Anbieter mit Ubuntu 24.04 und mindestens 2 GB RAM
+funktioniert genauso.
+:::
+
 ## Vor dem Start
 
 - [ ] Ubuntu-Version **24.04 LTS** beim Anbieter wählen.
