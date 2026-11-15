@@ -79,6 +79,22 @@ Test-NetConnection __SERVER_IP__ -Port 8029
 
 Beide müssen `TcpTestSucceeded : False` zeigen. Zur Gegenprobe muss `-Port __SSH_PORT__` `True` zeigen.
 
+In **Git Bash** (und auf Linux) geht derselbe Test mit Bordmitteln:
+
+```bash
+timeout 3 bash -c '</dev/tcp/__SERVER_IP__/9740' && echo OFFEN || echo ZU
+timeout 3 bash -c '</dev/tcp/__SERVER_IP__/8029' && echo OFFEN || echo ZU
+```
+
+Auf **macOS** (dort gibt es `timeout` nicht, dafür `nc`):
+
+```bash
+nc -z -w 3 __SERVER_IP__ 9740 && echo OFFEN || echo ZU
+nc -z -w 3 __SERVER_IP__ 8029 && echo OFFEN || echo ZU
+```
+
+Beide Zeilen müssen `ZU` zeigen. Zur Gegenprobe muss derselbe Befehl mit dem Port `__SSH_PORT__` `OFFEN` zeigen.
+
 ## Dienste und Schutz
 
 ```bash
