@@ -158,10 +158,4 @@ zuerst leer. Der erste Kanal entsteht bei der ersten eingehenden Zahlung. Danach
 und Kapazität des Kanals (Einzelheiten im Kapitel [Updates durchführen](/operations/updates/#phoenixd)). Dabei fallen Gebühren an. Die aktuellen Bedingungen stehen auf
 [phoenix.acinq.co/server](https://phoenix.acinq.co/server). Lies sie, bevor du Geld schickst.
 
-Optional bewertet systemd die Absicherung des Dienstes. Je niedriger die Zahl, desto besser:
-
-```bash
-sudo systemd-analyze security phoenixd
-```
-
 Weiter mit [Alby Hub](/services/albyhub/).

@@ -99,6 +99,17 @@ sudo journalctl -p err -b --no-pager | tail -20
 
 Zeigt Fehler seit dem Start. Es sollte nichts Auffälliges dabei sein.
 
+Optional bewertet systemd, wie stark die Sandbox der Dienste abgesichert ist:
+
+```bash
+for s in phoenixd relay albyhub lnbits; do sudo systemd-analyze security $s --no-pager | tail -1; done
+```
+
+Jede Zeile endet mit einer Zahl und einer Stufe, zum Beispiel `5.1 MEDIUM`. Je niedriger die Zahl, desto besser.
+MEDIUM ist hier normal, denn die Zahl misst nur, welche zusätzlichen Sandbox-Optionen in der Service-Datei gesetzt
+sind. Entscheidend sind die getrennten Benutzer, die Dateirechte und die Firewall. Zum Vergleichen taugt die Zahl, wenn
+sie sich nach einer Änderung an einer Service-Datei plötzlich stark verschlechtert.
+
 ## Überraschungen finden
 
 Nichts darf laufen, was du nicht selbst eingerichtet hast:
