@@ -184,4 +184,28 @@ sudo journalctl -u lnbits -f --since "2 hour ago"
 Suche nach `Baseurl: https://__DOMAIN__/`. Die Zeile schreibt LNbits beim Start, also nach einem Neustart. Mit `Strg+C`
 beendest du die Anzeige.
 
+## Erweiterungsquelle prüfen
+
+LNbits holt Erweiterungen, zum Beispiel **Bolt Cards**, aus einer Quelle. Auf einer frischen Installation ist die
+offizielle Quelle schon eingetragen. Hast du Quellen geändert oder eigene ergänzt, kann sie fehlen. Dann fehlen
+auch die Erweiterungen in der Liste.
+
+1. Tunnel offen, `http://localhost:5000` aufrufen und mit dem Super User anmelden.
+2. Öffne **Settings → Extensions** (deutsch: **Erweiterungen**). Im Abschnitt **Extension Sources**
+   (**Erweiterungsquellen**) steht das Feld **Quell-URL** mit den eingetragenen Quellen.
+3. Die offizielle Quelle muss dabei sein:
+
+   ```text
+   https://raw.githubusercontent.com/lnbits/lnbits-extensions/main/extensions.json
+   ```
+
+   Fehlt sie, klicke rechts neben **Quell-URL** auf das **+**, füge die Adresse ein und bestätige.
+4. Klicke auf **Save** und danach auf **Restart server** (**Server neu starten**). LNbits merkt sich die Liste eine
+   Stunde. Erscheinen die Erweiterungen nicht sofort, lade die Seite neu und warte kurz.
+
+:::caution[Nur vertrauenswürdige Quellen]
+Eine Erweiterung läuft auf deinem Server. Trage deshalb außer der offiziellen Quelle nur Quellen ein, denen du
+vertraust.
+:::
+
 Weiter mit [Caddy](/services/caddy/).
