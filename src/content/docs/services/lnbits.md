@@ -177,32 +177,11 @@ Den A-Eintrag und das Zertifikat richtest du im Kapitel [Caddy](/services/caddy/
 
 ### Prüfen
 
-LNbits schreibt die Basis-URL beim Start ins Log. Beim nächsten Neustart (zum Beispiel im
-[Neustart-Test](/operations/reboot-test/)) prüfst du:
-
-```bash
-sudo journalctl -u lnbits --no-pager | grep Baseurl | tail -n 1
-```
-
-Es muss `Baseurl: https://__DOMAIN__/` erscheinen. Steht dort weiter `http://127.0.0.1:5000/`, hat LNbits den neuen
-Wert nicht gespeichert. Dann Schritt 4 wiederholen.
-
-Möchtest du das Log live mitlesen, zum Beispiel bei einem Test mit einer zweiten Wallet, zeigt dieser Befehl die
-letzten 2 Stunden und danach jede neue Zeile. Mit `Strg+C` beendest du die Anzeige. Du gibst ihn als
-`__ADMIN_USER__` ein.
-
-**Du bist schon als `__ADMIN_USER__` angemeldet** (Direktbefehl):
-
 ```bash
 sudo journalctl -u lnbits -f --since "2 hour ago"
 ```
 
-**Du bist noch in der Shell von `ulnbits`** (nach `sudo -u ulnbits -H bash -c 'cd ~ && exec bash'`): Dort gibt es
-kein `sudo`. Verlasse die Shell zuerst mit `exit`:
-
-```bash
-exit
-sudo journalctl -u lnbits -f --since "2 hour ago"
-```
+Suche nach `Baseurl: https://__DOMAIN__/`. Die Zeile schreibt LNbits beim Start, also nach einem Neustart. Mit `Strg+C`
+beendest du die Anzeige.
 
 Weiter mit [Caddy](/services/caddy/).
