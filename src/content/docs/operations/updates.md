@@ -378,6 +378,17 @@ sudo journalctl -u lnbits --since "2026-11-14 05:00:00" --until "2026-11-14 08:0
 Öffne LNbits und sende 100 Sats. Prüfe außerdem, ob deine **Erweiterungen** noch funktionieren, denn sie
 müssen zur Version passen.
 
+### Erweiterungen nach einem Update
+
+LNbits aktualisiert installierte Erweiterungen von selbst, beim Start und standardmäßig alle 24 Stunden. Lädt LNbits dabei im laufenden Betrieb neue Dateien, bleibt die Adresse der Oberfläche gleich (LNbits hängt nur die Startzeit des Servers an). Der Browser benutzt dann weiter die **alte** Datei zusammen mit der neuen Seite. Das zeigt sich zum Beispiel als eingefrorene Seite oder als Fehler wie `… is not a function` in der Browser-Konsole (`F12`).
+
+Das behebst du so:
+
+1. LNbits neu starten: `sudo systemctl restart lnbits` oder im Admin-Bereich **Server neu starten**.
+2. Die Seite einmal **hart neu laden** (`Strg+Umschalt+R`).
+
+Die Einstellungen dazu stehen im Admin-Bereich unter **Settings → Extensions**: **Update extensions on startup** und **Extension update interval (hours)**. Bei `0` gibt es keine zeitgesteuerten Updates mehr, nur noch beim Start.
+
 **Zurück zum alten Stand:** `sudo systemctl stop lnbits`, als `ulnbits` im Ordner `lnbits` mit
 `git checkout v<alte Version>` zurückgehen, `uv sync --all-extras` ausführen und die Sicherung zurückspielen,
 falls sich die Datenbank verändert hat.
