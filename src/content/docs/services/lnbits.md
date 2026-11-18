@@ -175,16 +175,6 @@ Server keinen Zahlungslink bezahlen, der ebenfalls auf deinem Server liegt. LNbi
 Die Domain muss dafür noch nicht erreichbar sein. Der Wert ist nur ein Text, den LNbits mit Adressen vergleicht.
 Den A-Eintrag und das Zertifikat richtest du im Kapitel [Caddy](/services/caddy/) ein.
 
-:::note[Server hinter einem Router oder Cloud-NAT]
-Bei einem normalen VPS steht die öffentliche IP-Adresse auf dem Server selbst (`ip -4 addr`). Dann musst du nichts
-weiter tun. Bekommt der Server von einem Router oder einem Cloud-NAT eine **zusätzliche** öffentliche Adresse, die
-er selbst nicht sieht, trägst du sie in der `.env` ein und startest LNbits neu:
-
-```ini
-LNBITS_OUTBOUND_HOST_IPS=["__SERVER_IP__"]
-```
-:::
-
 ### Prüfen
 
 LNbits schreibt die Basis-URL beim Start ins Log. Beim nächsten Neustart (zum Beispiel im
@@ -196,5 +186,23 @@ sudo journalctl -u lnbits --no-pager | grep Baseurl | tail -n 1
 
 Es muss `Baseurl: https://__DOMAIN__/` erscheinen. Steht dort weiter `http://127.0.0.1:5000/`, hat LNbits den neuen
 Wert nicht gespeichert. Dann Schritt 4 wiederholen.
+
+Möchtest du das Log live mitlesen, zum Beispiel bei einem Test mit einer zweiten Wallet, zeigt dieser Befehl die
+letzten 2 Stunden und danach jede neue Zeile. Mit `Strg+C` beendest du die Anzeige. Du gibst ihn als
+`__ADMIN_USER__` ein.
+
+**Du bist schon als `__ADMIN_USER__` angemeldet** (Direktbefehl):
+
+```bash
+sudo journalctl -u lnbits -f --since "2 hour ago"
+```
+
+**Du bist noch in der Shell von `ulnbits`** (nach `sudo -u ulnbits -H bash -c 'cd ~ && exec bash'`): Dort gibt es
+kein `sudo`. Verlasse die Shell zuerst mit `exit`:
+
+```bash
+exit
+sudo journalctl -u lnbits -f --since "2 hour ago"
+```
 
 Weiter mit [Caddy](/services/caddy/).
