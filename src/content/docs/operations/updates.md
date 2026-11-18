@@ -380,7 +380,7 @@ müssen zur Version passen.
 
 ### Erweiterungen nach einem Update
 
-LNbits aktualisiert installierte Erweiterungen von selbst, beim Start und standardmäßig alle 24 Stunden. Lädt LNbits dabei im laufenden Betrieb neue Dateien, bleibt die Adresse der Oberfläche gleich (LNbits hängt nur die Startzeit des Servers an). Der Browser benutzt dann weiter die **alte** Datei zusammen mit der neuen Seite. Das zeigt sich zum Beispiel als eingefrorene Seite oder als Fehler wie `… is not a function` in der Browser-Konsole (`F12`).
+LNbits aktualisiert installierte Erweiterungen von selbst, beim Start und standardmäßig alle 24 Stunden. Lädt LNbits dabei im laufenden Betrieb neue Dateien, bleibt die Adresse der Oberfläche gleich (LNbits hängt nur die Startzeit des Servers an). Der Browser kann dann weiter die **alte** Datei zusammen mit der neuen Seite benutzen (aus einem noch offenen Tab oder seinem Zwischenspeicher). LNbits schickt für diese Dateien keine Angaben zur Gültigkeit mit, deshalb ist das nicht sicher, aber nach einer Neuinstallation derselben Version ist es wahrscheinlich. Das zeigt sich zum Beispiel als eingefrorene Seite oder als Fehler wie `… is not a function` in der Browser-Konsole (`F12`).
 
 Das behebst du so:
 
