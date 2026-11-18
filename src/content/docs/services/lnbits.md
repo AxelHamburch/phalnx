@@ -152,4 +152,49 @@ senden**. Klappt beides, ist die Kette phoenixd, Alby Hub, Relay und LNbits in O
 Für den Fall, dass der lokale Relay oder Alby Hub ausfällt, steht der Notweg im Kapitel
 [Notfall und Fehlersuche](/operations/emergency/).
 
+## Basis-URL auf die eigene Domain setzen
+
+LNbits vergleicht ab Version 1.7 mit dieser Einstellung, ob eine Adresse auf den **eigenen Server** zeigt. Der
+Standard ist `http://127.0.0.1:5000/` (intern). Das passt nicht zu deiner öffentlichen Domain. Dann blockt LNbits
+alle Anfragen, die von deinem Server an deine eigene Domain gehen. Zum Beispiel kann dann eine Wallet auf deinem
+Server keinen Zahlungslink bezahlen, der ebenfalls auf deinem Server liegt. LNbits meldet in dem Fall
+`Requests to this server are not allowed.` (Fehler 400).
+
+1. Tunnel offen (siehe [SSH-Tunnel](/services/tunnel/)), im Browser `http://localhost:5000` aufrufen und mit dem
+   Super User anmelden.
+2. Öffne **Settings → Security** (deutsch: **Sicherheit**). Im Abschnitt **Server Management**
+   (**Serververwaltung**) steht das Feld **Base URL of the server** (**Statische/Basis-URL für den Server**).
+3. Ersetze `http://127.0.0.1:5000/` durch deine Domain mit `https://`, ohne Pfad dahinter:
+
+   ```text
+   https://__DOMAIN__/
+   ```
+4. Klicke auf **Save** und lade die Seite danach einmal neu. Der Hinweis **Outbound request protection**
+   unter dem Feld nennt jetzt deine Domain statt `127.0.0.1`.
+
+Die Domain muss dafür noch nicht erreichbar sein. Der Wert ist nur ein Text, den LNbits mit Adressen vergleicht.
+Den A-Eintrag und das Zertifikat richtest du im Kapitel [Caddy](/services/caddy/) ein.
+
+:::note[Server hinter einem Router oder Cloud-NAT]
+Bei einem normalen VPS steht die öffentliche IP-Adresse auf dem Server selbst (`ip -4 addr`). Dann musst du nichts
+weiter tun. Bekommt der Server von einem Router oder einem Cloud-NAT eine **zusätzliche** öffentliche Adresse, die
+er selbst nicht sieht, trägst du sie in der `.env` ein und startest LNbits neu:
+
+```ini
+LNBITS_OUTBOUND_HOST_IPS=["__SERVER_IP__"]
+```
+:::
+
+### Prüfen
+
+LNbits schreibt die Basis-URL beim Start ins Log. Beim nächsten Neustart (zum Beispiel im
+[Neustart-Test](/operations/reboot-test/)) prüfst du:
+
+```bash
+sudo journalctl -u lnbits --no-pager | grep Baseurl | tail -n 1
+```
+
+Es muss `Baseurl: https://__DOMAIN__/` erscheinen. Steht dort weiter `http://127.0.0.1:5000/`, hat LNbits den neuen
+Wert nicht gespeichert. Dann Schritt 4 wiederholen.
+
 Weiter mit [Caddy](/services/caddy/).
