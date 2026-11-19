@@ -200,7 +200,16 @@ auch die Erweiterungen in der Liste.
    ```
 
    Fehlt sie, klicke rechts neben **Quell-URL** auf das **+**, füge die Adresse ein und bestätige.
-4. Klicke auf **Save** und danach auf **Restart server** (**Server neu starten**). LNbits merkt sich die Liste eine
+4. Für die ZapBox und NFC-Tag-Anmeldung brauchst du zwei weitere Quellen. Sie liefern Erweiterungen, die nicht in der
+   offiziellen Liste stehen. Trage sie auf dieselbe Weise mit dem **+** ein:
+
+   | Quelle | Erweiterung | Mehr Infos |
+   | --- | --- | --- |
+   | `https://raw.githubusercontent.com/AxelHamburch/zapbox_extension/main/extensions.json` | **ZapBox** (zapbox_extension) | [GitHub: zapbox_extension](https://github.com/AxelHamburch/zapbox_extension) |
+   | `https://raw.githubusercontent.com/AxelHamburch/tagid_extension/main/extensions.json` | **TagID** (tagid_extension) | [GitHub: tagid_extension](https://github.com/AxelHamburch/tagid_extension) |
+
+   Brauchst du diese Erweiterungen nicht, lass die Quellen weg.
+5. Klicke auf **Save** und danach auf **Restart server** (**Server neu starten**). LNbits merkt sich die Liste eine
    Stunde. Erscheinen die Erweiterungen nicht sofort, lade die Seite neu und warte kurz.
 
 :::caution[Nur vertrauenswürdige Quellen]
