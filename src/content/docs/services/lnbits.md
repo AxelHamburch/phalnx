@@ -203,13 +203,13 @@ auch die Erweiterungen in der Liste.
 4. Für die ZapBox und NFC-Tag-Anmeldung brauchst du zwei weitere Quellen. Sie liefern Erweiterungen, die nicht in der
    offiziellen Liste stehen. Trage sie auf dieselbe Weise mit dem **+** ein:
 
-   **ZapBox** ([GitHub: zapbox_extension](https://github.com/AxelHamburch/zapbox_extension)):
+   **ZapBox** (Fork von bitcoinSwitch) ([GitHub: zapbox_extension](https://github.com/AxelHamburch/zapbox_extension)):
 
    ```text
    https://raw.githubusercontent.com/AxelHamburch/zapbox_extension/main/extensions.json
    ```
 
-   **TagID** ([GitHub: tagid_extension](https://github.com/AxelHamburch/tagid_extension)):
+   **TagID** (Fork von boltcards) ([GitHub: tagid_extension](https://github.com/AxelHamburch/tagid_extension)):
 
    ```text
    https://raw.githubusercontent.com/AxelHamburch/tagid_extension/main/extensions.json
