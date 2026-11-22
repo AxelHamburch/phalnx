@@ -31,40 +31,45 @@ Die Schritte 1 bis 5 aus [Backups extern sichern](/optional/backup-external/) m�
 
 In der AWS-Konsole unter **S3** → **Create bucket**:
 
-- **AWS Region** (AWS-Region): eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). Merke dir die Region.
-- **Bucket type** (Bucket-Typ): **General purpose** (Allzweck). „Directory“ (Verzeichnis) brauchst du nicht.
-- **Bucket namespace** (Bucket-Namespace): **Global namespace** (Globaler Namespace). Die Konsole empfiehlt den
+- **AWS-Region** (AWS Region): eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). Merke dir die Region.
+- **Bucket-Typ** (Bucket type): **Allzweck** (General purpose). „Verzeichnis“ (Directory) brauchst du nicht.
+- **Bucket-Namespace** (Bucket namespace): **Globaler Namespace** (Global namespace). Die Konsole empfiehlt den
   regionalen Namespace des Kontos. Dessen Bucket-Namen und ARNs sehen aber anders aus, und die Policy und die Befehle
   in diesem Kapitel passen dann nicht mehr. Bleib deshalb beim globalen Namespace.
-- **Bucket name** (Bucket-Name): ein weltweit eindeutiger Name, zum Beispiel `phalnx-backup-<zufallszahl>`. Erlaubt sind
+- **Bucket-Name** (Bucket name): ein weltweit eindeutiger Name, zum Beispiel `phalnx-backup-<zufallszahl>`. Erlaubt sind
   Kleinbuchstaben, Ziffern und Bindestriche, 3 bis 63 Zeichen.
-- **Object Ownership** (Objekteigentümerschaft): **ACLs disabled** (ACLs deaktiviert, empfohlen). Der Zugriff läuft nur
+- **Objekteigentümerschaft** (Object Ownership): **ACLs deaktiviert** (ACLs disabled, empfohlen). Der Zugriff läuft nur
   über die Policy aus Schritt 3.
-- **Block all public access**: **eingeschaltet lassen** (Standard).
-- **Bucket Versioning**: **ausgeschaltet** lassen (Standard). Mit Versionierung bliebe eine „gelöschte“ Datei als alte
-  Version erhalten, und die Regel unten räumte sie nicht auf.
-- **Default encryption**: der Standard (SSE-S3) genügt. Die Dateien sind ohnehin schon mit age verschlüsselt.
+- **Gesamten öffentlichen Zugriff blockieren** (Block all public access): **eingeschaltet lassen** (Standard).
+- **Bucket-Versioning** (Bucket Versioning): **ausgeschaltet** lassen (Standard). Mit Versionierung bliebe eine
+  „gelöschte“ Datei als alte Version erhalten, und die Regel unten räumte sie nicht auf.
+- **Standardverschlüsselung** (Default encryption): der Standard (SSE-S3) genügt. Die Dateien sind ohnehin schon mit age
+  verschlüsselt.
 
 ## 2. Lebenszyklus-Regel: nach 14 Tagen löschen
 
-Im Bucket unter **Management** → **Lifecycle rules** → **Create lifecycle rule**:
+Im Bucket unter **Verwaltung** (Management) → **Lebenszyklusregeln** (Lifecycle rules) → **Lebenszyklusregel erstellen**
+(Create lifecycle rule):
 
-- **Lifecycle rule name** (Lebenszyklusregelname): `phalnx-14-tage`
-- **Choose a rule scope** (Regelumfang): **Limit the scope of this rule using one or more filters** (Den Umfang dieser
-  Regel mit einem oder mehreren Filtern beschränken)
-- **Prefix** (Präfix): `phalnx/` (mit dem Schrägstrich am Ende, ohne Bucket-Namen). Tags und Objektgröße bleiben leer.
-- **Lifecycle rule actions** (Lebenszyklusregelaktionen): ankreuzen
-  - **Expire current versions of objects** (Aktuelle Objektversionen ablaufen lassen)
-  - **Delete expired object delete markers or incomplete multipart uploads** (Abgelaufene
-    Objekt-Löschmarkierungen oder unvollständige mehrteilige Uploads löschen)
-- **Expire current versions of objects**: **Days after object creation** (Tage nach der Objekterstellung) = `14`
-- **Delete expired object delete markers or incomplete multipart uploads**: Hier setzt du **nur** den Haken bei
-  **Incomplete multipart uploads** (Für unvollständige mehrteilige Uploads) und trägst **`1`** Tag ein. Der Haken bei
-  den Löschmarkierungen ist ausgegraut, solange „Aktuelle Objektversionen ablaufen lassen“ aktiv ist. Das ist richtig
-  so, du brauchst ihn nicht (der Bucket hat keine Versionierung).
+- **Lebenszyklusregelname** (Lifecycle rule name): `phalnx-14-tage`
+- **Regelumfang auswählen** (Choose a rule scope): **Den Umfang dieser Regel mit einem oder mehreren Filtern
+  beschränken** (Limit the scope of this rule using one or more filters)
+- **Präfix** (Prefix): `phalnx/` (mit dem Schrägstrich am Ende, ohne Bucket-Namen). **Objekt-Tags** (Object tags) und
+  **Objektgröße** (Object size) bleiben leer.
+- **Lebenszyklusregelaktionen** (Lifecycle rule actions): ankreuzen
+  - **Aktuelle Objektversionen ablaufen lassen** (Expire current versions of objects)
+  - **Abgelaufene Objekt-Löschmarkierungen oder unvollständige mehrteilige Uploads löschen** (Delete expired object
+    delete markers or incomplete multipart uploads)
+- **Aktuelle Objektversionen ablaufen lassen**: **Tage nach der Objekterstellung** (Days after object creation) = `14`
+- **Abgelaufene Objekt-Löschmarkierungen oder unvollständige mehrteilige Uploads löschen**: Hier setzt du **nur** den
+  Haken bei **Für unvollständige mehrteilige Uploads** (Incomplete multipart uploads) und trägst **`1`** Tag ein. Der
+  Haken bei **Löschmarkierungen für abgelaufenes Objekt löschen** (Delete expired object delete markers) ist
+  ausgegraut, solange „Aktuelle Objektversionen ablaufen lassen“ aktiv ist. Das ist richtig so, du brauchst ihn nicht
+  (der Bucket hat keine Versionierung).
 
-Unten zeigt die Konsole eine Übersicht. Dort muss **Tag 14: Objekte laufen ab** stehen. Speichern mit **Create rule**
-(Regel erstellen). Die Regel steht danach auf **Enabled** (Aktiviert).
+Unten zeigt die Konsole die **Übergangs- und Ablaufaktionen überprüfen** (Review transition and expiration actions).
+Dort muss **Tag 14: Objekte laufen ab** stehen. Speichern mit **Lebenszyklusregel erstellen** (Create rule). Die Regel
+steht danach auf **Enabled** (Aktiviert).
 
 :::note[So genau ist die 14-Tage-Grenze]
 AWS prüft die Regeln einmal täglich und löscht Dateien erst, wenn sie **mindestens 14 Tage** alt sind. Es liegen also
@@ -77,7 +82,8 @@ Lokal auf dem Server bleiben unabhängig davon die letzten 14 (`KEEP=14`).
 Der Server bekommt einen eigenen AWS-Benutzer, der **nur hochladen** darf. Er darf **nichts löschen und nichts
 herunterladen**. Wird der Server übernommen, kann der Angreifer deine Backups im Bucket weder löschen noch lesen.
 
-In der AWS-Konsole unter **IAM** → **Policies** → **Create policy** → Reiter **JSON**. Ersetze `<bucket>` (samt der
+In der AWS-Konsole unter **IAM** → **Richtlinien** (Policies) → **Richtlinie erstellen** (Create policy) → Ansicht
+**JSON**. Ersetze `<bucket>` (samt der
 Klammern) durch den Namen deines Buckets:
 
 ```json
@@ -99,17 +105,27 @@ Klammern) durch den Namen deines Buckets:
 }
 ```
 
-Name der Policy: `phalnx-backup-upload`. Dann unter **IAM** → **Users** → **Create user**:
+Name der Richtlinie: `phalnx-backup-upload`. Dann unter **IAM** → **IAM-Benutzer** (Users) → **Person hinzufügen**
+(Create user). Die Konsole nennt den Benutzer „Person“:
 
-- **User name**: `phalnx-backup`
-- **Provide user access to the AWS Management Console** (Gewähren des Benutzerzugriffs auf die
-  AWS-Managementkonsole): **Haken nicht setzen**, das Kästchen bleibt leer. Der Benutzer braucht nur Zugriffsschlüssel
-  und keinen Konsolen-Login. Ist der Haken doch gesetzt, nimm ihn heraus.
-- **Set permissions** (Berechtigungen festlegen): **Attach policies directly** (Direktes Anfügen von Richtlinien, die
-  dritte Kachel von links). In der Liste die Policy `phalnx-backup-upload` suchen und ankreuzen, dann **Weiter**.
+- **Personenname** (User name): `phalnx-backup`
+- **Gewähren des Benutzerzugriffs auf die AWS-Managementkonsole** (Provide user access to the AWS Management Console):
+  **Haken nicht setzen**, das Kästchen bleibt leer. Die Person braucht nur Zugriffsschlüssel und keinen
+  Konsolen-Login. Ist der Haken doch gesetzt, nimm ihn heraus.
+- **Berechtigungen festlegen** (Set permissions): **Direktes Anfügen von Richtlinien** (Attach policies directly, die
+  dritte Kachel von links). In der Liste die Richtlinie `phalnx-backup-upload` suchen und ankreuzen, dann **Weiter**
+  und die Person erstellen.
 
-Öffne danach den Benutzer, Reiter **Security credentials** → **Create access key** → Anwendungsfall **Application running
-outside AWS**. Es erscheinen **Access key ID** und **Secret access key**. Das Secret siehst du **nur jetzt**.
+Öffne danach die Person (Klick auf den Namen), Reiter **Sicherheitsanmeldeinformationen** (Security credentials) →
+**Zugriffsschlüssel erstellen** (Create access key):
+
+1. **Anwendungsfall** (Use case): **Anwendung wird außerhalb von AWS ausgeführt** (Application running outside AWS),
+   dann **Weiter**. Der gelbe Hinweis „Empfohlene Alternative: IAM Roles Anywhere“ gilt für größere Umgebungen mit
+   Zertifikaten. Du kannst ihn für diesen Server ignorieren.
+2. **Tag für die Beschreibung festlegen** (Set description tag, optional): `phalnx Server`, dann
+   **Zugriffsschlüssel erstellen**.
+3. **Zugriffsschlüssel abrufen** (Retrieve access keys): Es erscheinen die **Zugriffsschlüssel-ID** (Access key ID) und
+   der **geheime Zugriffsschlüssel** (Secret access key). Das Geheimnis siehst du **nur jetzt**.
 
 :::danger[Zugangsdaten sind Geheimnisse]
 Speichere beide Werte im Passwortmanager. Schreibe sie nirgends sonst auf und gib sie nicht weiter. Der Benutzer
