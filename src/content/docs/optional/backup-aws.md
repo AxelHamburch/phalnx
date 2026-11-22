@@ -296,12 +296,20 @@ Es erscheint eine Zeile mit der Datei und ihrer Größe. Ob die Lebenszyklusrege
 1. **S3** → **Buckets** → deinen Bucket öffnen.
 2. Auf den Ordner **`phalnx/`** klicken.
 3. Auf den **Namen** einer Datei klicken (nicht auf das Kästchen davor).
-4. Im Reiter **Eigenschaften** (Properties) steht oben die **Objektübersicht** (Object overview). Dort zeigt das
-   **Ablaufdatum** (Expiry date) den Tag, an dem AWS die Datei löscht, und die **Ablaufregel** (Expiry rule) nennt
-   `phalnx-14-tage`.
+4. Im Reiter **Eigenschaften** (Properties) scrollst du nach unten bis zur **Übersicht über die Objektverwaltung**
+   (Object management overview). Sie zeigt die Regeln, die auf diese Datei wirken. Rechts unter
+   **Verwaltungskonfigurationen** (Management configurations) steht die **Ablaufregel** (Expiry rule) mit
+   `phalnx-14-tage` und darunter das **Ablaufdatum** (Expiry date). An diesem Tag löscht AWS die Datei.
 
-Das Datum liegt etwa 14 Tage nach dem Upload. Fehlt die Angabe, prüfe unter **Verwaltung** → **Lebenszyklusregeln**, ob
-die Regel **Aktiviert** ist und das Präfix `phalnx/` hat.
+Das Datum liegt etwa 14 bis 15 Tage nach dem Upload, weil AWS auf den nächsten Tagesbeginn aufrundet. Fehlt die Angabe,
+prüfe unter **Verwaltung** → **Lebenszyklusregeln**, ob die Regel **Aktiviert** ist und das Präfix `phalnx/` hat.
+
+:::note[Hinweis zur Bucket-Versionierung]
+Im Abschnitt „Bucket-Eigenschaften“ zeigt die Konsole einen gelben Kasten und empfiehlt, die **Bucket-Versionierung**
+(Bucket Versioning) zu aktivieren. **Lass sie ausgeschaltet.** Mit Versionierung bliebe jede gelöschte Datei als alte
+Version erhalten, die Regel aus Schritt 2 räumte sie nicht auf, und der Bucket würde immer größer. Vor dem
+Überschreiben schützt dich schon der Zeitstempel im Dateinamen.
+:::
 
 ## 8. Ein Backup aus AWS zurückholen
 
