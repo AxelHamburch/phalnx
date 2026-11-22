@@ -23,8 +23,17 @@ Den geheimen Schlüssel dazu hast nur du. Ohne Empfängerschlüssel (Schritt 3 i
 :::
 
 :::caution[Voraussetzung]
-Die Schritte 1 bis 5 aus [Backups extern sichern](/optional/backup-external/) müssen erledigt sein. Es muss also
-`/var/backups/phalnx-export` mit einer `.age`-Datei geben. Außerdem brauchst du ein AWS-Konto.
+Die Kapitel [Nächtliches Backup](/optional/backup/) und die Schritte 1 bis 5 aus
+[Backups extern sichern](/optional/backup-external/) müssen erledigt sein. Es muss also
+`/var/backups/phalnx-export` mit einer `.age`-Datei geben. Außerdem brauchst du ein AWS-Konto. Ob du bereit bist,
+zeigt dieser Befehl auf dem Server:
+
+```bash
+sudo ls /usr/local/sbin/phalnx-backup /etc/phalnx-backup.recipient /var/backups/phalnx-export
+```
+
+Es müssen alle drei Pfade erscheinen, und im Ordner `phalnx-export` mindestens eine `.age`-Datei. Meldet `ls`
+„No such file or directory“, hole zuerst das fehlende Kapitel nach.
 :::
 
 ## 1. Bucket anlegen
