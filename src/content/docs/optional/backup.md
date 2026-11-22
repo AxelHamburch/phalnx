@@ -22,11 +22,12 @@ Passwörter im **Klartext**. Kopiere sie **nie unverschlüsselt** vom Server. Wi
 bekommst, zeigt das nächste Kapitel [Backups extern sichern](/optional/backup-external/).
 :::
 
-Die drei Kapitel dieses Themas:
+Die Kapitel dieses Themas:
 
 1. **Nächtliches Backup** (dieses Kapitel): das Backup auf dem Server einrichten.
 2. [Backups extern sichern](/optional/backup-external/): verschlüsseln und auf den eigenen PC laden.
-3. [Externe Backups wiederherstellen](/optional/backup-restore/): ein Backup zurück auf den Server spielen.
+3. [Backups in AWS sichern](/optional/backup-aws/): die verschlüsselte Kopie jede Nacht in einen AWS-Bucket hochladen.
+4. [Externe Backups wiederherstellen](/optional/backup-restore/): ein Backup zurück auf den Server spielen.
 
 ## Wie das Backup arbeitet
 

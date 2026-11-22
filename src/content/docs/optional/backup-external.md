@@ -146,6 +146,9 @@ scp -P __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ "__ADMIN_USER__@__SERVER_IP__:/var
 ```
 
 Die Dateien sind verschlüsselt, du darfst sie auf einer externen Platte oder in einem Cloud-Speicher ablegen.
+Willst du die verschlüsselte Kopie jede Nacht automatisch in einen AWS-Bucket laden lassen, zeigt das Kapitel
+[Backups in AWS sichern](/optional/backup-aws/), wie das geht.
+
 Wie du ein Backup wieder zurückspielst, steht im Kapitel
 [Externe Backups wiederherstellen](/optional/backup-restore/).
 

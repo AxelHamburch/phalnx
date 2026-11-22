@@ -96,7 +96,8 @@ your node a hidden (private) node.
 - **Checks after every step**, a final checklist, update instructions for every component, and an emergency
   chapter (including how to close the channel and move the funds).
 - **Optional**: Telegram notifications for larger payments, and a nightly backup (dated archives in a rotating
-  store, optionally encrypted with `age` for download).
+  store, optionally encrypted with `age` for download or for automatic upload to an AWS S3 bucket with a 14-day
+  lifecycle rule).
 - **"My values" panel** (labelled "Meine Werte" in the German guide): enter your IP, SSH port, domain and so on once, and every command in the guide, including
   the copy button, uses your values. They stay in your browser.
 
@@ -152,7 +153,7 @@ src/
 │   ├── server/              part A: server foundation
 │   ├── services/            part B: phoenixd, Alby Hub, relay, LNbits, Caddy ...
 │   ├── operations/          part C: acceptance, updates, emergency
-│   └── optional/            part D: optional add-ons (Telegram notifications, nightly backup, external backup, restore)
+│   └── optional/            part D: optional add-ons (Telegram notifications, nightly backup, external backup, AWS backup, restore)
 ├── config/placeholders.ts   placeholders for the "My values" panel
 ├── config/apps.ts           application descriptions (tiles, popup, overview page)
 ├── config/build.json        build stamp (block height), written by scripts/stamp-build.mjs

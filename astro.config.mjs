@@ -82,6 +82,7 @@ export default defineConfig({
 							{ label: 'Telegram-Benachrichtigungen', slug: 'optional/telegram' },
 							{ label: 'Nächtliches Backup', slug: 'optional/backup' },
 							{ label: 'Backups extern sichern', slug: 'optional/backup-external' },
+							{ label: 'Backups in AWS sichern', slug: 'optional/backup-aws' },
 							{ label: 'Externe Backups wiederherstellen', slug: 'optional/backup-restore' },
 						],
 					},
