@@ -232,7 +232,10 @@ zwei Befehlen. Prüfe zuerst, ob die Erweiterung schon drin ist:
 sudo grep -c S3_FILE /usr/local/sbin/phalnx-backup
 ```
 
-Bei **`1` oder mehr** ist sie schon drin, dann springst du zu Schritt 7. Bei **`0`** machst du Folgendes. Der erste
+Bei **`1` oder mehr** ist sie schon drin, dann springst du zu Schritt 7. Das gilt auch, wenn ein früherer Lauf mit einem
+Fehler endete: Der Block steht dann schon im Skript, und du korrigierst nur die Ursache (zum Beispiel die Datei
+`/etc/phalnx-backup.s3`). Führe die beiden Befehle **nie ein zweites Mal** aus, sonst läuft der Upload doppelt. Bei
+**`0`** machst du Folgendes. Der erste
 Befehl löscht die letzte Zeile des Skripts:
 
 ```bash
@@ -313,6 +316,7 @@ Wie du die Datei entschlüsselst und zurückspielst, steht im Kapitel
 | `aws: command not found` | Die CLI fehlt oder ist nicht im Pfad von `root`. Prüfe mit `sudo which aws` und wiederhole Schritt 4. |
 | `AccessDenied` beim Hochladen | Die Policy passt nicht. Prüfe, ob der Bucket-Name in beiden Zeilen stimmt, ob `/phalnx/*` am Ende steht und ob die Policy dem Benutzer zugewiesen ist. |
 | Im Log steht `/etc/phalnx-backup.s3: line 2: syntax error near unexpected token` und danach `Unable to locate credentials` | In der Datei stehen noch spitze Klammern `<` `>` oder Anführungszeichen oder Leerzeichen um die Werte. Öffne sie mit `sudo nano /etc/phalnx-backup.s3` und schreibe die Werte pur hinter das `=`. Prüfe mit `sudo grep -c '[<>]' /etc/phalnx-backup.s3` (muss `0` sein). |
+| Im Log steht `AWS-Upload fertig` zweimal | Der Upload-Block steht doppelt im Skript (`sudo grep -c S3_FILE /usr/local/sbin/phalnx-backup` zeigt `6` statt `3`). Öffne das Skript mit `sudo nano /usr/local/sbin/phalnx-backup`, lösche am Ende einen der zwei gleichen Blöcke (von `S3_FILE=` bis `fi`) und lass die letzten zwei Zeilen genau einmal stehen. |
 | `InvalidAccessKeyId` oder `SignatureDoesNotMatch` | Ein Wert in `/etc/phalnx-backup.s3` ist falsch, oft ein Leerzeichen oder ein Zeichen zu viel oder zu wenig. Erzeuge im Benutzer notfalls einen neuen Access Key. |
 | `The authorization header is malformed` oder Weiterleitung (`301`) | Die Region in `AWS_DEFAULT_REGION` passt nicht zum Bucket. Sie steht in der Bucket-Liste der S3-Konsole. |
 | `Could not connect to the endpoint URL` | Der Server erreicht AWS nicht. Prüfe die Verbindung mit `curl -sI https://s3.amazonaws.com` und die [Firewall](/server/ssh-hardening/) (ausgehend ist normalerweise alles offen). |
