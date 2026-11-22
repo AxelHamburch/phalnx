@@ -31,8 +31,15 @@ Die Schritte 1 bis 5 aus [Backups extern sichern](/optional/backup-external/) m�
 
 In der AWS-Konsole unter **S3** → **Create bucket**:
 
-- **Bucket name**: ein weltweit eindeutiger Name, zum Beispiel `phalnx-backup-<zufallszahl>`.
-- **AWS Region**: eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). Merke dir die Region.
+- **AWS Region** (AWS-Region): eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). Merke dir die Region.
+- **Bucket type** (Bucket-Typ): **General purpose** (Allzweck). „Directory“ (Verzeichnis) brauchst du nicht.
+- **Bucket namespace** (Bucket-Namespace): **Global namespace** (Globaler Namespace). Die Konsole empfiehlt den
+  regionalen Namespace des Kontos. Dessen Bucket-Namen und ARNs sehen aber anders aus, und die Policy und die Befehle
+  in diesem Kapitel passen dann nicht mehr. Bleib deshalb beim globalen Namespace.
+- **Bucket name** (Bucket-Name): ein weltweit eindeutiger Name, zum Beispiel `phalnx-backup-<zufallszahl>`. Erlaubt sind
+  Kleinbuchstaben, Ziffern und Bindestriche, 3 bis 63 Zeichen.
+- **Object Ownership** (Objekteigentümerschaft): **ACLs disabled** (ACLs deaktiviert, empfohlen). Der Zugriff läuft nur
+  über die Policy aus Schritt 3.
 - **Block all public access**: **eingeschaltet lassen** (Standard).
 - **Bucket Versioning**: **ausgeschaltet** lassen (Standard). Mit Versionierung bliebe eine „gelöschte“ Datei als alte
   Version erhalten, und die Regel unten räumte sie nicht auf.
