@@ -291,9 +291,17 @@ wirklich im Bucket liegt, zeigt dieser Befehl (der Benutzer darf auflisten):
 sudo bash -c 'set -a; . /etc/phalnx-backup.s3; aws s3 ls "s3://$BUCKET/phalnx/" --human-readable'
 ```
 
-Es erscheint eine Zeile mit der Datei und ihrer Größe. In der AWS-Konsole findest du sie im Bucket unter `phalnx/`.
-Öffnest du die Datei (**Properties**), steht bei **Expiry date** der Tag, an dem AWS sie löscht. Das zeigt dir, dass die
-Lebenszyklus-Regel greift.
+Es erscheint eine Zeile mit der Datei und ihrer Größe. Ob die Lebenszyklusregel greift, prüfst du in der AWS-Konsole:
+
+1. **S3** → **Buckets** → deinen Bucket öffnen.
+2. Auf den Ordner **`phalnx/`** klicken.
+3. Auf den **Namen** einer Datei klicken (nicht auf das Kästchen davor).
+4. Im Reiter **Eigenschaften** (Properties) steht oben die **Objektübersicht** (Object overview). Dort zeigt das
+   **Ablaufdatum** (Expiry date) den Tag, an dem AWS die Datei löscht, und die **Ablaufregel** (Expiry rule) nennt
+   `phalnx-14-tage`.
+
+Das Datum liegt etwa 14 Tage nach dem Upload. Fehlt die Angabe, prüfe unter **Verwaltung** → **Lebenszyklusregeln**, ob
+die Regel **Aktiviert** ist und das Präfix `phalnx/` hat.
 
 ## 8. Ein Backup aus AWS zurückholen
 
