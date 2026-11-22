@@ -66,6 +66,22 @@ age-keygen -o phalnx-backup-key.txt
 Es erscheint eine Zeile `Public key: age1…`. Das ist der **öffentliche** Schlüssel. Die Datei
 `phalnx-backup-key.txt` enthält den **geheimen** Schlüssel (`AGE-SECRET-KEY-…`).
 
+Lass dir die Datei **einmal anzeigen**, um den geheimen Schlüssel zu sichern. Im selben Ordner, in dem du
+`age-keygen` ausgeführt hast. In der PowerShell öffnet sie der Editor:
+
+```powershell
+notepad phalnx-backup-key.txt
+```
+
+In der Git Bash zeigst du sie im Terminal an:
+
+```bash
+cat phalnx-backup-key.txt
+```
+
+Die Datei hat drei Zeilen. Die Zeile `AGE-SECRET-KEY-…` ist der geheime Schlüssel. Kopiere sie, am besten die ganze
+Datei, in den Passwortmanager.
+
 :::danger[Ohne den geheimen Schlüssel sind die Backups wertlos]
 Speichere den **Inhalt** von `phalnx-backup-key.txt` im Passwortmanager und lege eine Kopie an einen zweiten Ort
 (Papier oder ein verschlüsselter USB-Stick). Verlierst du ihn, kann **niemand** die Backups entschlüsseln. Lege die

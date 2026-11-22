@@ -175,24 +175,35 @@ rm -rf /tmp/aws /tmp/awscliv2.zip
 
 ## 5. Zugangsdaten auf dem Server ablegen
 
-Eine Datei nur für `root`. Ersetze die vier Platzhalter samt der Klammern durch deine Werte:
+Eine Datei nur für `root`. Ersetze in jeder Zeile den Teil hinter dem `=` durch deinen Wert:
 
 ```bash
 sudo nano /etc/phalnx-backup.s3
 ```
 
 ```bash title="/etc/phalnx-backup.s3"
-BUCKET=<bucket>
-AWS_DEFAULT_REGION=<eu-central-1>
-AWS_ACCESS_KEY_ID=<Access key ID>
-AWS_SECRET_ACCESS_KEY=<Secret access key>
+BUCKET=mein-bucket-name
+AWS_DEFAULT_REGION=eu-central-1
+AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXX
+AWS_SECRET_ACCESS_KEY=geheimer-zugriffsschluessel
 ```
+
+Die vier Werte sind **Beispiele**. Setze deine eigenen ein: den Namen deines Buckets, die Region des Buckets, die
+**Zugriffsschlüssel-ID** (Access key ID) und den **geheimen Zugriffsschlüssel** (Secret access key). Schreibe sie
+**ohne Anführungszeichen, ohne Leerzeichen und ohne spitze Klammern** `<` `>`. Spitze Klammern versteht die Shell als
+Umleitung, dann bricht das Einlesen der Datei mit `syntax error near unexpected token` ab.
 
 Rechte setzen, damit nur `root` sie lesen kann:
 
 ```bash
 sudo chown root:root /etc/phalnx-backup.s3
 sudo chmod 600 /etc/phalnx-backup.s3
+```
+
+Prüfe, dass keine Klammern übrig sind. Der Befehl gibt keine Geheimnisse aus, nur eine Zahl, und die muss `0` sein:
+
+```bash
+sudo grep -c '[<>]' /etc/phalnx-backup.s3
 ```
 
 Existiert diese Datei nicht oder ist sie leer, lädt das Skript nichts hoch. Zum Abschalten genügt es also, sie zu
@@ -287,6 +298,7 @@ Wie du die Datei entschlüsselst und zurückspielst, steht im Kapitel
 | Im Log steht kein `AWS-Upload …` | Das Skript hat den Upload übersprungen. Prüfe 1. die Skriptversion: `sudo grep -c S3_FILE /usr/local/sbin/phalnx-backup` (mindestens `1`, sonst Schritt 6), 2. die Datei: `sudo cat /etc/phalnx-backup.s3` (nicht leer), 3. die verschlüsselte Kopie: `sudo ls /var/backups/phalnx-export` |
 | `aws: command not found` | Die CLI fehlt oder ist nicht im Pfad von `root`. Prüfe mit `sudo which aws` und wiederhole Schritt 4. |
 | `AccessDenied` beim Hochladen | Die Policy passt nicht. Prüfe, ob der Bucket-Name in beiden Zeilen stimmt, ob `/phalnx/*` am Ende steht und ob die Policy dem Benutzer zugewiesen ist. |
+| Im Log steht `/etc/phalnx-backup.s3: line 2: syntax error near unexpected token` und danach `Unable to locate credentials` | In der Datei stehen noch spitze Klammern `<` `>` oder Anführungszeichen oder Leerzeichen um die Werte. Öffne sie mit `sudo nano /etc/phalnx-backup.s3` und schreibe die Werte pur hinter das `=`. Prüfe mit `sudo grep -c '[<>]' /etc/phalnx-backup.s3` (muss `0` sein). |
 | `InvalidAccessKeyId` oder `SignatureDoesNotMatch` | Ein Wert in `/etc/phalnx-backup.s3` ist falsch, oft ein Leerzeichen oder ein Zeichen zu viel oder zu wenig. Erzeuge im Benutzer notfalls einen neuen Access Key. |
 | `The authorization header is malformed` oder Weiterleitung (`301`) | Die Region in `AWS_DEFAULT_REGION` passt nicht zum Bucket. Sie steht in der Bucket-Liste der S3-Konsole. |
 | `Could not connect to the endpoint URL` | Der Server erreicht AWS nicht. Prüfe die Verbindung mit `curl -sI https://s3.amazonaws.com` und die [Firewall](/server/ssh-hardening/) (ausgehend ist normalerweise alles offen). |
