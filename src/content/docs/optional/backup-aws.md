@@ -49,15 +49,22 @@ In der AWS-Konsole unter **S3** → **Create bucket**:
 
 Im Bucket unter **Management** → **Lifecycle rules** → **Create lifecycle rule**:
 
-- **Lifecycle rule name**: `phalnx-14-tage`
-- **Choose a rule scope**: **Limit the scope of this rule using one or more filters**, **Prefix**: `phalnx/`
-- **Lifecycle rule actions**: ankreuzen
-  - **Expire current versions of objects**
-  - **Delete expired object delete markers or incomplete multipart uploads**
-- **Expire current versions of objects**: **Days after object creation** = `14`
-- **Delete incomplete multipart uploads**: **Number of days** = `1`
+- **Lifecycle rule name** (Lebenszyklusregelname): `phalnx-14-tage`
+- **Choose a rule scope** (Regelumfang): **Limit the scope of this rule using one or more filters** (Den Umfang dieser
+  Regel mit einem oder mehreren Filtern beschränken)
+- **Prefix** (Präfix): `phalnx/` (mit dem Schrägstrich am Ende, ohne Bucket-Namen). Tags und Objektgröße bleiben leer.
+- **Lifecycle rule actions** (Lebenszyklusregelaktionen): ankreuzen
+  - **Expire current versions of objects** (Aktuelle Objektversionen ablaufen lassen)
+  - **Delete expired object delete markers or incomplete multipart uploads** (Abgelaufene
+    Objekt-Löschmarkierungen oder unvollständige mehrteilige Uploads löschen)
+- **Expire current versions of objects**: **Days after object creation** (Tage nach der Objekterstellung) = `14`
+- **Delete expired object delete markers or incomplete multipart uploads**: Hier setzt du **nur** den Haken bei
+  **Incomplete multipart uploads** (Für unvollständige mehrteilige Uploads) und trägst **`1`** Tag ein. Der Haken bei
+  den Löschmarkierungen ist ausgegraut, solange „Aktuelle Objektversionen ablaufen lassen“ aktiv ist. Das ist richtig
+  so, du brauchst ihn nicht (der Bucket hat keine Versionierung).
 
-Speichern mit **Create rule**. Die Regel steht danach auf **Enabled**.
+Unten zeigt die Konsole eine Übersicht. Dort muss **Tag 14: Objekte laufen ab** stehen. Speichern mit **Create rule**
+(Regel erstellen). Die Regel steht danach auf **Enabled** (Aktiviert).
 
 :::note[So genau ist die 14-Tage-Grenze]
 AWS prüft die Regeln einmal täglich und löscht Dateien erst, wenn sie **mindestens 14 Tage** alt sind. Es liegen also
