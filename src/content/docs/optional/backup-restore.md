@@ -23,6 +23,10 @@ Auf deinem PC, im Ordner mit der `.age`-Datei und der Schlüsseldatei. Setze den
 age -d -i phalnx-backup-key.txt -o phalnx-2026-11-14_02-00.tar.gz phalnx-2026-11-14_02-00.tar.gz.age
 ```
 
+Meldet `age`, es könne `phalnx-backup-key.txt` nicht öffnen, liegt die Schlüsseldatei in einem anderen Ordner. Gib dann
+ihren vollständigen Pfad an (`-i "C:\Pfad\zu\phalnx-backup-key.txt"`). Ist sie nicht mehr da, legst du sie mit
+`notepad phalnx-backup-key.txt` neu an und fügst den Inhalt aus dem Passwortmanager ein.
+
 Es entsteht das entschlüsselte Archiv. Es enthält wieder den Seed und alle Passwörter im Klartext. Lösche es, sobald
 du es nicht mehr brauchst.
 
