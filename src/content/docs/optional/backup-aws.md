@@ -161,8 +161,17 @@ Prüfe es:
 aws --version
 ```
 
-Es erscheint eine Zeile wie `aws-cli/2.x.x …`. Für ein späteres Update führst du dieselben Befehle noch einmal aus, nur
-mit `sudo /tmp/aws/install --update`.
+Es erscheint eine Zeile wie `aws-cli/2.x.x …`. Mehr ist jetzt nicht zu tun.
+
+Ein Update brauchst du nur gelegentlich, zum Beispiel wenn AWS eine neue Version veröffentlicht. Dafür lädst du das
+Paket neu herunter und installierst es mit `--update` über die alte Version:
+
+```bash
+curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" -o /tmp/awscliv2.zip
+unzip -q /tmp/awscliv2.zip -d /tmp
+sudo /tmp/aws/install --update
+rm -rf /tmp/aws /tmp/awscliv2.zip
+```
 
 ## 5. Zugangsdaten auf dem Server ablegen
 
