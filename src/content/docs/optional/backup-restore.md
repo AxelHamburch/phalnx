@@ -17,7 +17,9 @@ Teil 4 weiter.
 
 ## 1. Entschlüsseln (auf dem PC)
 
-Auf deinem PC, im Ordner mit der `.age`-Datei und der Schlüsseldatei. Setze den Namen deiner Datei ein:
+Auf deinem PC, im Ordner mit der `.age`-Datei und der Schlüsseldatei. Setze den Namen **deiner** Datei ein. Das
+Datum im Beispiel unten ist nur ein Platzhalter. Den echten Namen zeigt `dir *.age` (PowerShell) oder `ls *.age`
+(Git Bash):
 
 ```bash
 age -d -i phalnx-backup-key.txt -o phalnx-2026-11-14_02-00.tar.gz phalnx-2026-11-14_02-00.tar.gz.age
