@@ -54,7 +54,7 @@ sudo mkdir -p /root/restore
 sudo tar -xzf /var/backups/phalnx/phalnx-2026-11-14_02-00.tar.gz -C /root/restore
 ```
 
-Im Ordner `/root/restore` liegen jetzt `phoenixd/`, `albyhub/`, `lnbits/` und `caddy/`.
+Im Ordner `/root/restore` liegen jetzt `phoenixd/`, `albyhub/`, `lnbits/`, `caddy/` und `fail2ban/`.
 
 ## 4. LNbits zurückspielen
 
@@ -107,3 +107,13 @@ Alby Hub und die Konfigurationsdateien holst du nach demselben Muster zurück: d
 setzen und den Dienst starten. Das `Caddyfile` und die Datei mit dem Passwort-Hash liegen in `/root/restore/caddy/`.
 Kopiere sie nach `/etc/caddy/Caddyfile` und `/etc/systemd/system/caddy.service.d/override.conf`, dann
 `sudo systemctl daemon-reload` und `sudo systemctl restart caddy`.
+
+Die Fail2ban-Dateien liegen in `/root/restore/fail2ban/`, alle direkt in diesem einen Ordner. Sie gehören an diese
+Orte:
+
+```bash
+sudo cp /root/restore/fail2ban/jail.local /etc/fail2ban/jail.local
+sudo cp /root/restore/fail2ban/lnbits.local /etc/fail2ban/jail.d/lnbits.local
+sudo cp /root/restore/fail2ban/lnbits-auth.conf /root/restore/fail2ban/lnbits-admin.conf /etc/fail2ban/filter.d/
+sudo systemctl restart fail2ban
+```

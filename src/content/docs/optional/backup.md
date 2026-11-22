@@ -10,7 +10,8 @@ Hand auslöst. Sie liegen im Ordner **`/var/backups/phalnx`** auf dem Server. Da
 - **phoenixd** (`~/.phoenix`, mit Seed und Konfiguration),
 - **Alby Hub** (`~/data` und `albyhub.env`),
 - **LNbits** (`~/lnbits/data` mit der Datenbank und den Erweiterungen, dazu die `.env`),
-- **Caddy** (das `Caddyfile` und die Datei mit dem Passwort-Hash des Admin-Schutzes).
+- **Caddy** (das `Caddyfile` und die Datei mit dem Passwort-Hash des Admin-Schutzes),
+- **Fail2ban** (die Einstellungen für SSH und die Filter und Jails für LNbits).
 
 Die Backups liegen in einem **Umlaufspeicher**: Es werden die letzten 14 behalten (Backups von Hand zählen mit), das
 älteste wird jeweils gelöscht. So wächst der Speicher nicht endlos.
@@ -105,6 +106,8 @@ backup_dir phoenixd /home/uphoenixd/.phoenix
 backup_dir albyhub  /home/ualbyhub/data /home/ualbyhub/albyhub.env
 backup_dir lnbits   /home/ulnbits/lnbits/data /home/ulnbits/lnbits/.env
 backup_files caddy  /etc/caddy/Caddyfile /etc/systemd/system/caddy.service.d/override.conf
+backup_files fail2ban /etc/fail2ban/jail.local /etc/fail2ban/jail.d/lnbits.local \
+  /etc/fail2ban/filter.d/lnbits-auth.conf /etc/fail2ban/filter.d/lnbits-admin.conf
 
 # Archiv unter Zwischennamen schreiben, erst am Ende umbenennen
 tar -C "$STAGE" -czf "$DEST/$NAME.tar.gz.part" .
@@ -125,8 +128,10 @@ sudo chmod 700 /usr/local/sbin/phalnx-backup
 
 Wie viele Backups behalten werden, steht oben in `KEEP=14`. Ändere die Zahl, wenn du mehr oder weniger Tage
 aufbewahren willst. Willst du einen Dienst nicht sichern, löschst du die passende Zeile `backup_dir …` oder
-`backup_files …`. Weitere Konfigurationsdateien, etwa die Fail2ban-Dateien unter `/etc/fail2ban/`, nimmst du auf
-dieselbe Weise in eine weitere Zeile `backup_files` auf.
+`backup_files …`. Weitere Konfigurationsdateien nimmst du auf dieselbe Weise in eine weitere Zeile `backup_files` auf.
+Die Fail2ban-Zeile sichert nur die Dateien, die in dieser Anleitung entstehen. Hast du Fail2ban nicht oder nur für SSH
+eingerichtet, lass die Zeile trotzdem stehen: Fehlende Dateien meldet das Skript nur als `Fehlt: …` und sichert den
+Rest.
 
 Die Datei `override.conf` entsteht mit `systemctl edit caddy` und enthält den Hash des Caddy-Passworts. Behandle sie wie
 ein Geheimnis. Fehlt eine Datei, schreibt das Skript `Fehlt: …` ins Log und sichert den Rest.
@@ -200,7 +205,7 @@ sudo bash -c 'tar -tzf "$(ls -1 /var/backups/phalnx/phalnx-*.tar.gz | tail -n 1)
 ```
 
 Du solltest unter `phoenixd/`, `albyhub/` und `lnbits/` jeweils mindestens eine Datei mit `.sql.gz` am Ende sehen,
-dazu `seed.dat` bei phoenixd und `Caddyfile` bei Caddy. Der Befehl nimmt das neueste Archiv. Die Namen der
+dazu `seed.dat` bei phoenixd, `Caddyfile` bei Caddy und `jail.local` bei Fail2ban. Der Befehl nimmt das neueste Archiv. Die Namen der
 Datenbanken hängen von den Programmen ab. Fehlt eine, ist das Backup unvollständig.
 
 Den Zeitplan und den Lauf der letzten Nacht prüfst du so:
