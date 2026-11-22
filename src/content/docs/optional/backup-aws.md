@@ -318,7 +318,7 @@ deinem normalen Konto: Im Bucket unter `phalnx/` die gewünschte `.tar.gz.age`-D
 Alternativ mit der AWS CLI auf deinem PC, wenn du dort ein eigenes Profil mit Leserechten eingerichtet hast:
 
 ```bash
-aws s3 cp s3://<bucket>/phalnx/phalnx-2026-11-14_02-00.tar.gz.age .
+aws s3 cp s3://mein-bucket-name/phalnx/phalnx-JJJJ-MM-TT_HH-MM.tar.gz.age .
 ```
 
 Wie du die Datei entschlüsselst und zurückspielst, steht im Kapitel

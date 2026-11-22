@@ -17,12 +17,13 @@ Teil 4 weiter.
 
 ## 1. Entschlüsseln (auf dem PC)
 
-Auf deinem PC, im Ordner mit der `.age`-Datei und der Schlüsseldatei. Setze den Namen **deiner** Datei ein. Das
-Datum im Beispiel unten ist nur ein Platzhalter. Den echten Namen zeigt `dir *.age` (PowerShell) oder `ls *.age`
-(Git Bash):
+Auf deinem PC, im Ordner mit der `.age`-Datei und der Schlüsseldatei. Setze den Namen **deiner** Datei ein. In den
+Befehlen dieses Kapitels steht `JJJJ-MM-TT_HH-MM` für Jahr, Monat, Tag, Stunde und Minute des Backups. Ersetze es überall
+durch das Datum aus deinem Dateinamen, zum Beispiel `2026-11-22_16-27`. Den echten Namen zeigt `dir *.age`
+(PowerShell) oder `ls *.age` (Git Bash):
 
 ```bash
-age -d -i phalnx-backup-key.txt -o phalnx-2026-11-14_02-00.tar.gz phalnx-2026-11-14_02-00.tar.gz.age
+age -d -i phalnx-backup-key.txt -o phalnx-JJJJ-MM-TT_HH-MM.tar.gz phalnx-JJJJ-MM-TT_HH-MM.tar.gz.age
 ```
 
 Meldet `age`, es könne `phalnx-backup-key.txt` nicht öffnen, liegt die Schlüsseldatei in einem anderen Ordner. Gib dann
@@ -37,7 +38,7 @@ du es nicht mehr brauchst.
 Auf deinem PC:
 
 ```powershell
-scp -P __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ phalnx-2026-11-14_02-00.tar.gz __ADMIN_USER__@__SERVER_IP__:
+scp -P __SSH_PORT__ -i $HOME/.ssh/__SSH_KEY__ phalnx-JJJJ-MM-TT_HH-MM.tar.gz __ADMIN_USER__@__SERVER_IP__:
 ```
 
 Die Datei landet im Home-Verzeichnis von
@@ -49,15 +50,15 @@ Aus einer hochgeladenen Datei. Danach löschst du sie sofort:
 
 ```bash
 sudo mkdir -p /root/restore
-sudo tar -xzf ~/phalnx-2026-11-14_02-00.tar.gz -C /root/restore
-rm ~/phalnx-2026-11-14_02-00.tar.gz
+sudo tar -xzf ~/phalnx-JJJJ-MM-TT_HH-MM.tar.gz -C /root/restore
+rm ~/phalnx-JJJJ-MM-TT_HH-MM.tar.gz
 ```
 
 Oder aus einem Backup, das auf dem Server liegt (`sudo ls -1 /var/backups/phalnx` zeigt alle):
 
 ```bash
 sudo mkdir -p /root/restore
-sudo tar -xzf /var/backups/phalnx/phalnx-2026-11-14_02-00.tar.gz -C /root/restore
+sudo tar -xzf /var/backups/phalnx/phalnx-JJJJ-MM-TT_HH-MM.tar.gz -C /root/restore
 ```
 
 Im Ordner `/root/restore` liegen jetzt `phoenixd/`, `albyhub/`, `lnbits/`, `caddy/` und `fail2ban/`.
