@@ -40,7 +40,9 @@ Es müssen alle drei Pfade erscheinen, und im Ordner `phalnx-export` mindestens 
 
 In der AWS-Konsole unter **S3** → **Create bucket**:
 
-- **AWS-Region** (AWS Region): eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). Merke dir die Region.
+- **AWS-Region** (AWS Region): eine Region nahe bei dir, zum Beispiel `eu-central-1` (Frankfurt). **Schreib dir den
+  Code der Region auf** (hier `eu-central-1`), am besten zusammen mit dem Bucket-Namen im Passwortmanager. Du
+  brauchst ihn in Schritt 5 und beim späteren Wiederherstellen.
 - **Bucket-Typ** (Bucket type): **Allzweck** (General purpose). „Verzeichnis“ (Directory) brauchst du nicht.
 - **Bucket-Namespace** (Bucket namespace): **Globaler Namespace** (Global namespace). Die Konsole empfiehlt den
   regionalen Namespace des Kontos. Dessen Bucket-Namen und ARNs sehen aber anders aus, und die Policy und die Befehle
@@ -187,6 +189,18 @@ AWS_DEFAULT_REGION=eu-central-1
 AWS_ACCESS_KEY_ID=AKIAXXXXXXXXXXXXXXXX
 AWS_SECRET_ACCESS_KEY=geheimer-zugriffsschluessel
 ```
+
+:::note[Wo finde ich die Region?]
+`AWS_DEFAULT_REGION` ist der **Code** der Region, in der du den Bucket angelegt hast, hier `eu-central-1`. Du findest
+ihn in der AWS-Konsole unter **S3** → **Buckets** (Allzweck-Buckets) in der Spalte **AWS-Region**. Dort steht zum
+Beispiel „Europa (Frankfurt) eu-central-1“. Du brauchst den Teil **`eu-central-1`**, nicht den Klartextnamen. Auch auf
+der Seite **Bucket erstellen** steht er unter **Allgemeine Konfiguration** → **AWS-Region**.
+
+**Dokumentiere dir die Region** zusammen mit dem Bucket-Namen und der Zugriffsschlüssel-ID im Passwortmanager. Du
+brauchst sie wieder, wenn du den Server neu aufsetzt, ein Backup mit der AWS CLI auf deinem PC herunterlädst oder den
+Zugriffsschlüssel erneuerst. Stimmt die Region nicht, antwortet AWS mit Fehlern wie `301` oder „authorization header is
+malformed“.
+:::
 
 Die vier Werte sind **Beispiele**. Setze deine eigenen ein: den Namen deines Buckets, die Region des Buckets, die
 **Zugriffsschlüssel-ID** (Access key ID) und den **geheimen Zugriffsschlüssel** (Secret access key). Schreibe sie
