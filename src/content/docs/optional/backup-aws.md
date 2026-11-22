@@ -103,8 +103,8 @@ Name der Policy: `phalnx-backup-upload`. Dann unter **IAM** → **Users** → **
 
 - **User name**: `phalnx-backup`
 - **Provide user access to the AWS Management Console** (Gewähren des Benutzerzugriffs auf die
-  AWS-Managementkonsole): **Haken entfernen**. Die Konsole setzt ihn je nach Version vorab. Der Benutzer braucht nur
-  Zugriffsschlüssel und keinen Konsolen-Login.
+  AWS-Managementkonsole): **Haken nicht setzen**, das Kästchen bleibt leer. Der Benutzer braucht nur Zugriffsschlüssel
+  und keinen Konsolen-Login. Ist der Haken doch gesetzt, nimm ihn heraus.
 - **Permissions**: **Attach policies directly**, die Policy `phalnx-backup-upload` wählen.
 
 Öffne danach den Benutzer, Reiter **Security credentials** → **Create access key** → Anwendungsfall **Application running
