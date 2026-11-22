@@ -105,7 +105,8 @@ Name der Policy: `phalnx-backup-upload`. Dann unter **IAM** → **Users** → **
 - **Provide user access to the AWS Management Console** (Gewähren des Benutzerzugriffs auf die
   AWS-Managementkonsole): **Haken nicht setzen**, das Kästchen bleibt leer. Der Benutzer braucht nur Zugriffsschlüssel
   und keinen Konsolen-Login. Ist der Haken doch gesetzt, nimm ihn heraus.
-- **Permissions**: **Attach policies directly**, die Policy `phalnx-backup-upload` wählen.
+- **Set permissions** (Berechtigungen festlegen): **Attach policies directly** (Direktes Anfügen von Richtlinien, die
+  dritte Kachel von links). In der Liste die Policy `phalnx-backup-upload` suchen und ankreuzen, dann **Weiter**.
 
 Öffne danach den Benutzer, Reiter **Security credentials** → **Create access key** → Anwendungsfall **Application running
 outside AWS**. Es erscheinen **Access key ID** und **Secret access key**. Das Secret siehst du **nur jetzt**.
