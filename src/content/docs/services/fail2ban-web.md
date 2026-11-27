@@ -18,6 +18,27 @@ LNbits sperrt von sich aus nur pro Konto, nicht pro IP, und das Caddy-Passwort h
 schließt Fail2ban. Es bremst nur das Raten von Passwörtern. Lücken in Erweiterungen oder Angriffe mit gültigem
 Token verhindert es nicht.
 
+### Die eigene Sperre von LNbits (ab Version 1.7.0)
+
+LNbits schützt die Anmeldung mit Benutzername und Passwort selbst:
+
+- Nach **5 Fehlversuchen für ein Konto** ist dieses Konto gesperrt, zuerst 1 Minute. Jeder weitere
+  Fehlversuch verdoppelt die Sperre: 2, 4, 8 Minuten, höchstens 15. LNbits antwortet dann mit Status `429`.
+- Ein erfolgreicher Login setzt den Zähler zurück. Ohne neuen Fehlversuch verfällt er nach 15 Minuten. Ein
+  Neustart von LNbits löscht ihn ebenfalls.
+- Versuche mit **unbekannten Benutzernamen** verteilt LNbits auf 256 gemeinsame Zähler, je nach Name. Diese
+  Zähler gelten für alle, nicht für eine IP. Wer viele erfundene Namen probiert, bekommt nach und nach `429`.
+  Auch wer sich beim eigenen Benutzernamen vertippt, kann zufällig auf einen dieser gesperrten Zähler treffen.
+
+Damit ist das Erraten des Passworts für **ein** Konto praktisch ausgeschlossen. Zwei Lücken bleiben, und die
+schließt `lnbits-auth`:
+
+- **Fremde können ein Konto aussperren.** Wer 5-mal ein falsches Passwort für dein Konto schickt, sperrt dich
+  aus, egal von welcher IP.
+- **Viele Konten mit demselben Passwort durchprobieren.** Pro Konto bleibt der Angreifer unter der Grenze.
+
+LNbits selbst sperrt **keine IP**. Das macht nur Fail2ban. Ein `429` von LNbits zählt dabei als Fehlversuch.
+
 :::note[Im Alltag]
 Wer sich 10-mal bei LNbits vertippt oder 5-mal das Caddy-Passwort falsch eingibt, wird für eine Stunde
 ausgesperrt. Mehrere Personen hinter **einer** öffentlichen IP (Event-WLAN, Mobilfunk) teilen sich die Zähler.
@@ -208,7 +229,9 @@ sudo fail2ban-client stop lnbits-auth
 
 - Der Jail zählt nicht mehr, und seine bestehenden Sperren fallen weg.
 - `lnbits-admin` (Caddy-Passwort) und `sshd` laufen weiter.
-- Die eigene Sperre von LNbits pro Konto bleibt bestehen.
+- Die [eigene Sperre von LNbits](#die-eigene-sperre-von-lnbits-ab-version-170) pro Konto bleibt bestehen. Das
+  Passwort eines Kontos lässt sich also auch ohne `lnbits-auth` nicht erraten. Wer sich 5-mal vertippt, wartet
+  nur kurz, und die anderen im WLAN sind nicht betroffen.
 
 Wieder einschalten, sobald das Event vorbei ist:
 
