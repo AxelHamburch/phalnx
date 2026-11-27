@@ -21,7 +21,17 @@ Token verhindert es nicht.
 :::note[Im Alltag]
 Wer sich 10-mal bei LNbits vertippt oder 5-mal das Caddy-Passwort falsch eingibt, wird für eine Stunde
 ausgesperrt. Mehrere Personen hinter **einer** öffentlichen IP (Event-WLAN, Mobilfunk) teilen sich die Zähler.
+Für Events siehe [Login-Sperre vorübergehend ausschalten](#bei-einem-event-login-sperre-vorübergehend-ausschalten).
 :::
+
+### So wird gezählt
+
+- **Pro IP-Adresse, nicht pro Konto.** Fail2ban kennt keine Konten. Es zählt alle Fehlversuche einer IP
+  zusammen, egal bei welchem Konto.
+- **Gelungene Anmeldungen setzen nichts zurück.** Sie passen nicht zum Filter und werden übergangen. Drei
+  Fehlversuche, dann ein paar erfolgreiche Logins, dann wieder ein Fehlversuch: Das sind vier.
+- **Jeder Fehlversuch zählt 10 Minuten lang** (`findtime`) und fällt danach aus der Zählung. Gesperrt wird,
+  sobald innerhalb der letzten 10 Minuten die Grenze erreicht ist.
 
 ## 1. Log prüfen
 
@@ -181,9 +191,46 @@ Weitere Befehle:
 | Alle Sperren aufheben | `sudo fail2ban-client unban --all` |
 | Live mitlesen | `sudo tail -f /var/log/fail2ban.log` (Zeilen `Found`, `Ban`, `Unban`) |
 | Eine IP vorübergehend ausnehmen (bis zum Neustart von Fail2ban) | `sudo fail2ban-client set lnbits-auth addignoreip 203.0.113.7` |
+| Login-Sperre vorübergehend abschalten (zum Beispiel für ein Event) | `sudo fail2ban-client stop lnbits-auth` |
+| Login-Sperre wieder einschalten | `sudo fail2ban-client reload` (oder Neustart von Fail2ban oder Server) |
 
 Eine IP dauerhaft auszunehmen geht in `/etc/fail2ban/jail.d/lnbits.local` bei `ignoreip =` (durch Leerzeichen
 getrennt), danach `sudo fail2ban-client reload`.
+
+## Bei einem Event: Login-Sperre vorübergehend ausschalten
+
+Melden sich viele Leute über dasselbe WLAN an, reichen ein paar Tippfehler, und alle sind gesperrt. Für die
+Dauer des Events kannst du den Jail `lnbits-auth` anhalten:
+
+```bash
+sudo fail2ban-client stop lnbits-auth
+```
+
+- Der Jail zählt nicht mehr, und seine bestehenden Sperren fallen weg.
+- `lnbits-admin` (Caddy-Passwort) und `sshd` laufen weiter.
+- Die eigene Sperre von LNbits pro Konto bleibt bestehen.
+
+Wieder einschalten, sobald das Event vorbei ist:
+
+```bash
+sudo fail2ban-client reload
+sudo fail2ban-client status
+```
+
+`lnbits-auth` muss wieder in der Liste stehen. Vergisst du das, schaltet ein Neustart des Servers oder von
+Fail2ban den Jail ebenfalls wieder ein.
+
+Kennst du die öffentliche IP des Event-WLANs, ist das die feinere Lösung: Nimm nur diese IP aus, alle anderen
+werden weiter gezählt (gilt ebenfalls bis zum nächsten Neustart von Fail2ban):
+
+```bash
+sudo fail2ban-client set lnbits-auth addignoreip <IP des Event-WLANs>
+```
+
+Die IP findest du im Log, wenn sich jemand aus dem WLAN anmeldet (Befehl aus Schritt 1), oder auf einem Gerät im
+WLAN unter einer Seite wie `https://ifconfig.me`.
+
+## Auffälligkeiten
 
 Auffällig ist, wenn `lnbits-admin` auslöst. Dann probiert jemand dein Caddy-Passwort. Sieh dann auch in
 LNbits nach, ob zur selben Zeit etwas geändert wurde.

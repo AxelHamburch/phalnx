@@ -39,8 +39,12 @@ maxretry = 3
 ## Starten
 
 ```bash
-sudo systemctl enable --now fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
 ```
+
+Fail2ban läuft schon seit der Installation, aber noch mit den Standardwerten (Port 22). Erst der Neustart liest
+deine `jail.local` ein.
 
 ## Prüfen
 
@@ -70,5 +74,24 @@ sudo fail2ban-client set sshd unbanip 203.0.113.7
 ```
 
 Beide Befehle antworten mit `1`.
+
+## Wenn du dich selbst aussperrst
+
+Die Passphrase deines Schlüssels prüft nur dein PC, der Server sieht sie nie. Ein Tippfehler dort zählt also
+nicht. Als Fehlversuch zählen nur Anmeldungen, die beim Server ankommen und scheitern: ein falscher Benutzer
+(zum Beispiel `root`), ein falscher Schlüssel oder viele Schlüssel im SSH-Agent, die nacheinander probiert
+werden. Nach 3 solchen Versuchen in 10 Minuten ist deine IP für eine Stunde gesperrt, und SSH antwortet nicht
+mehr.
+
+Dann meldest du dich über die **Web-Konsole** des Anbieters an (siehe
+[Notfall und Fehlersuche](/operations/emergency/)) und hebst die Sperre auf:
+
+```bash
+sudo fail2ban-client status sshd
+sudo fail2ban-client set sshd unbanip <deine IP>
+```
+
+Deine IP steht unter `Banned IP list`. Weißt du sie nicht, hebe alle Sperren auf:
+`sudo fail2ban-client unban --all`.
 
 Weiter mit den [automatischen Updates](/server/auto-updates/).

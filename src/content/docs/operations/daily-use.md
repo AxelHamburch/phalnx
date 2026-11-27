@@ -12,6 +12,10 @@ description: Was du im laufenden Betrieb regelmäßig tust, wie du Logs liest un
 - **Nach größeren Änderungen:** die [Prüfliste](/operations/checklist/) wiederholen.
 - **Sperren ansehen:** `sudo fail2ban-client status sshd` und die Web-Jails. Siehe
   [Fail2ban für LNbits](/services/fail2ban-web/).
+- **Vor einem Event** mit vielen Nutzern im selben WLAN: Nimm die IP des WLANs mit
+  `sudo fail2ban-client set lnbits-auth addignoreip <IP>` aus oder schalte die Login-Sperre mit
+  `sudo fail2ban-client stop lnbits-auth` ab. Danach wieder einschalten mit `sudo fail2ban-client reload`. Siehe
+  [Login-Sperre vorübergehend ausschalten](/services/fail2ban-web/#bei-einem-event-login-sperre-vorübergehend-ausschalten).
 
 ## Logs ansehen
 
